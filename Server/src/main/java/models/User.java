@@ -1,122 +1,123 @@
 package models;
 
-public class User {
+import javax.persistence.*;
+import java.sql.Timestamp;
 
+@Entity
+@Table(name = "Users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
+
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
+
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "role", nullable = false)
     private int role;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "phone")
     private String phone;
 
-    private User(UserBuilder builder) {
-        this.id = builder.id;
-        this.email = builder.email;
-        this.username = builder.username;
-        this.password = builder.password;
-        this.role = builder.role;
-        this.phone = builder.phone;
+    @Column(name = "delete_time")
+    private Timestamp deleteTime;
+
+    @Column(name = "delete_by")
+    private Integer deleteBy;
+
+    // Constructors
+
+    public User() {
     }
+
+    public User(String email, String username, String password, int role) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    // Getters and Setters
 
     public int getId() {
         return id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public int getRole() {
-        return role;
-    }
-
-    public String getPhone() {
-        return phone;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getRole() {
+        return role;
     }
 
     public void setRole(int role) {
         this.role = role;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    // Builder class
-    public static class UserBuilder {
-        private int id;
-        private String email;
-        private String username;
-        private String password;
-        private int role = 0;
-        private String phone;
+    public Timestamp getDeleteTime() {
+        return deleteTime;
+    }
 
-        public UserBuilder() {
-        }
+    public void setDeleteTime(Timestamp deleteTime) {
+        this.deleteTime = deleteTime;
+    }
 
-        public UserBuilder setId(int id) {
-            this.id = id;
-            return this;
-        }
+    public Integer getDeleteBy() {
+        return deleteBy;
+    }
 
-        public UserBuilder setEmail(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public UserBuilder setUsername(String username) {
-            this.username = username;
-            return this;
-        }
-
-        public UserBuilder setPassword(String password) {
-            this.password = password;
-            return this;
-        }
-
-        public UserBuilder setRole(int role) {
-            this.role = role;
-            return this;
-        }
-
-        public UserBuilder setPhone(String phone) {
-            this.phone = phone;
-            return this;
-        }
-
-        public User build() {
-            validateUserData(this);
-            return new User(this);
-        }
-
-        private void validateUserData(UserBuilder builder) {
-            if (builder.email == null || builder.email.isEmpty()) {
-                throw new IllegalArgumentException("Email is required.");
-            }
-        }
+    public void setDeleteBy(Integer deleteBy) {
+        this.deleteBy = deleteBy;
     }
 }

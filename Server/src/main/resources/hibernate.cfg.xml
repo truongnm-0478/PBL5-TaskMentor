@@ -20,7 +20,9 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hibernate.hbm2ddl.auto">update</property>
 
+        <property name="hibernate.globally_quoted_identifiers">false</property>
+
         <!-- Mention annotated class -->
-        <mapping class="java.model.User"/>
+        <mapping class="models.User"/>
     </session-factory>
 </hibernate-configuration>
