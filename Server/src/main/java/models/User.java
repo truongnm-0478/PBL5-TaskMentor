@@ -116,4 +116,56 @@ public class User {
     public void setDeleteBy(Integer deleteBy) {
         this.deleteBy = deleteBy;
     }
+
+    // Builder class
+    public static class Builder {
+        private String email;
+        private String username;
+        private String password;
+        private int role;
+        private String name;
+        private String phone;
+        private Timestamp deleteTime;
+        private Integer deleteBy;
+
+        public Builder(String email, String username, String password, int role) {
+            this.email = email;
+            this.username = username;
+            this.password = password;
+            this.role = role;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder phone(String phone) {
+            this.phone = phone;
+            return this;
+        }
+
+        public Builder deleteTime(Timestamp deleteTime) {
+            this.deleteTime = deleteTime;
+            return this;
+        }
+
+        public Builder deleteBy(Integer deleteBy) {
+            this.deleteBy = deleteBy;
+            return this;
+        }
+
+        public User build() {
+            User user = new User();
+            user.email = this.email;
+            user.username = this.username;
+            user.password = this.password;
+            user.role = this.role;
+            user.name = this.name;
+            user.phone = this.phone;
+            user.deleteTime = this.deleteTime;
+            user.deleteBy = this.deleteBy;
+            return user;
+        }
+    }
 }

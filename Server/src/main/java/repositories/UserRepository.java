@@ -8,10 +8,15 @@ import utils.HibernateUtil;
 import java.util.List;
 
 public class UserRepository {
+    private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+
     public List<User> getAllUsers() {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        try (Session session = sessionFactory.openSession()) {
+        Session session = sessionFactory.openSession();
+
+        try {
             return session.createQuery("FROM User", User.class).list();
+        } finally {
+            session.close();
         }
     }
 }

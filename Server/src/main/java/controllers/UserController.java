@@ -1,10 +1,9 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import models.User;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import utils.HibernateUtil;
+import services.UserService;
+import utils.JsonResponseUtil;
+import utils.RequestProcessor;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,27 +14,23 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/api/user")
-
 public class UserController extends HttpServlet {
+
+    private final UserService userService = new UserService();
+    private final RequestProcessor requestProcessor = new RequestProcessor();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        try (Session session = sessionFactory.openSession()) {
-            // Get list users from database
-            List<User> userList = session.createQuery("FROM User", User.class).list();
+        requestProcessor.processRequest(() -> {
+            try {
+                List<User> userList = userService.getAllUsers();
 
-            // Convert list users to JSON
-            ObjectMapper objectMapper = new ObjectMapper();
-            String jsonUsers = objectMapper.writeValueAsString(userList);
-
-            // Send JSON to client
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
-            resp.getWriter().write(jsonUsers);
-
-        }
+                JsonResponseUtil.sendJsonResponse(resp, userList);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 }
