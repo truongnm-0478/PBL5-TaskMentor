@@ -1,7 +1,7 @@
 <script setup>
-    import ErrorView from '../views/ErrorView.vue';
+    import Error from '../views/Error.vue';
 </script>
 
 <template>
-    <ErrorView/>
+    <Error/>
 </template>

@@ -1,29 +1,54 @@
 <template>
-    <div :style="backgroundStyle">
-        <SiteNavBar />
-        <main>
-            <RouterView />
-        </main>
-        <SiteFooter />
-    </div>
+    <a-layout id="app">
+        <!-- Sidebar -->
+        <a-layout-sider>
+            <Sidebar />
+        </a-layout-sider>
+
+        <a-layout>
+            <!-- Header with Tabs -->
+            <a-layout-header style="background: #fff; padding: 0">
+                <TabBar :selected-tab="selectedTab" @tabChange="handleTabChange" />
+            </a-layout-header>
+
+            <!-- Content area -->
+            <a-layout-content style="margin: 24px 16px 0">
+                <router-view></router-view>
+            </a-layout-content>
+
+            <!-- Footer -->
+            <a-layout-footer>
+                <FooterSection />
+            </a-layout-footer>
+        </a-layout>
+    </a-layout>
 </template>
 
 <script>
-import SiteFooter from '../components/partials/SiteFooter.vue'
-import SiteNavBar from '../components/partials/SiteNavbar.vue'
+import FooterSection from '../components/partials/SiteFooter.vue';
+import TabBar from '../components/partials/SiteNavbar.vue';
+import Sidebar from '../components/partials/SiteSideBar.vue';
 
 export default {
-    components: {
-        SiteNavBar,
-        SiteFooter
+    data() {
+        return {
+            selectedTab: 'home',
+        };
     },
-    computed: {
-        backgroundStyle() {
-            const isCreateSetPage = this.$route.path.includes('/create-set/')
-            return isCreateSetPage ? { backgroundColor: 'var(--color-gray-bg)' } : {}
-        }
-    }
-}
+    methods: {
+        handleTabChange(key) {
+            // Handle tab change event
+            this.selectedTab = key;
+        },
+    },
+    components: {
+        TabBar,
+        FooterSection,
+        Sidebar,
+    },
+};
 </script>
+
 <style scoped>
+/* Your layout styles go here */
 </style>
