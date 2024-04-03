@@ -4,6 +4,7 @@ import models.User;
 import services.UserService;
 import utils.JsonResponseUtil;
 import utils.RequestProcessor;
+import utils.ResponseUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,10 +26,13 @@ public class UserController extends HttpServlet {
         requestProcessor.processRequest(() -> {
             try {
                 List<User> userList = userService.getAllUsers();
-
-                JsonResponseUtil.sendJsonResponse(resp, userList);
+                ResponseUtil.sendJsonResponse(resp, HttpServletResponse.SC_OK, "User list retrieved successfully.", userList);
             } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    ResponseUtil.sendErrorResponse(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request.");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }

@@ -1,5 +1,7 @@
 package services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import models.User;
 import repositories.UserRepository;
 import java.util.List;
@@ -20,7 +22,7 @@ public class UserService {
         return null;
     }
 
-    public User registerUser(String email, String username, String password, int role, String name, String phone) {
+    public User registerUser(String email, String username, String password, int role, String name, String phone) throws JsonProcessingException {
         // Validate information
         if (email == null || email.isEmpty() || username == null || username.isEmpty() ||
                 password == null || password.isEmpty() || name == null || name.isEmpty()) {
@@ -35,15 +37,16 @@ public class UserService {
         // Encrypt password
         String hashedPassword = PasswordHashingUtils.hashPassword(password);
 
-        User newUser = new User();
-        newUser.setEmail(email);
-        newUser.setUsername(username);
-        newUser.setPassword(hashedPassword);
-        newUser.setRole(role);
-        newUser.setName(name);
-        newUser.setPhone(phone);
-        newUser.setDeleteTime(null);
-        newUser.setDeleteBy(null);
+        User newUser = User.builder()
+                .email(email)
+                .name(name)
+                .username(username)
+                .password(hashedPassword)
+                .role(role)
+                .phone(phone)
+                .deleteTime(null)
+                .deleteBy(null)
+                .build();
 
         userRepository.save(newUser);
 
