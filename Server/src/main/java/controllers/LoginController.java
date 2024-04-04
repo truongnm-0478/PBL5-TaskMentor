@@ -1,7 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import models.AuthResponse;
+import models.LoginResponse;
 import models.User;
 import services.AuthService;
 import services.UserService;
@@ -28,7 +28,8 @@ public class LoginController extends HttpServlet {
                 String accessToken = AuthService.generateAccessToken(user);
                 String refreshToken = AuthService.generateRefreshToken(user);
 
-                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "Login successful", new AuthResponse(accessToken, refreshToken));
+                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "Login successful", new LoginResponse(accessToken, refreshToken));
+
             } else {
                 ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Invalid credentials", null);
             }

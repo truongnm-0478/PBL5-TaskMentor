@@ -22,6 +22,10 @@ public class UserService {
         return null;
     }
 
+    public User getUserByUsername (String username) {
+        return userRepository.getUserByUsername(username);
+    }
+
     public User registerUser(String email, String username, String password, int role, String name, String phone) throws JsonProcessingException {
         // Validate information
         if (email == null || email.isEmpty() || username == null || username.isEmpty() ||

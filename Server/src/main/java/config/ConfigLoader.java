@@ -22,4 +22,6 @@ public class ConfigLoader {
     public static String getRefreshTokenKeyPrefix() {
         return properties.getProperty("refresh.token.key.prefix");
     }
+
+    public static String getSecretKey() { return properties.getProperty("access.token.key.prefix"); }
 }

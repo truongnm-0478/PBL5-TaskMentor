@@ -21,6 +21,7 @@ public class UserRepository {
             session.close();
         }
     }
+
     public User getUserByUsername(String username) {
         try (Session session = sessionFactory.openSession()) {
             Query query = session.createQuery("FROM User WHERE username = :username");
@@ -34,6 +35,12 @@ public class UserRepository {
             Query query = session.createQuery("FROM User WHERE email = :email");
             query.setParameter("email", email);
             return (User) query.uniqueResult();
+        }
+    }
+
+    public User getUserById(int id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(User.class, id);
         }
     }
 
