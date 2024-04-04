@@ -247,3 +247,11 @@ CREATE TABLE messages (
   FOREIGN KEY (sender_id) REFERENCES users (id),
   FOREIGN KEY (receiver_id) REFERENCES users (id)
 );
+
+CREATE TABLE tokens (
+  id SERIAL PRIMARY KEY,
+  token TEXT,
+  user_id INT NOT NULL,
+  insert_time TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users (id)
+)
