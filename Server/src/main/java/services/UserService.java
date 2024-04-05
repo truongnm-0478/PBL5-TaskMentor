@@ -84,7 +84,7 @@ public class UserService {
                 .name(name)
                 .username(username)
                 .password(hashedPassword)
-                .role(3)
+                .role(2)
                 .phone(phone)
                 .deleteTime(null)
                 .deleteBy(null)
