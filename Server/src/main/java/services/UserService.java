@@ -4,8 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.User;
 import repositories.UserRepository;
+
+import java.util.Date;
 import java.util.List;
 import utils.PasswordHashingUtils;
+import utils.UserIdHolder;
+import utils.UserValidationUtils;
 
 public class UserService {
     private final UserRepository userRepository = new UserRepository();
@@ -28,9 +32,18 @@ public class UserService {
 
     public User registerUser(String email, String username, String password, int role, String name, String phone) throws JsonProcessingException {
         // Validate information
-        if (email == null || email.isEmpty() || username == null || username.isEmpty() ||
-                password == null || password.isEmpty() || name == null || name.isEmpty()) {
+        if (!UserValidationUtils.isValidRegistrationData(email, username, password, name)) {
             throw new IllegalArgumentException("Missing required fields for user registration.");
+        }
+
+        // Validate email format
+        if (!UserValidationUtils.isValidEmail(email)) {
+            throw new IllegalArgumentException("Invalid email format.");
+        }
+
+        // Validate password format
+        if (!UserValidationUtils.isValidPassword(password)) {
+            throw new IllegalArgumentException("Invalid password format.");
         }
 
         // Check username and email
@@ -50,6 +63,10 @@ public class UserService {
                 .phone(phone)
                 .deleteTime(null)
                 .deleteBy(null)
+                .insertTime(new java.sql.Timestamp(new Date().getTime()))
+                .insertBy(null)
+                .updateTime(null)
+                .insertBy(null)
                 .build();
 
         userRepository.save(newUser);
@@ -57,10 +74,16 @@ public class UserService {
         return newUser;
     }
 
+
     public User createTeacherAccount (String email, String username, String name, String phone) throws JsonProcessingException {
         // Validate information
-        if (email == null || email.isEmpty() || username == null || username.isEmpty() || name == null || name.isEmpty()) {
+        if (!UserValidationUtils.isValidTeacherAccountData(email, username, name)) {
             throw new IllegalArgumentException("Missing required fields for user registration.");
+        }
+
+        // Validate email format
+        if (!UserValidationUtils.isValidEmail(email)) {
+            throw new IllegalArgumentException("Invalid email format.");
         }
 
         // Check username and email
@@ -88,6 +111,10 @@ public class UserService {
                 .phone(phone)
                 .deleteTime(null)
                 .deleteBy(null)
+                .insertTime(new java.sql.Timestamp(new Date().getTime()))
+                .insertBy(UserIdHolder.getUserId())
+                .updateTime(null)
+                .insertBy(null)
                 .build();
 
         userRepository.save(newUser);

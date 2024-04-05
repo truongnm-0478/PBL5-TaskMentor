@@ -42,4 +42,16 @@ public class User {
 
     @Column(name = "delete_by")
     private Integer deleteBy;
+
+    @Column(name = "insert_time")
+    private Timestamp insertTime;
+
+    @Column(name = "insert_by")
+    private Integer insertBy;
+
+    @Column(name = "update_time")
+    private Timestamp updateTime;
+
+    @Column(name = "update_by")
+    private Integer updateBy;
 }
