@@ -6,6 +6,10 @@ CREATE TABLE users (
   role INT NOT NULL,
   name TEXT,
   phone TEXT,
+  insert_time TIMESTAMP,
+  insert_by INT,
+  update_time TIMESTAMP,
+  update_by INT,
   delete_time TIMESTAMP,
   delete_by INT
 );
