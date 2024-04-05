@@ -33,6 +33,7 @@ public class AuthenticationFilter implements Filter {
 
         if (isSecuredEndpoint(requestURI)) {
             String accessToken = extractAccessToken(httpRequest);
+            System.out.printf("ACCESS TOKEN: " + accessToken);
             String refreshToken = extractRefreshToken(httpRequest);
 
             if (accessToken != null && refreshToken != null) {
@@ -53,16 +54,25 @@ public class AuthenticationFilter implements Filter {
         return securedEndpoints.contains(requestURI);
     }
 
-    private String extractAccessToken(HttpServletRequest request) {
-        String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            return authorizationHeader.substring(7);
+    public static String extractAccessToken(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("access_token")) {
+                    return cookie.getValue();
+                }
+            }
         }
         return null;
     }
 
     private String extractRefreshToken(HttpServletRequest request) {
-        return request.getHeader("Refresh-Token");
+        String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            return authorizationHeader.substring(7);
+        }
+        return null;
     }
 
 

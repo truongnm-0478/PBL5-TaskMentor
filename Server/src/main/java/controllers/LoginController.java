@@ -8,6 +8,7 @@ import services.UserService;
 import utils.ResponseUtil;
 
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +28,11 @@ public class LoginController extends HttpServlet {
             if (authenticate(user.getUsername(), user.getPassword())) {
                 String accessToken = AuthService.generateAccessToken(user);
                 String refreshToken = AuthService.generateRefreshToken(user);
+
+                Cookie cookie = new Cookie("access_token", accessToken);
+                cookie.setHttpOnly(true);
+                cookie.setPath("/");
+                response.addCookie(cookie);
 
                 ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "Login successful", new LoginResponse(accessToken, refreshToken));
 

@@ -56,4 +56,42 @@ public class UserService {
 
         return newUser;
     }
+
+    public User createTeacherAccount (String email, String username, String name, String phone) throws JsonProcessingException {
+        // Validate information
+        if (email == null || email.isEmpty() || username == null || username.isEmpty() || name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Missing required fields for user registration.");
+        }
+
+        // Check username and email
+        if (userRepository.getUserByEmail(email) != null || userRepository.getUserByUsername(username) != null) {
+            throw new IllegalArgumentException("Email or username already exists.");
+        }
+
+        int atIndex = email.indexOf('@');
+        if (atIndex == -1) {
+            throw new IllegalArgumentException("Invalid email format");
+        }
+
+        // Create password form email
+        String password = email.substring(0, atIndex);
+        System.out.printf("Password: " + password);
+        // Encrypt password
+        String hashedPassword = PasswordHashingUtils.hashPassword(password);
+
+        User newUser = User.builder()
+                .email(email)
+                .name(name)
+                .username(username)
+                .password(hashedPassword)
+                .role(3)
+                .phone(phone)
+                .deleteTime(null)
+                .deleteBy(null)
+                .build();
+
+        userRepository.save(newUser);
+
+        return newUser;
+    }
 }

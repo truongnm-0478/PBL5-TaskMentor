@@ -36,7 +36,7 @@ public class RegisterController extends HttpServlet {
                 User user = mapper.readValue(jsonRequest.toString(), User.class);
 
                 // register user
-                User registeredUser = userService.registerUser(user.getEmail(), user.getUsername(), user.getPassword(), user.getRole(), user.getName(), user.getPhone());
+                User registeredUser = userService.registerUser(user.getEmail(), user.getUsername(), user.getPassword(), 0, user.getName(), user.getPhone());
 
                 ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "User registered successfully.", registeredUser);
             } catch (IllegalArgumentException e) {
