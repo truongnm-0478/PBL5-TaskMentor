@@ -3,6 +3,7 @@ package config;
 import io.jsonwebtoken.Claims;
 import services.AuthService;
 import utils.ResponseUtil;
+import utils.UserIdHolder;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -33,16 +34,13 @@ public class AuthenticationFilter implements Filter {
 
         if (isSecuredEndpoint(requestURI)) {
             String accessToken = extractAccessToken(httpRequest);
-            System.out.printf("ACCESS TOKEN: " + accessToken);
-            String refreshToken = extractRefreshToken(httpRequest);
 
-            if (accessToken != null && refreshToken != null) {
-                if (authenticateTokens(accessToken, refreshToken, httpResponse)) {
+            if (accessToken != null) {
+                if (authenticateTokens(accessToken)) {
                     chain.doFilter(request, response);
                     return;
                 }
             }
-
             ResponseUtil.sendErrorResponse(httpResponse, HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized access");
             return;
         }
@@ -67,40 +65,26 @@ public class AuthenticationFilter implements Filter {
         return null;
     }
 
-    private String extractRefreshToken(HttpServletRequest request) {
-        String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            return authorizationHeader.substring(7);
-        }
-        return null;
-    }
-
-
-    private boolean authenticateTokens(String accessToken, String refreshToken, HttpServletResponse httpResponse) {
+    private boolean authenticateTokens(String accessToken) {
         try {
             // Verify access token and refresh token
-            Claims claims = AuthService.verifyToken(accessToken, refreshToken);
-
-            // Create access token from claims
-            String newAccessToken = AuthService.generateAccessTokenFromClaims(claims);
-
-            if (newAccessToken != null) {
-                Cookie cookie = new Cookie("access_token", newAccessToken);
-                cookie.setHttpOnly(true);
-                cookie.setPath("/");
-                httpResponse.addCookie(cookie);
-            }
-
+            Claims claims = AuthService.verifyToken(accessToken);
+            int userId = AuthService.getUserIdFromClaimAccessToken(claims);
+            UserIdHolder.setUserId(userId);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
             return false;
         }
     }
 
-
-
-
     @Override
     public void destroy() {}
+
+//    private String extractRefreshToken(HttpServletRequest request) {
+//        String authorizationHeader = request.getHeader("Authorization");
+//        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+//            return authorizationHeader.substring(7);
+//        }
+//        return null;
+//    }
 }

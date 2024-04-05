@@ -26,8 +26,8 @@ public class LoginController extends HttpServlet {
             User user = mapper.readValue(request.getInputStream(), User.class);
 
             if (authenticate(user.getUsername(), user.getPassword())) {
-                String accessToken = AuthService.generateAccessToken(user);
-                String refreshToken = AuthService.generateRefreshToken(user);
+                String accessToken = AuthService.generateAccessToken(user.getUsername());
+                String refreshToken = AuthService.generateRefreshToken(user.getUsername());
 
                 Cookie cookie = new Cookie("access_token", accessToken);
                 cookie.setHttpOnly(true);

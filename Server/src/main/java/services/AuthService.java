@@ -1,6 +1,7 @@
 package services;
 
 import config.ConfigLoader;
+import config.RefreshToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -23,9 +24,9 @@ public class AuthService {
     private static final UserRepository userRepository = new UserRepository();
 
     // Access Token
-    public static String generateAccessToken(User user) {
+    public static String generateAccessToken(String username) {
         return Jwts.builder()
-                .setSubject(user.getUsername())
+                .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 15 * 60 * 1000)) // 15 minutes
                 .signWith(signingKey)
@@ -33,17 +34,17 @@ public class AuthService {
     }
 
     // Refresh Token
-    public static String generateRefreshToken(User user) {
+    public static String generateRefreshToken(String username) {
         long refreshTokenExpirationTime = 30L * 24L * 60L * 60L * 1000L; // 30 days
         String refreshToken = Jwts.builder()
-                .setSubject(user.getUsername())
+                .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpirationTime))
                 .signWith(signingKey)
                 .compact();
 
         // Save refresh token in database
-        saveRefreshToken(user.getUsername(), refreshToken);
+        saveRefreshToken(username, refreshToken);
 
         return refreshToken;
     }
@@ -75,48 +76,35 @@ public class AuthService {
         }
     }
 
-    public static Claims verifyToken(String accessToken, String refreshToken) {
+    public static Claims verifyToken(String accessToken) {
         try {
-            return Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(SECRET_KEY.getBytes())).parseClaimsJws(accessToken).getBody();
+            return Jwts.parser()
+                    .setSigningKey(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
+                    .parseClaimsJws(accessToken)
+                    .getBody();
         } catch (ExpiredJwtException e) {
-            // If the access token expires, check to refresh the token
-            if (refreshToken != null && isRefreshTokenValid(refreshToken)) {
-                return generateAccessTokenFromRefreshToken(refreshToken);
-            } else {
-                throw new JwtException("Access token is expired and refresh token is invalid or not provided");
-            }
+                throw new JwtException("Access token is expired");
         } catch (JwtException e) {
             throw new JwtException("Invalid token");
         }
     }
 
-    private static Claims generateAccessTokenFromRefreshToken(String refreshToken) {
-        Claims claims = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(SECRET_KEY.getBytes())).parseClaimsJws(refreshToken).getBody();
-        // Lấy thông tin người dùng từ refresh token
-        String username = claims.getSubject();
-        User user = userRepository.getUserByUsername(username);
-        if (user != null) {
-            // Create access token
-            return Jwts.claims().setSubject(username); // Return new claims and subject is username
-        } else {
-            throw new RuntimeException("User not found");
-        }
-    }
-
-    private static boolean isRefreshTokenValid(String refreshToken) {
+    public static boolean verifyRefreshToken(String refreshToken) {
         if (tokenRepository.isRefreshTokenExists(refreshToken)) {
             Claims claims = null;
 
             try {
-                claims = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(SECRET_KEY.getBytes())).parseClaimsJws(refreshToken).getBody();
+                claims = Jwts.parser()
+                        .setSigningKey(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
+                        .parseClaimsJws(refreshToken)
+                        .getBody();
                 Date expiration = claims.getExpiration();
                 Date now = new Date();
                 return !expiration.before(now); // Return true if refreshToken unexpired, else return false
             } catch (ExpiredJwtException e) {
                 // If the refresh token has expired, remove it from the database and return false
-                if (claims != null) {
-                    deleteRefreshToken(claims.getSubject()); // Delete the refresh token from the database
-                }
+                String subject = e.getClaims().getSubject();
+                deleteRefreshToken(subject);
                 return false;
             } catch (JwtException e) {
                 return false;
@@ -126,20 +114,18 @@ public class AuthService {
         }
     }
 
-    public static String generateAccessTokenFromClaims(Claims claims) {
-        Date expiration = claims.getExpiration();
-        Date now = new Date();
+    public static String getUsernameFromFresherToken(String refreshToken) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
+                .parseClaimsJws(refreshToken)
+                .getBody();
+        return claims.getSubject();
+    }
 
-        if (expiration != null && expiration.after(now)) {
-            return null;
-        }
-
-        return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 15 * 60 * 1000)) // 15p
-                .signWith(signingKey)
-                .compact();
+    public static int getUserIdFromClaimAccessToken(Claims claims) {
+        String username = claims.getSubject();
+        User user = userRepository.getUserByUsername(username);
+        return user.getId();
     }
 
 }
