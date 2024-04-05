@@ -24,5 +24,6 @@
 
         <!-- Mention annotated class -->
         <mapping class="models.User"/>
+        <mapping class="models.Token"/>
     </session-factory>
 </hibernate-configuration>
