@@ -1,11 +1,10 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import config.AuthenticationFilter;
 import models.User;
 import services.UserService;
-import utils.JsonResponseUtil;
-import utils.RequestProcessor;
-import utils.ResponseUtil;
+import utils.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,6 +26,16 @@ public class UserController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         requestProcessor.processRequest(() -> {
+            User currentUser = (User) req.getSession().getAttribute("currentUser");
+            if (!AuthorizationUtil.checkUserRole(currentUser, 3)) {
+                try {
+                    ResponseUtil.sendErrorResponse(resp, HttpServletResponse.SC_FORBIDDEN, "Access Denied.");
+                    return;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
             try {
                 List<User> userList = userService.getAllUsers();
                 ResponseUtil.sendJsonResponse(resp, HttpServletResponse.SC_OK, "User list retrieved successfully.", userList);
@@ -44,6 +53,7 @@ public class UserController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)  {
         requestProcessor.processRequest(() -> {
             try {
+
                 // read data from JSON
                 BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
                 StringBuilder jsonRequest = new StringBuilder();

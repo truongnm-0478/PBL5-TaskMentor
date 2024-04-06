@@ -1,9 +1,9 @@
 package config;
 
 import io.jsonwebtoken.Claims;
+import models.User;
 import services.AuthService;
 import utils.ResponseUtil;
-import utils.UserIdHolder;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -36,7 +36,7 @@ public class AuthenticationFilter implements Filter {
             String accessToken = extractAccessToken(httpRequest);
 
             if (accessToken != null) {
-                if (authenticateTokens(accessToken)) {
+                if (authenticateTokens(accessToken, httpRequest)) {
                     chain.doFilter(request, response);
                     return;
                 }
@@ -65,17 +65,20 @@ public class AuthenticationFilter implements Filter {
         return null;
     }
 
-    private boolean authenticateTokens(String accessToken) {
+    private boolean authenticateTokens(String accessToken, HttpServletRequest request) {
         try {
             // Verify access token and refresh token
             Claims claims = AuthService.verifyToken(accessToken);
-            int userId = AuthService.getUserIdFromClaimAccessToken(claims);
-            UserIdHolder.setUserId(userId);
+            User user = AuthService.getUserIdAndRoleFromClaimAccessToken(claims);
+
+            // Save user in session
+            request.getSession().setAttribute("currentUser", user);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
+
 
     @Override
     public void destroy() {}

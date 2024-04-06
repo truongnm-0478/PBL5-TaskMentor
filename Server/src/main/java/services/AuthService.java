@@ -122,10 +122,9 @@ public class AuthService {
         return claims.getSubject();
     }
 
-    public static int getUserIdFromClaimAccessToken(Claims claims) {
+    public static User getUserIdAndRoleFromClaimAccessToken(Claims claims) {
         String username = claims.getSubject();
-        User user = userRepository.getUserByUsername(username);
-        return user.getId();
+        return userRepository.getUserByUsername(username);
     }
 
 }
