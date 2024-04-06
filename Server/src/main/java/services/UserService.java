@@ -1,9 +1,11 @@
 package services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import dtos.UserAdminDTO;
 import models.User;
 import repositories.UserRepository;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,9 +15,15 @@ import utils.UserValidationUtil;
 public class UserService {
     private final UserRepository userRepository = new UserRepository();
 
-    public List<User> getAllUsers() {
-        return userRepository.getAllUsers();
+    public List<UserAdminDTO> getAllUsers(int pageNumber, int pageSize) {
+        return userRepository.getAllUsers(pageNumber, pageSize);
     }
+
+    public int getTotalUsers() {
+        return userRepository.getTotalUsers();
+    }
+
+
 
     public User authenticateUser(String username, String password) {
         User user = userRepository.getUserByUsername(username);
@@ -74,7 +82,7 @@ public class UserService {
     }
 
 
-    public User createTeacherAccount (String email, String username, String name, String phone) throws JsonProcessingException {
+    public User createTeacherAccount (String email, String username, String name, String phone, int userId) throws JsonProcessingException {
         // Validate information
         if (!UserValidationUtil.isValidTeacherAccountData(email, username, name)) {
             throw new IllegalArgumentException("Missing required fields for user registration.");
@@ -97,9 +105,9 @@ public class UserService {
 
         // Create password form email
         String password = email.substring(0, atIndex);
-        System.out.printf("Password: " + password);
         // Encrypt password
         String hashedPassword = PasswordHashingUtil.hashPassword(password);
+
 
         User newUser = User.builder()
                 .email(email)
@@ -111,10 +119,11 @@ public class UserService {
                 .deleteTime(null)
                 .deleteBy(null)
                 .insertTime(new java.sql.Timestamp(new Date().getTime()))
-                .insertBy(null)
+                .insertBy(userId)
                 .updateTime(null)
-                .insertBy(null)
+                .updateBy(null)
                 .build();
+
 
         userRepository.save(newUser);
 

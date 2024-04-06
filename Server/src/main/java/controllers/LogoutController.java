@@ -1,7 +1,6 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import models.LogoutRequest;
 import models.User;
 import services.AuthService;
 import services.UserService;
@@ -16,14 +15,12 @@ import java.io.IOException;
 @WebServlet("/api/logout")
 public class LogoutController extends HttpServlet {
 
-    private final UserService userService = new UserService();
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            LogoutRequest logoutRequest = mapper.readValue(request.getInputStream(), LogoutRequest.class);
+            User currentUser = (User) request.getSession().getAttribute("currentUser");
 
-            String username = logoutRequest.getUsername();
+            String username = currentUser.getUsername();
 
             AuthService.deleteRefreshToken(username);
 

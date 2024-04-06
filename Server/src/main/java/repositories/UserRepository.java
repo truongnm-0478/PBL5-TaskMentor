@@ -1,24 +1,39 @@
 package repositories;
 
+import dtos.UserAdminDTO;
 import models.User;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
+import org.hibernate.transform.Transformers;
 import utils.HibernateUtil;
 
 import org.hibernate.query.Query;
+
+import java.sql.Timestamp;
 import java.util.List;
 
 public class UserRepository {
     private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
-    public List<User> getAllUsers() {
-        Session session = sessionFactory.openSession();
+    public List<UserAdminDTO> getAllUsers(int pageNumber, int pageSize) {
+        try (Session session = sessionFactory.openSession()) {
+            String jpql = "SELECT new dtos.UserAdminDTO(u.id, u.email, u.username, u.role, u.name, u.phone, u.deleteTime, u.deleteBy, u.insertTime, u.insertBy, u.updateTime, u.updateBy) " +
+                    "FROM User u";
+            Query query = session.createQuery(jpql);
+            query.setFirstResult((pageNumber - 1) * pageSize);
+            query.setMaxResults(pageSize);
+            return query.getResultList();
+        }
+    }
 
-        try {
-            return session.createQuery("FROM User", User.class).list();
-        } finally {
-            session.close();
+    public int getTotalUsers() {
+        try (Session session = sessionFactory.openSession()) {
+            String countQuery = "SELECT COUNT(u.id) FROM User u";
+            Query<Long> query = session.createQuery(countQuery, Long.class);
+            return Math.toIntExact(query.uniqueResult());
         }
     }
 
