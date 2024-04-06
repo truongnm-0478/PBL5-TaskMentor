@@ -1,11 +1,10 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dtos.UserAdminDTO;
 import models.User;
 import services.UserService;
-import utils.JsonResponseUtil;
-import utils.RequestProcessor;
-import utils.ResponseUtil;
+import utils.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,25 +24,40 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        requestProcessor.processRequest(() -> {
-            try {
-                List<User> userList = userService.getAllUsers();
-                ResponseUtil.sendJsonResponse(resp, HttpServletResponse.SC_OK, "User list retrieved successfully.", userList);
-            } catch (IOException e) {
-                try {
-                    ResponseUtil.sendErrorResponse(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request.");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+        try {
+            if(!AuthorizationUtil.checkUserRole(req,resp, 3)) {
+                return;
             }
-        });
+            int pageNumber = Integer.parseInt(req.getParameter("page"));
+            int pageSize = Integer.parseInt(req.getParameter("pageSize"));
+
+            if (pageNumber <= 0 || pageSize <= 0) {
+                ResponseUtil.sendErrorResponse(resp, HttpServletResponse.SC_BAD_REQUEST, "Page number and page size must be positive integers.");
+                return;
+            }
+
+            List<UserAdminDTO> userList = userService.getAllUsers(pageNumber, pageSize);
+
+            int totalUsers = userService.getTotalUsers();
+
+            int totalPages = (int) Math.ceil((double) totalUsers / pageSize);
+
+            ResponseUtil.sendPagedJsonResponse(resp, HttpServletResponse.SC_OK, "User list retrieved successfully.", pageNumber, pageSize, totalUsers, totalPages, userList);
+        } catch (NumberFormatException e) {
+            ResponseUtil.sendErrorResponse(resp, HttpServletResponse.SC_BAD_REQUEST, "Invalid page number or page size format.");
+        } catch (Exception e) {
+            ResponseUtil.sendErrorResponse(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request.");
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)  {
         requestProcessor.processRequest(() -> {
             try {
+                if(!AuthorizationUtil.checkUserRole(request, response, 3)) {
+                    return;
+                }
+                int userId = AuthorizationUtil.getUserId(request);
                 // read data from JSON
                 BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
                 StringBuilder jsonRequest = new StringBuilder();
@@ -57,7 +71,7 @@ public class UserController extends HttpServlet {
                 User user = mapper.readValue(jsonRequest.toString(), User.class);
 
                 // teacher account
-                User teacherAccount = userService.createTeacherAccount(user.getEmail(), user.getUsername(), user.getName(), user.getPhone());
+                User teacherAccount = userService.createTeacherAccount(user.getEmail(), user.getUsername(), user.getName(), user.getPhone(), userId);
 
                 ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "Account created successfully.", teacherAccount);
             } catch (IllegalArgumentException e) {

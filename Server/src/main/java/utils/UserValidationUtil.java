@@ -1,6 +1,6 @@
 package utils;
 
-public class UserValidationUtils {
+public class UserValidationUtil {
 
     public static boolean isValidRegistrationData(String email, String username, String password, String name) {
         return isNonEmptyString(email) && isNonEmptyString(username) && isNonEmptyString(password) && isNonEmptyString(name);

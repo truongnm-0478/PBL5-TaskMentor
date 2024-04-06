@@ -1,10 +1,15 @@
 package utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dtos.UserAdminDTO;
+import lombok.Getter;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ResponseUtil {
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -17,6 +22,18 @@ public class ResponseUtil {
         out.flush();
     }
 
+    public static void sendPagedJsonResponse(HttpServletResponse response, int statusCode, String message, int page, int pageSize, int totalItems, int totalPages, List<UserAdminDTO> users) throws IOException {
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("page", page);
+        responseData.put("pageSize", pageSize);
+        responseData.put("totalItems", totalItems);
+        responseData.put("totalPages", totalPages);
+        responseData.put("users", users);
+
+        sendJsonResponse(response, statusCode, message, responseData);
+    }
+
+
     public static void sendErrorResponse(HttpServletResponse response, int statusCode, String errorMessage) throws IOException {
         response.setStatus(statusCode);
         response.setContentType("application/json");
@@ -25,6 +42,7 @@ public class ResponseUtil {
         out.flush();
     }
 
+    @Getter
     private static class JsonResponse {
         private int status;
         private String message;
@@ -36,16 +54,5 @@ public class ResponseUtil {
             this.data = data;
         }
 
-        public int getStatus() {
-            return status;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public Object getData() {
-            return data;
-        }
     }
 }

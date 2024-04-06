@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dtos.UserDTO;
 import models.User;
 import services.UserService;
 import utils.RequestProcessor;
@@ -35,10 +36,16 @@ public class RegisterController extends HttpServlet {
                 ObjectMapper mapper = new ObjectMapper();
                 User user = mapper.readValue(jsonRequest.toString(), User.class);
 
-                // register user
+                //  register user
                 User registeredUser = userService.registerUser(user.getEmail(), user.getUsername(), user.getPassword(), 0, user.getName(), user.getPhone());
+                UserDTO userDto = UserDTO.builder()
+                        .email(registeredUser.getEmail())
+                        .name(registeredUser.getName())
+                        .phone(registeredUser.getPhone())
+                        .username(registeredUser.getUsername())
+                        .build();
 
-                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "User registered successfully.", registeredUser);
+                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "User registered successfully.", userDto);
             } catch (IllegalArgumentException e) {
                 try {
                     ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
