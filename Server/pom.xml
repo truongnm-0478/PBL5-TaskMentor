@@ -7,6 +7,12 @@
   <version>1.0.0</version>
   <name>Server Maven Webapp</name>
   <url>http://maven.apache.org</url>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.6.2</version>
+    <relativePath/>
+  </parent>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -106,10 +112,11 @@
 
     <!-- websocket-api -->
     <dependency>
-      <groupId>com.corundumstudio.socketio</groupId>
-      <artifactId>netty-socketio</artifactId>
-      <version>1.7.17</version>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-websocket</artifactId>
     </dependency>
+
+
 
 
   </dependencies>

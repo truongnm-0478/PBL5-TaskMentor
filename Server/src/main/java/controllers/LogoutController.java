@@ -26,7 +26,7 @@ public class LogoutController extends HttpServlet {
 
             ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "User logged out successfully", null);
         } catch (Exception e) {
-            ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request", null);
+            ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request");
         }
     }
 }

@@ -1,26 +1,33 @@
 package services;
 
 import models.Message;
-import repositories.ChatRepository;
+import models.User;
+import repositories.MessageRepository;
 
 import java.util.Date;
 
 public class ChatService {
 
-    private ChatRepository chatRepository; // Đối tượng repository để tương tác với database
+    private final MessageRepository chatRepository = new MessageRepository();
 
-    // Inject dependency
-    public ChatService() {
-        chatRepository = new ChatRepository(); // Khởi tạo đối tượng repository
-    }
+    public Message createMessage(String content, User sender, User receiver) {
 
-    public void saveMessage(String message) {
-        // Tạo một đối tượng Message từ tin nhắn
-        Message newMessage = new Message();
-        newMessage.setContent(message);
-        newMessage.setInsertTime(new java.sql.Timestamp(new Date().getTime())); // Set thời gian gửi tin nhắn
+        Message newMessage = Message.builder()
+                .content(content)
+                .image(null)
+                .isSeen(false)
+                .sender(sender)
+                .receiver(receiver)
+                .insertTime(new java.sql.Timestamp(new Date().getTime()))
+                .insertBy(sender.getId())
+                .updateTime(null)
+                .updateBy(null)
+                .deleteBy(null)
+                .deleteTime(null)
+                .build();
 
-        // Lưu tin nhắn vào database thông qua repository
         chatRepository.save(newMessage);
+
+        return newMessage;
     }
 }
