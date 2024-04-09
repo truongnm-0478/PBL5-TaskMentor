@@ -25,5 +25,22 @@
         <!-- Mention annotated class -->
         <mapping class="models.User"/>
         <mapping class="models.Token"/>
+        <mapping class="models.Message"/>
+        <mapping class="models.Appointment"/>
+        <mapping class="models.ClassRoom"/>
+        <mapping class="models.Message"/>
+        <mapping class="models.Notification"/>
+        <mapping class="models.Planning"/>
+        <mapping class="models.Project"/>
+        <mapping class="models.ProjectApproval"/>
+        <mapping class="models.Sprint"/>
+        <mapping class="models.Student"/>
+        <mapping class="models.Task"/>
+        <mapping class="models.TaskAssignment"/>
+        <mapping class="models.Teacher"/>
+        <mapping class="models.Team"/>
+        <mapping class="models.TeamEvaluation"/>
+        <mapping class="models.TeamMember"/>
+        <mapping class="models.TeamMemberFeedback"/>
     </session-factory>
 </hibernate-configuration>

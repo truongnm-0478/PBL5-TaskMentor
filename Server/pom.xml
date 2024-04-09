@@ -97,12 +97,19 @@
       <version>1.7.32</version>
     </dependency>
 
+    <!-- json   -->
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>20210307</version>
     </dependency>
 
+    <!-- websocket-api -->
+    <dependency>
+      <groupId>com.corundumstudio.socketio</groupId>
+      <artifactId>netty-socketio</artifactId>
+      <version>1.7.17</version>
+    </dependency>
 
 
   </dependencies>
