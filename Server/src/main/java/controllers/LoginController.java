@@ -37,10 +37,10 @@ public class LoginController extends HttpServlet {
                 ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "Login successful", new LoginResponse(accessToken, refreshToken));
 
             } else {
-                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Invalid credentials", null);
+                ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Invalid credentials");
             }
         } catch (Exception e) {
-            ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request", null);
+            ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request");
         }
     }
 
