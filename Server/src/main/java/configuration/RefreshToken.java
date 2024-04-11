@@ -1,4 +1,4 @@
-package config;
+package configuration;
 
 import models.LoginResponse;
 import services.AuthService;
@@ -23,10 +23,8 @@ public class RefreshToken extends HttpServlet {
             // Generate a new access token
             String newAccessToken = generateAccessToken(refreshToken);
 
-            Cookie cookie = new Cookie("access_token", newAccessToken);
-            cookie.setHttpOnly(true);
-            cookie.setPath("/");
-            response.addCookie(cookie);
+            // Set the new access token in the HTTP response header
+            response.setHeader("Authorization", "Bearer " + newAccessToken);
 
             ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "Token refresh successfully.", new LoginResponse(newAccessToken, refreshToken));
         } else {

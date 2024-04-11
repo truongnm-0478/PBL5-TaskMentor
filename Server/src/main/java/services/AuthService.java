@@ -1,7 +1,6 @@
 package services;
 
-import config.ConfigLoader;
-import config.RefreshToken;
+import configuration.ConfigLoader;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -12,7 +11,6 @@ import models.User;
 import repositories.TokenRepository;
 import repositories.UserRepository;
 
-import javax.servlet.http.HttpServletResponse;
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
