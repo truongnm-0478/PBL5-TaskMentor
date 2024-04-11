@@ -1,4 +1,4 @@
-package configuration;
+package configurations;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.HandshakeResponse;

@@ -1,14 +1,14 @@
-package configuration;
+package configurations;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class ConfigLoader {
+public class LoaderConfigurator {
     private static final Properties properties = new Properties();
 
     static {
-        try (InputStream inputStream = ConfigLoader.class.getClassLoader().getResourceAsStream("config.properties")) {
+        try (InputStream inputStream = LoaderConfigurator.class.getClassLoader().getResourceAsStream("config.properties")) {
             properties.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,6 +1,6 @@
 package services;
 
-import configuration.ConfigLoader;
+import configurations.LoaderConfigurator;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 public class AuthService {
-    private static final String SECRET_KEY = ConfigLoader.getSecretKey();
+    private static final String SECRET_KEY = LoaderConfigurator.getSecretKey();
     private static final Key signingKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     private static final TokenRepository tokenRepository = new TokenRepository();
     private static final UserRepository userRepository = new UserRepository();

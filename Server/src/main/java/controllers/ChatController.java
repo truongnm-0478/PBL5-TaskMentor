@@ -1,6 +1,6 @@
 package controllers;
 
-import configuration.HttpSessionConfigurator;
+import configurations.HttpSessionConfigurator;
 import models.User;
 
 import javax.servlet.http.HttpSession;

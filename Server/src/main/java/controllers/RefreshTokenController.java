@@ -1,4 +1,4 @@
-package configuration;
+package controllers;
 
 import models.LoginResponse;
 import services.AuthService;
@@ -6,7 +6,6 @@ import utils.ResponseUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +13,7 @@ import java.io.IOException;
 
 
 @WebServlet("/refresh")
-public class RefreshToken extends HttpServlet {
+public class RefreshTokenController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String refreshToken = request.getParameter("refresh_token");

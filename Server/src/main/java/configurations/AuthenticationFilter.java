@@ -1,4 +1,4 @@
-package configuration;
+package configurations;
 
 import io.jsonwebtoken.Claims;
 import models.User;
@@ -7,7 +7,6 @@ import utils.ResponseUtil;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -85,16 +84,6 @@ public class AuthenticationFilter implements Filter {
         }
     }
 
-
-
     @Override
     public void destroy() {}
-
-//    private String extractRefreshToken(HttpServletRequest request) {
-//        String authorizationHeader = request.getHeader("Authorization");
-//        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-//            return authorizationHeader.substring(7);
-//        }
-//        return null;
-//    }
 }
