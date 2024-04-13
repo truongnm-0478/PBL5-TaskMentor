@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 @Builder
-public class UserAdminDTO {
+public class UserResponse {
     private int id;
     private String email;
     private String username;
@@ -21,7 +21,7 @@ public class UserAdminDTO {
     private Date updateTime;
     private Integer updateBy;
 
-    public UserAdminDTO(int id, String email, String username, int role, String name, String phone, Date deleteTime, Integer deleteBy, Date insertTime, Integer insertBy, Date updateTime, Integer updateBy) {
+    public UserResponse(int id, String email, String username, int role, String name, String phone, Date deleteTime, Integer deleteBy, Date insertTime, Integer insertBy, Date updateTime, Integer updateBy) {
         this.id = id;
         this.email = email;
         this.username = username;

@@ -1,10 +1,10 @@
-package repositories;
+package repository;
 
 import model.Message;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import utils.HibernateUtil;
+import util.HibernateUtil;
 
 
 public class MessageRepository {

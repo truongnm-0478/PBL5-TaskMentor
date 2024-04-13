@@ -1,7 +1,7 @@
-package utils;
+package util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dto.UserAdminDTO;
+import dto.response.UserResponse;
 import lombok.Getter;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +22,7 @@ public class ResponseUtil {
         out.flush();
     }
 
-    public static void sendPagedJsonResponse(HttpServletResponse response, int statusCode, String message, int page, int pageSize, int totalItems, int totalPages, List<UserAdminDTO> users) throws IOException {
+    public static void sendPagedJsonResponse(HttpServletResponse response, int statusCode, String message, int page, int pageSize, int totalItems, int totalPages, List<UserResponse> users) throws IOException {
         Map<String, Object> responseData = new HashMap<>();
         responseData.put("page", page);
         responseData.put("pageSize", pageSize);

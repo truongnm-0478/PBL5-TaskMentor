@@ -23,24 +23,26 @@
         <property name="hibernate.globally_quoted_identifiers">false</property>
 
         <!-- Mention annotated class -->
-        <mapping class="models.User"/>
-        <mapping class="models.Token"/>
-        <mapping class="models.Message"/>
-        <mapping class="models.Appointment"/>
-        <mapping class="models.ClassRoom"/>
-        <mapping class="models.Message"/>
-        <mapping class="models.Notification"/>
-        <mapping class="models.Planning"/>
-        <mapping class="models.Project"/>
-        <mapping class="models.ProjectApproval"/>
-        <mapping class="models.Sprint"/>
-        <mapping class="models.Student"/>
-        <mapping class="models.Task"/>
-        <mapping class="models.TaskAssignment"/>
-        <mapping class="models.Teacher"/>
-        <mapping class="models.Team"/>
-        <mapping class="models.TeamEvaluation"/>
-        <mapping class="models.TeamMember"/>
-        <mapping class="models.TeamMemberFeedback"/>
+        <mapping class="model.User"/>
+        <mapping class="model.Token"/>
+        <mapping class="model.Message"/>
+        <mapping class="model.Appointment"/>
+        <mapping class="model.ClassRoom"/>
+        <mapping class="model.Message"/>
+        <mapping class="model.Notification"/>
+        <mapping class="model.Planning"/>
+        <mapping class="model.Project"/>
+        <mapping class="model.ProjectApproval"/>
+        <mapping class="model.Sprint"/>
+        <mapping class="model.Student"/>
+        <mapping class="model.Task"/>
+        <mapping class="model.TaskAssignment"/>
+        <mapping class="model.Teacher"/>
+        <mapping class="model.Team"/>
+        <mapping class="model.TeamEvaluation"/>
+        <mapping class="model.TeamMember"/>
+        <mapping class="model.TeamMemberFeedback"/>
+        <mapping class="model.GroupMeeting" />
+        <mapping class="model.Reminder" />
     </session-factory>
 </hibernate-configuration>

@@ -1,6 +1,7 @@
-package controller;
+package controllers;
 
 import configuration.HttpSessionConfigurator;
+import dto.response.UserResponse;
 import model.User;
 import service.MessageService;
 import service.UserService;
@@ -42,7 +43,7 @@ public class ChatController {
         String recipientId = parts[0].trim();
         String content = parts[1].trim();
 
-        User recipient = userService.getUserById(Integer.parseInt(recipientId));
+        UserResponse recipient = userService.getUserById(Integer.parseInt(recipientId));
         if (recipient == null) {
             session.getBasicRemote().sendText("Recipient not found");
             return;

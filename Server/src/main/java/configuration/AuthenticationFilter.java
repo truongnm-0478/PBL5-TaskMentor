@@ -1,9 +1,9 @@
-package configurations;
+package configuration;
 
 import io.jsonwebtoken.Claims;
-import models.User;
-import services.AuthService;
-import utils.ResponseUtil;
+import model.User;
+import service.AuthService;
+import util.ResponseUtil;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

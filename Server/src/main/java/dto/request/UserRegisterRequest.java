@@ -5,7 +5,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class UserDTO {
+public class UserRegisterRequest {
     private String username;
     private String email;
     private String name;

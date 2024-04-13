@@ -1,5 +1,4 @@
 package model;
-
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,26 +9,19 @@ import java.sql.Timestamp;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "notifications")
-public class Notification {
+@Table(name = "reminders")
+public class Reminder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "class_id", referencedColumnName = "id")
-    private ClassRoom classRoom;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "appointment_id")
+    private Appointment appointment;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
-    @Column(name = "is_seen")
-    private boolean isSeen;
-
-    @Column(name = "content")
-    private String content;
+    @Column(name = "time_before")
+    private Timestamp timeBefore;
 
     @Column(name = "insert_time")
     private Timestamp insertTime;

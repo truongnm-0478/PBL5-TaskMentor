@@ -1,4 +1,4 @@
-package controller;
+package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.LoginResponse;

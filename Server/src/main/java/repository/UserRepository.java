@@ -1,11 +1,11 @@
-package repositories;
+package repository;
 
-import dto.UserAdminDTO;
+import dto.response.UserResponse;
 import model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import utils.HibernateUtil;
+import util.HibernateUtil;
 
 import org.hibernate.query.Query;
 
@@ -14,9 +14,9 @@ import java.util.List;
 public class UserRepository {
     private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
-    public List<UserAdminDTO> getAllUsers(int pageNumber, int pageSize) {
+    public List<UserResponse> getAllUsers(int pageNumber, int pageSize) {
         try (Session session = sessionFactory.openSession()) {
-            String jpql = "SELECT new dto.UserAdminDTO(u.id, u.email, u.username, u.role, u.name, u.phone, u.deleteTime, u.deleteBy, u.insertTime, u.insertBy, u.updateTime, u.updateBy) " +
+            String jpql = "SELECT new dto.response.UserResponse(u.id, u.email, u.username, u.role, u.name, u.phone, u.deleteTime, u.deleteBy, u.insertTime, u.insertBy, u.updateTime, u.updateBy) " +
                     "FROM User u";
             Query query = session.createQuery(jpql);
             query.setFirstResult((pageNumber - 1) * pageSize);
@@ -51,9 +51,12 @@ public class UserRepository {
 
     public User getUserById(int id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(User.class, id);
+            Query query = session.createQuery("FROM User WHERE id = :id");
+            query.setParameter("id", id);
+            return (User) query.uniqueResult();
         }
     }
+
 
     public void save(User user) {
         Transaction transaction = null;

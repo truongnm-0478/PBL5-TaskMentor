@@ -1,9 +1,10 @@
-package models;
+package model;
 
 import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Data
 @Entity
@@ -17,15 +18,21 @@ public class Appointment {
     @Column(name = "id")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "participant_id", referencedColumnName = "id")
-    private User participant;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "meeting_type")
-    private int meetingType;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "date_time")
-    private Timestamp dateTime;
+    @Column(name = "date_start")
+    private Timestamp dateStart;
+
+    @Column(name = "date_end")
+    private Timestamp dateEnd;
+
+    @Column(name = "location")
+    private String location;
 
     @Column(name = "insert_time")
     private Timestamp insertTime;
@@ -44,4 +51,10 @@ public class Appointment {
 
     @Column(name = "delete_by")
     private Integer deleteBy;
+
+    @OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL)
+    private Set<Reminder> reminders;
+
+    @OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL)
+    private Set<GroupMeeting> groupMeetings;
 }

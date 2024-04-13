@@ -1,4 +1,4 @@
-package models;
+package model;
 
 public class LoginResponse {
     private String accessToken;

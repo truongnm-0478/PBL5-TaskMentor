@@ -1,11 +1,11 @@
-package repositories;
+package repository;
 
 import model.Token;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import utils.HibernateUtil;
+import util.HibernateUtil;
 
 import java.util.List;
 

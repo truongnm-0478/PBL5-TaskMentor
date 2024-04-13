@@ -1,20 +1,20 @@
-package services;
+package service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import dto.UserAdminDTO;
+import dto.response.UserResponse;
 import model.User;
 import repository.UserRepository;
 
 import java.util.Date;
 import java.util.List;
 
-import utils.PasswordHashingUtil;
-import utils.UserValidationUtil;
+import util.PasswordHashingUtil;
+import util.UserValidationUtil;
 
 public class UserService {
     private final UserRepository userRepository = new UserRepository();
 
-    public List<UserAdminDTO> getAllUsers(int pageNumber, int pageSize) {
+    public List<UserResponse> getAllUsers(int pageNumber, int pageSize) {
         return userRepository.getAllUsers(pageNumber, pageSize);
     }
 
@@ -22,8 +22,25 @@ public class UserService {
         return userRepository.getTotalUsers();
     }
 
-    public User getUserById(int userId) {
-        return userRepository.getUserById(userId);
+    public UserResponse getUserById(int userId) throws Exception {
+        User user = userRepository.getUserById(userId);
+        if (user != null) {
+            return UserResponse.builder()
+                    .email(user.getEmail())
+                    .name(user.getName())
+                    .username(user.getUsername())
+                    .role(user.getRole())
+                    .phone(user.getPhone())
+                    .deleteTime(user.getDeleteTime())
+                    .deleteBy(user.getDeleteBy())
+                    .insertTime(user.getInsertTime())
+                    .insertBy(user.getInsertBy())
+                    .updateTime(user.getUpdateTime())
+                    .updateBy(user.getUpdateBy())
+                    .build();
+        }
+        return null;
+
     }
 
     public User authenticateUser(String username, String password) {

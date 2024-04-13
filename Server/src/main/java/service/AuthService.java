@@ -1,4 +1,4 @@
-package services;
+package service;
 
 import configuration.LoaderConfigurator;
 import io.jsonwebtoken.Claims;
@@ -26,7 +26,7 @@ public class AuthService {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 15 * 60 * 1000)) // 15 minutes
+                .setExpiration(new Date(System.currentTimeMillis() + 1440 * 60 * 1000)) // 15 minutes
                 .signWith(signingKey)
                 .compact();
     }
