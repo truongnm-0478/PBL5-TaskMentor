@@ -1,51 +1,81 @@
 package controllers;
 
-import models.Message;
-import models.User;
-import services.ChatService;
-import repositories.UserRepository;
-import utils.ResponseUtil;
+import configuration.HttpSessionConfigurator;
+import dto.response.UserResponse;
+import model.User;
+import service.MessageService;
+import service.UserService;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.servlet.http.HttpSession;
+import javax.websocket.*;
+import javax.websocket.server.ServerEndpoint;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-@WebServlet("/chat")
-public class ChatController extends HttpServlet {
+@ServerEndpoint(value = "/websocket", configurator = HttpSessionConfigurator.class)
+public class ChatController {
+    private static final Map<String, Session> sessions = new ConcurrentHashMap<>();
+    private static final MessageService messageService = new MessageService();
+    private static final UserService userService = new UserService();
 
-    private final ChatService chatService = new ChatService();
-    private final UserRepository userRepository = new UserRepository();
+    @OnOpen
+    public void onOpen(Session session, EndpointConfig config) {
+        HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+        User user = (User) httpSession.getAttribute("currentUser");
+        String userId = String.valueOf(user.getId());
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        sessions.put(userId, session);
+
+        System.out.println("WebSocket opened for user: " + userId);
+    }
+
+    @OnMessage
+    public void onMessage(String message, Session session) throws Exception {
+        HttpSession httpSession = (HttpSession) session.getUserProperties().get(HttpSession.class.getName());
+        User sender = (User) httpSession.getAttribute("currentUser");
+        String senderId = String.valueOf(sender.getId());
+
+        String[] parts = message.split(":", 2);
+        if (parts.length != 2) {
+            return;
+        }
+
+        String recipientId = parts[0].trim();
+        String content = parts[1].trim();
+
+        UserResponse recipient = userService.getUserById(Integer.parseInt(recipientId));
+        if (recipient == null) {
+            session.getBasicRemote().sendText("Recipient not found");
+            return;
+        }
+
         try {
-            String content = request.getParameter("content");
-            int senderId = Integer.parseInt(request.getParameter("senderId"));
-            int receiverId = Integer.parseInt(request.getParameter("receiverId"));
+            messageService.saveMessage(senderId, recipientId, content);
+        } catch (Exception e) {
+            session.getBasicRemote().sendText("Error occurred while saving message: " + e.getMessage());
+            return;
+        }
 
-            User sender = userRepository.getUserById(senderId);
-            User receiver = userRepository.getUserById(receiverId);
+        Session recipientSession = sessions.get(recipientId);
+        if (recipientSession != null) {
+            recipientSession.getBasicRemote().sendText(sender.getUsername() + ": " + content);
+        }
+    }
 
-            if (sender != null && receiver != null) {
-                Message message = chatService.createMessage(content, sender, receiver);
-                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "Login successful", message);
-            } else {
-                ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Invalid sender or receiver");
-            }
-        } catch (IllegalArgumentException e) {
-            try {
-                ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        } catch (IOException e) {
-            try {
-                ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request.");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+
+    @OnClose
+    public void onClose(Session session) {
+        for (Map.Entry<String, Session> entry : sessions.entrySet()) {
+            if (entry.getValue().equals(session)) {
+                sessions.remove(entry.getKey());
+                break;
             }
         }
+        System.out.println("WebSocket closed");
+    }
+
+    @OnError
+    public void onError(Throwable error) {
+        error.printStackTrace();
     }
 }

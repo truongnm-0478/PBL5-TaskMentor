@@ -9,12 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@syncfusion/ej2-vue-schedule": "^25.1.39",
     "ant-design-vue": "^4.1.1",
     "aos": "^2.3.4",
     "axios": "^1.6.7",
     "dotenv": "^16.4.5",
     "pinia": "^2.1.7",
     "vue": "^3.3.11",
+    "vue-cal": "^4.8.1",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {

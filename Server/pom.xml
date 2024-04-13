@@ -7,12 +7,6 @@
   <version>1.0.0</version>
   <name>Server Maven Webapp</name>
   <url>http://maven.apache.org</url>
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.6.2</version>
-    <relativePath/>
-  </parent>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -25,7 +19,7 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
-      <version>3.1.0</version>
+      <version>4.0.1</version>
       <scope>provided</scope>
     </dependency>
 
@@ -110,13 +104,19 @@
       <version>20210307</version>
     </dependency>
 
-    <!-- websocket-api -->
+    <!-- javax.websocket-api -->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-websocket</artifactId>
+      <groupId>javax.websocket</groupId>
+      <artifactId>javax.websocket-api</artifactId>
+      <version>1.1</version>
+      <scope>provided</scope>
     </dependency>
-
-
+    <dependency>
+      <groupId>org.jetbrains</groupId>
+      <artifactId>annotations</artifactId>
+      <version>RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
 
 
   </dependencies>
@@ -125,9 +125,8 @@
     <plugins>
       <plugin>
           <groupId>org.apache.tomcat.maven</groupId>
-            <artifactId>tomcat7-maven-plugin</artifactId>
-            <version>2.2</version>
-            
+          <artifactId>tomcat7-maven-plugin</artifactId>
+          <version>2.2</version>
       </plugin>
   </plugins>
   </build>

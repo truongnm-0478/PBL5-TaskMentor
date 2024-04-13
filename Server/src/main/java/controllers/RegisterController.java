@@ -1,11 +1,11 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dtos.UserDTO;
-import models.User;
-import services.UserService;
-import utils.RequestProcessor;
-import utils.ResponseUtil;
+import dto.request.UserRegisterRequest;
+import model.User;
+import service.UserService;
+import util.RequestProcessor;
+import util.ResponseUtil;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +38,7 @@ public class RegisterController extends HttpServlet {
 
                 //  register user
                 User registeredUser = userService.registerUser(user.getEmail(), user.getUsername(), user.getPassword(), 0, user.getName(), user.getPhone());
-                UserDTO userDto = UserDTO.builder()
+                UserRegisterRequest userDto = UserRegisterRequest.builder()
                         .email(registeredUser.getEmail())
                         .name(registeredUser.getName())
                         .phone(registeredUser.getPhone())
