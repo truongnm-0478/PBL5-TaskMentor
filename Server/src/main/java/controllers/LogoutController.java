@@ -1,10 +1,8 @@
-package controllers;
+package controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import models.User;
-import services.AuthService;
-import services.UserService;
-import utils.ResponseUtil;
+import model.User;
+import service.AuthService;
+import util.ResponseUtil;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

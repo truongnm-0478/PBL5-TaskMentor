@@ -1,18 +1,14 @@
 package repositories;
 
-import dtos.UserAdminDTO;
-import models.User;
-import org.hibernate.Criteria;
+import dto.UserAdminDTO;
+import model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Projections;
-import org.hibernate.transform.Transformers;
 import utils.HibernateUtil;
 
 import org.hibernate.query.Query;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 public class UserRepository {
@@ -20,7 +16,7 @@ public class UserRepository {
 
     public List<UserAdminDTO> getAllUsers(int pageNumber, int pageSize) {
         try (Session session = sessionFactory.openSession()) {
-            String jpql = "SELECT new dtos.UserAdminDTO(u.id, u.email, u.username, u.role, u.name, u.phone, u.deleteTime, u.deleteBy, u.insertTime, u.insertBy, u.updateTime, u.updateBy) " +
+            String jpql = "SELECT new dto.UserAdminDTO(u.id, u.email, u.username, u.role, u.name, u.phone, u.deleteTime, u.deleteBy, u.insertTime, u.insertBy, u.updateTime, u.updateBy) " +
                     "FROM User u";
             Query query = session.createQuery(jpql);
             query.setFirstResult((pageNumber - 1) * pageSize);

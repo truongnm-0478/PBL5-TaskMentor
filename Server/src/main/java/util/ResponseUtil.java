@@ -1,7 +1,7 @@
 package utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dtos.UserAdminDTO;
+import dto.UserAdminDTO;
 import lombok.Getter;
 
 import javax.servlet.http.HttpServletResponse;

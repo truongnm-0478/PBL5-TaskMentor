@@ -1,8 +1,8 @@
-package controllers;
+package controller;
 
-import models.LoginResponse;
-import services.AuthService;
-import utils.ResponseUtil;
+import model.LoginResponse;
+import service.AuthService;
+import util.ResponseUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

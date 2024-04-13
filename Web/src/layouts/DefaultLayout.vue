@@ -1,18 +1,18 @@
 <template>
     <a-layout id="app">
         <!-- Sidebar -->
-        <a-layout-sider>
+        <a-layout-sider style="overflow: hidden; position: fixed; height: 100vh;">
             <Sidebar />
         </a-layout-sider>
 
-        <a-layout>
+        <a-layout style="margin-left: 200px;">
             <!-- Header with Tabs -->
             <a-layout-header style="background: #fff; padding: 0">
                 <TabBar :selected-tab="selectedTab" @tabChange="handleTabChange" />
             </a-layout-header>
 
             <!-- Content area -->
-            <a-layout-content style="margin: 24px 16px 0">
+            <a-layout-content style="margin: 24px 16px 0; overflow-y: auto;">
                 <router-view></router-view>
             </a-layout-content>
 
@@ -50,5 +50,4 @@ export default {
 </script>
 
 <style scoped>
-/* Your layout styles go here */
 </style>

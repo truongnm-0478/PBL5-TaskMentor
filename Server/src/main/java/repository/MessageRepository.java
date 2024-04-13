@@ -1,6 +1,6 @@
 package repositories;
 
-import models.Message;
+import model.Message;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

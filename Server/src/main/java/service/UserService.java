@@ -1,11 +1,10 @@
 package services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import dtos.UserAdminDTO;
-import models.User;
-import repositories.UserRepository;
+import dto.UserAdminDTO;
+import model.User;
+import repository.UserRepository;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +22,9 @@ public class UserService {
         return userRepository.getTotalUsers();
     }
 
-
+    public User getUserById(int userId) {
+        return userRepository.getUserById(userId);
+    }
 
     public User authenticateUser(String username, String password) {
         User user = userRepository.getUserByUsername(username);

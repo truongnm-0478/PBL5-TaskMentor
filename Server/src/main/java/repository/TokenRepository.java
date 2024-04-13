@@ -1,6 +1,6 @@
 package repositories;
 
-import models.Token;
+import model.Token;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

@@ -1,4 +1,4 @@
-package dtos;
+package dto.response;
 
 import lombok.Builder;
 import lombok.Data;

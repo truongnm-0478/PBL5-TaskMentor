@@ -1,15 +1,15 @@
 package services;
 
-import configurations.LoaderConfigurator;
+import configuration.LoaderConfigurator;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import models.Token;
-import models.User;
-import repositories.TokenRepository;
-import repositories.UserRepository;
+import model.Token;
+import model.User;
+import repository.TokenRepository;
+import repository.UserRepository;
 
 import java.security.Key;
 import java.util.Date;

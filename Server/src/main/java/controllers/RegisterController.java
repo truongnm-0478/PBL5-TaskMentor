@@ -1,11 +1,11 @@
-package controllers;
+package controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dtos.UserDTO;
-import models.User;
-import services.UserService;
-import utils.RequestProcessor;
-import utils.ResponseUtil;
+import dto.UserDTO;
+import model.User;
+import service.UserService;
+import util.RequestProcessor;
+import util.ResponseUtil;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
