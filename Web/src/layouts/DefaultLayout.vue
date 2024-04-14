@@ -1,53 +1,51 @@
 <template>
-    <a-layout id="app">
-        <!-- Sidebar -->
-        <a-layout-sider style="overflow: hidden; position: fixed; height: 100vh;">
-            <Sidebar />
-        </a-layout-sider>
-
-        <a-layout style="margin-left: 200px;">
-            <!-- Header with Tabs -->
-            <a-layout-header style="background: #fff; padding: 0">
-                <TabBar :selected-tab="selectedTab" @tabChange="handleTabChange" />
-            </a-layout-header>
-
-            <!-- Content area -->
-            <a-layout-content style="margin: 24px 16px 0; overflow-y: auto;">
+    <a-layout style="min-height: 100vh" >
+        <SiteSideBar  selected-keys=""/>
+        <a-layout>
+            <a-layout-content style="margin:16px;">
                 <router-view></router-view>
             </a-layout-content>
-
-            <!-- Footer -->
-            <a-layout-footer>
-                <FooterSection />
-            </a-layout-footer>
         </a-layout>
     </a-layout>
 </template>
-
-<script>
-import FooterSection from '../components/partials/SiteFooter.vue';
-import TabBar from '../components/partials/SiteNavbar.vue';
-import Sidebar from '../components/partials/SiteSideBar.vue';
-
-export default {
+<script lang="ts">
+import {
+    PieChartOutlined,
+    DesktopOutlined,
+    UserOutlined,
+    TeamOutlined,
+    FileOutlined,
+} from '@ant-design/icons-vue';
+import { defineComponent, ref } from 'vue';
+import SiteSideBar from "@/components/partials/SiteSideBar.vue";
+export default defineComponent({
+    components: {
+        PieChartOutlined,
+        DesktopOutlined,
+        UserOutlined,
+        TeamOutlined,
+        FileOutlined,
+        SiteSideBar
+    },
     data() {
         return {
-            selectedTab: 'home',
+            collapsed: ref<boolean>(false),
+            selectedKeys: ref<string[]>(['1']),
         };
     },
-    methods: {
-        handleTabChange(key) {
-            // Handle tab change event
-            this.selectedTab = key;
-        },
-    },
-    components: {
-        TabBar,
-        FooterSection,
-        Sidebar,
-    },
-};
+});
 </script>
+<style>
+#components-layout-demo-side .logo {
+    height: 32px;
+    margin: 16px;
+    background: rgba(255, 255, 255, 0.3);
+}
 
-<style scoped>
+.site-layout .site-layout-background {
+    background: #fff;
+}
+[data-theme='dark'] .site-layout .site-layout-background {
+    background: #141414;
+}
 </style>

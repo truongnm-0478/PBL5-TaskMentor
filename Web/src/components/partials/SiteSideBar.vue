@@ -1,61 +1,118 @@
-<template>
-    <div>
-        <a-menu v-model:selectedKeys="state.selectedKeys" style="width: 200px; min-height: 100vh;" mode="inline"
-            :open-keys="state.openKeys" :items="items" @openChange="onOpenChange"></a-menu>
-    </div>
+<template class="container">
+    <a-layout-sider
+        theme="light"
+        width="260"
+        v-model:collapsed="isCollapsed"
+        collapsible
+        style="position: sticky; top: 0; height: 100vh;"
+        class="main"
+    >
+        <a-menu
+            theme="light"
+            v-model:selectedKeys="selectedKeys"
+            mode="inline"
+            class="menu"
+            style="border-right: none"
+        >
+            <div class="logo" v-show="isCollapsed">
+                <img src="@/assets/img/logo.png" alt="Logo"/>
+            </div>
+            <div class="logo" v-show="!isCollapsed">
+                <img src="@/assets/img/logo.png" alt="Logo"/>
+                <h1 class="brand">Task </h1>
+                <h1 class="brand brand-sub">&nbsp;Mentor</h1>
+            </div>
+            <a-menu-item key="1">
+                <pie-chart-outlined/>
+                <span>Option 1</span>
+            </a-menu-item>
+            <a-menu-item key="2">
+                <desktop-outlined/>
+                <span>Option 2</span>
+            </a-menu-item>
+            <a-sub-menu key="sub1">
+                <template #title>
+            <span>
+              <user-outlined/>
+              <span>User</span>
+            </span>
+                </template>
+                <a-menu-item key="3">Tom</a-menu-item>
+                <a-menu-item key="4">Bill</a-menu-item>
+                <a-menu-item key="5">Alex</a-menu-item>
+            </a-sub-menu>
+            <a-sub-menu key="sub2">
+                <template #title>
+            <span>
+              <team-outlined/>
+              <span>Team</span>
+            </span>
+                </template>
+                <a-menu-item key="6">Team 1</a-menu-item>
+                <a-menu-item key="8">Team 2</a-menu-item>
+            </a-sub-menu>
+            <a-menu-item key="9">
+                <file-outlined/>
+                <span>File</span>
+            </a-menu-item>
+        </a-menu>
+    </a-layout-sider>
 </template>
-<script lang="ts" setup>
-import { VueElement, h, reactive } from 'vue';
-import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue';
-import { ItemType } from 'ant-design-vue';
 
-function getItem(
-    label: VueElement | string,
-    key: string,
-    icon?: any,
-    children?: ItemType[],
-    type?: 'group',
-): ItemType {
-    return {
-        key,
-        icon,
-        children,
-        label,
-        type,
-    } as ItemType;
+<script lang="ts">
+import {defineComponent, ref} from 'vue';
+import {DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons-vue";
+
+export default defineComponent({
+    components: {DesktopOutlined, TeamOutlined, PieChartOutlined, FileOutlined, UserOutlined},
+    props: {
+        selectedKeys: {
+            type: Array,
+            required: true,
+        },
+    },
+    setup() {
+        const isCollapsed = ref(false); // Biến để theo dõi trạng thái của sidebar đã được collapse hay không
+        const collapsedWidth = ref(80); // Chiều rộng khi sidebar được collapse
+
+        return {isCollapsed, collapsedWidth};
+    },
+});
+</script>
+
+<style>
+
+.main {
+    position: sticky;
+    top: 0;
+    height: 100vh;
 }
 
-const items: ItemType[] = reactive([
-    getItem('Navigation One', 'sub1', () => h(MailOutlined), [
-        getItem('Option 1', '1'),
-        getItem('Option 2', '2'),
-        getItem('Option 3', '3'),
-        getItem('Option 4', '4'),
-    ]),
-    getItem('Navigation Two', 'sub2', () => h(AppstoreOutlined), [
-        getItem('Option 5', '5'),
-        getItem('Option 6', '6'),
-        getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
-    ]),
-    getItem('Navigation Three', 'sub4', () => h(SettingOutlined), [
-        getItem('Option 9', '9'),
-        getItem('Option 10', '10'),
-        getItem('Option 11', '11'),
-        getItem('Option 12', '12'),
-    ]),
-]);
+.menu {
+    min-height: 100vh;
+}
 
-const state = reactive({
-    rootSubmenuKeys: ['sub1', 'sub2', 'sub4'],
-    openKeys: ['sub1'],
-    selectedKeys: [],
-});
-const onOpenChange = (openKeys: string[]) => {
-    const latestOpenKey = openKeys.find(key => state.openKeys.indexOf(key) === -1);
-    if (state.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-        state.openKeys = openKeys;
-    } else {
-        state.openKeys = latestOpenKey ? [latestOpenKey] : [];
-    }
-};
-</script>
+.logo {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img {
+    height: 50px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    line-height: 60px;
+    margin-bottom: 0;
+}
+
+.brand-sub {
+    color: var(--color-blue);
+}
+</style>

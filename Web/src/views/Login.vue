@@ -44,21 +44,24 @@
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import { defineComponent, reactive } from 'vue';
 
-interface FormState {
+interface FormValues {
     user: string;
     password: string;
 }
 
 export default defineComponent({
     setup() {
-        const formState: FormState = reactive({
+        const formState: FormValues = reactive({
             user: '',
             password: '',
         });
 
-        const handleFinish = (values: FormState) => {
-            console.log('Form values:', values);
+        const handleFinish = () => {
+            console.log('Form state:', formState);
+            console.log('Username:', formState.user);
+            console.log('Password:', formState.password);
         };
+
 
         const handleFinishFailed = (errors: any) => {
             console.log('Form errors:', errors);
@@ -76,6 +79,7 @@ export default defineComponent({
     },
 });
 </script>
+
 
 <style scoped>
 .container {
