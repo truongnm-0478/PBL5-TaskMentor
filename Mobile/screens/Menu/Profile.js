@@ -3,6 +3,7 @@ import { Text, View, Image, ImageBackground, TouchableOpacity, TextInput, Keyboa
 import { image, icons, color, FontSize } from "../../constants";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
+
 import {
     user as UserReponsitory,
     population as PopulationReponsitory
@@ -185,12 +186,12 @@ function Profile(props) {
                     title={setting.title}
                     onPress={() => {
                         if(setting.title === 'Update Profile'){
-                               navigate('UpdateProfile')
+                               //navigate('UpdateProfile')
                         } else if(setting.title === 'Change Password'){
                             //navigate('ChangePassword')
                            alert('profile')
                         } else if (setting.title === 'About'){
-                                navigate('About')
+                                //navigate('About')
                         } else if(setting.title === 'Signout'){
                             AsyncStorage.getItem('accessToken')
                             .then((accessToken) => {
@@ -206,4 +207,5 @@ function Profile(props) {
             ))}
         </View>
     </View>
+   
 } export default Profile

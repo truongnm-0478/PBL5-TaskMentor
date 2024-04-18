@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
-const apiUrl = '192.168.35.39' //ipV4 của máy tính
 const getUserDetail=async()=>{
     try {
     let respone= await axios.get('https://randomuser.me/api')
@@ -34,7 +33,7 @@ const login = async ({ username, password }) => {
     try {
        
         const response = await axios.post(
-           'http://192.168.35.39:8080/TaskMentor/api/login',
+           'http://192.168.1.16:8080/TaskMentor/api/login',
             {
                 username,
                 password,
@@ -60,7 +59,7 @@ const register = async (newAccount) => {
     try {
         console.log(newAccount)
         let response = await axios.post(
-           'http://192.168.35.39:8080/TaskMentor/api/register',
+           'http://192.168.1.16:8080/TaskMentor/api/register',
             newAccount,
             {
                 headers: { 'Content-Type': 'application/json' },

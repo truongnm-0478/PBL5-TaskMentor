@@ -4,7 +4,10 @@ import { image, icons, color, FontSize } from "../constants";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../utilies/Validations"
 import { MaterialIcons } from '@expo/vector-icons'; // Import MaterialIcons từ thư viện expo
-function Register() {
+import { user } from "../repositories";
+function Register(props) {
+    const{navigation,route}=props
+   const{navigate,goBack}= navigation
     const [KeyboardDisshown, setKeyboardDisshown] = useState(false)
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
@@ -12,7 +15,9 @@ function Register() {
     const [errorEmail, seterorrEmail] = useState('')
     const [errorPassword, seterorrPassword] = useState('')
     const [hidePassword, setHidePassword] = useState(true)
-
+    const [name, setName] = useState('')
+    const [username, setUsername] = useState('')
+    const [phone, setPhone] = useState('')
     const isVlidateOK = () => {
         if (Email.length > 0 && Password.length > 0 && isValidEmail(Email) == true && isValidPassword(Password) == true) return true
         else return false
@@ -21,6 +26,26 @@ function Register() {
         Keyboard.addListener('keyboardDidShow', () => { setKeyboardDisshown(true) })
         Keyboard.addListener('keyboardDidHide', () => { setKeyboardDisshown(false) })
     })
+    const handleRegister = () => {
+        const callApi = async () => {
+            try {
+                const result = await user.register({
+                    name: name,
+                    phone: phone,
+                    email: Email,
+                    username: username,
+                    password: Password
+                });
+
+                navigate("Login");
+            } catch (err) {
+                console(err)
+            }
+        };
+
+        callApi();
+    };
+
     return <ScrollView style={{
         backgroundColor: color.BackGround,
     }}>
@@ -46,10 +71,9 @@ function Register() {
                     marginHorizontal: 15,
                 }}>
                     <TextInput 
-                    // onChangeText={(Text) => {
-                    //     seterorrEmail(isValidEmail(Text) == true ? "" : "Email not in correct format")
-                    //     setEmail(Text)
-                    // }} 
+                    onChangeText={(Text) => {
+                       setName(Text)
+                    }}  
                     style={{
                         borderWidth: 1,
                         borderColor: color.border, // Màu sắc của đường viền
@@ -63,6 +87,48 @@ function Register() {
                         fontSize: FontSize.h6
                     }}></Text>
                 </View>
+                <View style={{
+               
+               marginHorizontal: 15,
+           }}>
+               <TextInput 
+               onChangeText={(Text) => {
+                   setPhone(Text)
+               }} 
+               style={{
+                   borderWidth: 1,
+                   borderColor: color.border, // Màu sắc của đường viền
+                   borderRadius: 5, // Độ cong của góc (nếu cần)
+                   color: color.placeholder,
+                   height: 60,
+                   paddingHorizontal: 15
+               }} placeholder="Phone" />
+               <Text style={{
+                   color: 'red',
+                   fontSize: FontSize.h6
+               }}></Text>
+           </View>
+           <View style={{
+               
+               marginHorizontal: 15,
+           }}>
+               <TextInput 
+               onChangeText={(Text) => {
+                   setUsername(Text)
+               }} 
+               style={{
+                   borderWidth: 1,
+                   borderColor: color.border, // Màu sắc của đường viền
+                   borderRadius: 5, // Độ cong của góc (nếu cần)
+                   color: color.placeholder,
+                   height: 60,
+                   paddingHorizontal: 15
+               }} placeholder="User name" />
+               <Text style={{
+                   color: 'red',
+                   fontSize: FontSize.h6
+               }}></Text>
+           </View>
                 <View style={{
                     marginHorizontal: 15,
                   
@@ -160,7 +226,7 @@ function Register() {
             }}>
             <TouchableOpacity 
             disabled = {isVlidateOK()==false}
-            onPress={() => { alert('Email=' + Email + 'Password=' + Password) }} style={{
+            onPress={() => { handleRegister()}} style={{
                 backgroundColor: isVlidateOK()==true?color.BGlogin:color.inactive,
                 justifyContent: "center",
                 alignItems: "center",
@@ -173,7 +239,7 @@ function Register() {
                     padding: 10,
                     fontSize: FontSize.h5,
                     color: 'white'
-                }}>Login</Text>
+                }}>Singup</Text>
             </TouchableOpacity> 
             </View>
             <View style={{
