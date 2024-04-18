@@ -49,13 +49,16 @@
 </template>
 
 <script lang="ts" setup>
-// import { reactive, ref } from 'vue';
 import type { Rule } from 'ant-design-vue/es/form';
 import type { FormInstance } from 'ant-design-vue';
-import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
 import { defineComponent, reactive, ref} from 'vue';
+import { useMessageStore } from '@/stores/messageStore'
+import authApi from '../repositories/authApi'
+import router from '../router'
+import { useSpinStore } from '@/stores/spinStore.js'
 
-// import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons-vue";
+const messageStore = useMessageStore()
+const spinStore = useSpinStore()
 
 interface FormState {
     username: string;
@@ -80,25 +83,25 @@ const formState = reactive<FormState>({
 
 const checkAge = async (_rule: Rule, value: number) => {
     if (!value) {
-        return Promise.reject('Please input the age');
+        return Promise.reject('Please input the age')
     }
     if (!Number.isInteger(value)) {
-        return Promise.reject('Please input digits');
+        return Promise.reject('Please input digits')
     } else {
         if (value < 18) {
-            return Promise.reject('Age must be greater than 18');
+            return Promise.reject('Age must be greater than 18')
         } else {
-            return Promise.resolve();
+            return Promise.resolve()
         }
     }
 };
 
 const validatePass = async (_rule: Rule, value: string) => {
     if (value === '') {
-        return Promise.reject('Please input the password');
+        return Promise.reject('Please input the password')
     } else {
         if (formState.checkPass !== '') {
-            formRef.value.validateFields('checkPass');
+            formRef.value.validateFields('checkPass')
         }
         return Promise.resolve();
     }
@@ -106,9 +109,9 @@ const validatePass = async (_rule: Rule, value: string) => {
 
 const validatePass2 = async (_rule: Rule, value: string) => {
     if (value === '') {
-        return Promise.reject('Please input the password again');
+        return Promise.reject('Please input the password again')
     } else if (value !== formState.pass) {
-        return Promise.reject("Two inputs don't match!");
+        return Promise.reject("Two inputs don't match!")
     } else {
         return Promise.resolve();
     }
@@ -116,39 +119,33 @@ const validatePass2 = async (_rule: Rule, value: string) => {
 
 const validatePhoneNumber = async (_rule: Rule, value: string) => {
     if (value === '') {
-        return Promise.reject('Please input the phone number');
-        // } else if (value !== formState.pass) {
-        //     return Promise.reject("Two inputs don't match!");
-        // }
+        return Promise.reject('Please input the phone number')
     } else {
-        return Promise.resolve();
+        return Promise.resolve()
     }
 };
 
 const validateUsername = async (_rule: Rule, value: string) => {
     if (value === '') {
-        return Promise.reject('Please input the username');
+        return Promise.reject('Please input the username')
     } else {
-        // Add any additional validation logic here
-        return Promise.resolve();
+        return Promise.resolve()
     }
 };
 
 const validateEmail = async (_rule: Rule, value: string) => {
     if (value === '') {
-        return Promise.reject('Please input the email');
+        return Promise.reject('Please input the email')
     } else {
-        // Add any additional validation logic here
-        return Promise.resolve();
+        return Promise.resolve()
     }
 };
 
 const validateName = async (_rule: Rule, value: string) => {
     if (value === '') {
-        return Promise.reject('Please input the name');
+        return Promise.reject('Please input the name')
     } else {
-        // Add any additional validation logic here
-        return Promise.resolve();
+        return Promise.resolve()
     }
 };
 
@@ -167,10 +164,35 @@ const layout = {
     wrapperCol: { span: 14 },
 };
 
-const handleFinish = (values: FormState) => {
-    console.log("Logging in with:", values.username, values.pass);
-    // Perform login logic here, such as sending credentials to a server
-};
+// const handleFinish = (values: FormState) => {
+//     console.log("Logging in with:", values.username, values.pass, values.name, values.email, values.phone);
+// };
+
+const handleFinish = async (values: FormState) => {
+    spinStore.startLoading()
+    try {
+        const response = await authApi.register({
+            username: formState.username,
+            password: formState.pass,
+            email: formState.email,
+            name: formState.name,
+            phone: formState.phone
+        })
+        if (response.status === 201) {
+            spinStore.stopLoading()
+            messageStore.addMessage('success', response.message)
+            router.push('/login')
+        }
+    } catch (error) {
+        spinStore.stopLoading()
+        console.log("ERROR: ", error)
+        if (error.response && error.response.status === 400) {
+            messageStore.addMessage('error', error.response.data.message)
+        } else {
+            messageStore.addMessage('error', 'An error occurred while logging in')
+        }
+    }
+}
 
 const handleFinishFailed = errors => {
     console.log(errors);
@@ -191,17 +213,17 @@ const handleValidate = (...args) => {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100%;
+    min-height: 100vh;
     background: var(--color-blue);
 }
 
 .form {
-    width: 600px;
+    width: 580px;
     border-radius: 10px;
-    padding: 46px;
+    padding: 40px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    position: center;
+    background-color: var(--color-white);
 }
 
 .form .header {

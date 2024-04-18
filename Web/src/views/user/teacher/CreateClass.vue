@@ -141,7 +141,7 @@ const isStepValid = (step) => {
     padding: 50px 20px;
     background-color: var(--color-white);
     border-radius: 10px;
-    height: calc(100vh - 32px);
+    height: calc(100vh - 100px);
     overflow: auto;
 }
 .steps-content {

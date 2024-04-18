@@ -20,7 +20,7 @@
                     <h1 class="brand brand-sub">&nbsp;Mentor</h1>
                 </div>
             </div>
-            <a-menu-item key="1">
+            <a-menu-item key="1" >
                 <BellOutlined/>
                 <span>Notification</span>
             </a-menu-item>
@@ -65,14 +65,13 @@
 
 <script setup>
 import {onMounted, onUnmounted, ref} from 'vue'
-import {DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons-vue"
+import {CalendarOutlined, BellOutlined, MessageOutlined, FileOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons-vue"
 
 const isCollapsed = ref(false)
+const selectedKeys = ref(['1'])
 const collapsedWidth = 80
-import {CalendarOutlined, BellOutlined, MessageOutlined} from "@ant-design/icons-vue"
 import router from "@/router/index.js";
-import Appointment from "@/views/user/Appointment.vue";
-const role = ref('2') // Giả sử role được lưu trong state hoặc props của component
+const role = ref('2')
 
 const handleMenuItemClick = (key) => {
     switch (key) {

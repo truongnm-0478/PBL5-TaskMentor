@@ -18,7 +18,7 @@
                     </template>
                 </a-input>
             </a-form-item>
-            <a-form-item label="Password" :rules="{ required: true}" style="position: relative;">
+            <a-form-item label="Password" :rules="{ required: true }" style="position: relative;">
                 <a-input-password v-model:value="formState.password" placeholder="password@777" class="input">
                     <template #prefix>
                         <LockOutlined style="color: rgba(0, 0, 0, 0.25)"/>
@@ -32,61 +32,80 @@
                     <span class="login-text">Sign in</span>
                 </a-button>
                 <span class="sub-text">
-                    Don’t have an account?
-                    <a href="" style="text-decoration: underline">Create Account</a>
-                </span>
+          Don’t have an account?
+          <a href="/register" style="text-decoration: underline">Create Account</a>
+        </span>
             </a-form-item>
         </a-form>
     </div>
 </template>
 
-<script lang="ts">
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
-import { defineComponent, reactive } from 'vue';
+<script setup>
+import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
+import { reactive } from 'vue'
+import authApi from '../repositories/authApi'
+import { useMessageStore } from '../stores/messageStore'
+import router from '../router'
+import { useSpinStore } from '@/stores/spinStore.js'
+import { useUserStore } from '@/stores/userStore.js'
 
-interface FormValues {
-    user: string;
-    password: string;
+
+const formState = reactive({
+    user: '',
+    password: '',
+})
+
+const messageStore = useMessageStore()
+const spinStore = useSpinStore()
+const userStore = useUserStore()
+
+const handleFinish = async () => {
+    spinStore.startLoading()
+    try {
+        const response = await authApi.login({
+            username: formState.user,
+            password: formState.password
+        })
+        if (response.status === 200) {
+            spinStore.stopLoading()
+            const accessToken = response.data.accessToken;
+            const refreshToken = response.data.refreshToken;
+
+            userStore.setAccessToken(accessToken)
+            userStore.setRefreshToken(refreshToken)
+            userStore.setIsLoggedIn(true)
+
+            messageStore.addMessage('success', response.message)
+
+            const response1 = await authApi.getCurrentUser()
+            if(response1.status === 200) {
+                const userInfo = response1.data;
+                userStore.setUser(userInfo)
+            }
+            await router.push('/')
+        }
+    } catch (error) {
+        spinStore.stopLoading()
+        if (error.response && error.response.status === 401) {
+            messageStore.addMessage('error', error.response.data.message)
+        } else {
+            messageStore.addMessage('error', 'An error occurred while logging in')
+        }
+    }
 }
 
-export default defineComponent({
-    setup() {
-        const formState: FormValues = reactive({
-            user: '',
-            password: '',
-        });
-
-        const handleFinish = () => {
-            console.log('Form state:', formState);
-            console.log('Username:', formState.user);
-            console.log('Password:', formState.password);
-        };
-
-
-        const handleFinishFailed = (errors: any) => {
-            console.log('Form errors:', errors);
-        };
-
-        return {
-            formState,
-            handleFinish,
-            handleFinishFailed,
-        };
-    },
-    components: {
-        UserOutlined,
-        LockOutlined,
-    },
-});
+const handleFinishFailed = (errors) => {
+    console.log('Form errors:', errors)
+};
 </script>
-
 
 <style scoped>
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100%;
+    min-height: 100vh;
     background: var(--color-blue);
 }
 

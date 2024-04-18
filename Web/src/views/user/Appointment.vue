@@ -102,7 +102,6 @@
 
                 <a-input :value="infoEvent.location" @update:value="newValue => infoEvent.location = newValue" id="location" placeholder="Add location" class="space"/>
 
-                <!-- Chọn khách mời -->
                 <a-select
                     v-model:value="infoEvent.listGuest"
                     mode="multiple"
@@ -217,7 +216,7 @@ const handleOk = () => {
 
 const cancelEvent = () => {
     modalVisible.value = false
-    window.location.reload()
+    // window.location.reload()
 }
 
 const openModal = (event) => {
@@ -299,6 +298,7 @@ const updateEvent = () => {
     padding: 10px;
     background-color: var(--color-white);
     border-radius: 10px;
+    height: calc(100vh - 100px);
     overflow: hidden;
 }
 
