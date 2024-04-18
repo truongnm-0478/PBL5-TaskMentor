@@ -86,7 +86,6 @@ public class UserController extends HttpServlet {
     private void getUserById(HttpServletRequest req, HttpServletResponse resp, String id) throws ServletException, IOException {
         try {
             int userId = Integer.parseInt(id);
-            System.out.println("userId = " + userId);
 
             UserResponse user = userService.getUserById(userId);
             System.out.println("user = " + user);
