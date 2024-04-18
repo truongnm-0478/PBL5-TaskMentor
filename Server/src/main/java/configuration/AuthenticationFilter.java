@@ -24,14 +24,22 @@ public class AuthenticationFilter implements Filter {
         securedEndpoints.add("/TaskMentor/api/user");
         securedEndpoints.add("/TaskMentor/api/logout");
         securedEndpoints.add("/TaskMentor/websocket");
+        securedEndpoints.add("/TaskMentor/api/user-information");
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
+        System.out.println("AUTH CALL");
 
         String requestURI = httpRequest.getRequestURI();
+
+        // Allow preflight request to pass through
+        if (httpRequest.getMethod().equalsIgnoreCase("OPTIONS")) {
+            chain.doFilter(request, response);
+            return;
+        }
 
         if (isSecuredEndpoint(requestURI)) {
             String accessToken = extractAccessToken(httpRequest);
@@ -48,6 +56,7 @@ public class AuthenticationFilter implements Filter {
 
         chain.doFilter(request, response);
     }
+
 
     private boolean isSecuredEndpoint(String requestURI) {
         return securedEndpoints.contains(requestURI);

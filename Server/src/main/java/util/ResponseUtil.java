@@ -17,6 +17,7 @@ public class ResponseUtil {
     public static void sendJsonResponse(HttpServletResponse response, int statusCode, String message, Object responseData) throws IOException {
         response.setStatus(statusCode);
         response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         out.print(objectMapper.writeValueAsString(new JsonResponse(statusCode, message, responseData)));
         out.flush();
@@ -37,6 +38,7 @@ public class ResponseUtil {
     public static void sendErrorResponse(HttpServletResponse response, int statusCode, String errorMessage) throws IOException {
         response.setStatus(statusCode);
         response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         out.print(objectMapper.writeValueAsString(new JsonResponse(statusCode, errorMessage, null)));
         out.flush();
