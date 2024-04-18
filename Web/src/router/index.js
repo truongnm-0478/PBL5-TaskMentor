@@ -3,7 +3,10 @@ import ErrorView from '../views/Error.vue'
 import HomeView from '../views/Home.vue'
 import LoginView from '../views/Login.vue'
 import RegisterView from '../views/Register.vue'
-import Appointment from '../views/Student/Appointment.vue'
+import Appointment from '../views/user/Appointment.vue'
+import CreateClass from '@/views/user/teacher/CreateClass.vue'
+import Kanban from '@/views/user/student/Kanban.vue'
+import Requirement from '@/views/user/student/Requirement.vue'
 
 
 import DashboardView from '../views/admin/DashboardView.vue'
@@ -19,6 +22,9 @@ const routes =  [
     { path: '/register', name: 'register', component: RegisterView, meta: { layout: 'AuthLayout' } },
     { path: '/404', name: 'notfound', component: ErrorView, meta: { layout: 'NotFoundLayout'} },
     { path: '/appointment', name: 'appointment', component: Appointment },
+    { path: '/createClass', name: 'createClass', component: CreateClass },
+    { path: '/requirement', name: 'requirement', component: Requirement },
+    { path: '/kanban', name: 'Kanban', component: Kanban },
     { path: '/:pathMatch(.*)*', redirect: { name: 'notfound'} },
 
 ]
