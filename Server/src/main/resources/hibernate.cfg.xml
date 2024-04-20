@@ -44,5 +44,6 @@
         <mapping class="model.TeamMemberFeedback"/>
         <mapping class="model.GroupMeeting" />
         <mapping class="model.Reminder" />
+
     </session-factory>
 </hibernate-configuration>

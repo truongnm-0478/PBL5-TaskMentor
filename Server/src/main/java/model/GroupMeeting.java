@@ -8,6 +8,9 @@ import java.util.Objects;
 
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "group_meeting")
 public class GroupMeeting {
     @EmbeddedId

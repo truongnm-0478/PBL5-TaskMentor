@@ -1,5 +1,6 @@
 package repository;
 
+import dto.response.UserInfoResponse;
 import dto.response.UserResponse;
 import model.User;
 import org.hibernate.Session;
@@ -21,6 +22,16 @@ public class UserRepository {
             Query query = session.createQuery(jpql);
             query.setFirstResult((pageNumber - 1) * pageSize);
             query.setMaxResults(pageSize);
+            return query.getResultList();
+        }
+    }
+
+    public List<UserInfoResponse> getAllUsers() {
+        try (Session session = sessionFactory.openSession()) {
+            String jpql = "SELECT new dto.response.UserInfoResponse(u.id, u.email, u.username, u.role, u.name, u.phone) " +
+                    "FROM User u " +
+                    "WHERE u.deleteTime IS NULL";
+            Query query = session.createQuery(jpql);
             return query.getResultList();
         }
     }

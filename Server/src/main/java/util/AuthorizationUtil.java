@@ -5,6 +5,7 @@ import model.User;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 public class AuthorizationUtil {
 
@@ -33,6 +34,15 @@ public class AuthorizationUtil {
     public static boolean checkUserRole(HttpServletRequest request, HttpServletResponse response, int requiredRole) throws IOException {
         User currentUser = (User) request.getSession().getAttribute("currentUser");
         if (currentUser == null || currentUser.getRole() != requiredRole) {
+            ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_FORBIDDEN, "Access Denied.");
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean checkListUserRole(HttpServletRequest request, HttpServletResponse response, List<Integer> requiredRoles) throws IOException {
+        User currentUser = (User) request.getSession().getAttribute("currentUser");
+        if (currentUser == null || !requiredRoles.contains(currentUser.getRole())) {
             ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_FORBIDDEN, "Access Denied.");
             return false;
         }

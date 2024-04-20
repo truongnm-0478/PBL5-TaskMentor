@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dto.response.UserInfoResponse;
 import dto.response.UserResponse;
 import model.User;
 import service.UserService;
@@ -16,7 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
-@WebServlet("/api/user-information")
+@WebServlet("/api/user-information/*")
 public class UserInformationController extends HttpServlet {
 
     private final UserService userService = new UserService();
@@ -25,37 +26,55 @@ public class UserInformationController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         requestProcessor.processRequest(() -> {
-            try {
-                int userId = AuthorizationUtil.getUserId(req);
-
-                UserResponse user = userService.getUserById(userId);
-
-                if (user != null) {
-                    ResponseUtil.sendJsonResponse(resp, HttpServletResponse.SC_OK, "User information retrieved successfully.", user);
-                } else {
-                    throw new IllegalArgumentException("User with id " + userId + " not found.");
-                }
-            } catch (NumberFormatException e) {
+            String pathInfo = req.getPathInfo();
+            if (pathInfo != null && pathInfo.equals("/all")) {
+                // Trường hợp gọi tất cả người dùng
                 try {
-                    ResponseUtil.sendErrorResponse(resp, HttpServletResponse.SC_BAD_REQUEST, "Invalid user id format.");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                    List<UserInfoResponse> users = userService.getAllUserInfo();
+                    if (!users.isEmpty()) {
+                        ResponseUtil.sendJsonResponse(resp, HttpServletResponse.SC_OK, "All users retrieved successfully.", users);
+                    } else {
+                        throw new IllegalArgumentException("No users found.");
+                    }
+                } catch (Exception e) {
+                    try {
+                        System.out.println("e = " + e);
+                        ResponseUtil.sendErrorResponse(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while retrieving user information.");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
-            } catch (IllegalArgumentException e) {
+            } else {
                 try {
-                    ResponseUtil.sendErrorResponse(resp, HttpServletResponse.SC_NOT_FOUND, e.getMessage());
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            } catch (Exception e) {
-                try {
-                    System.out.println("e = " + e);
-                    ResponseUtil.sendErrorResponse(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while retrieving user information.");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                    int userId = AuthorizationUtil.getUserId(req);
+                    UserResponse user = userService.getUserById(userId);
+                    if (user != null) {
+                        ResponseUtil.sendJsonResponse(resp, HttpServletResponse.SC_OK, "User information retrieved successfully.", user);
+                    } else {
+                        throw new IllegalArgumentException("User with id " + userId + " not found.");
+                    }
+                } catch (NumberFormatException e) {
+                    try {
+                        ResponseUtil.sendErrorResponse(resp, HttpServletResponse.SC_BAD_REQUEST, "Invalid user id format.");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } catch (IllegalArgumentException e) {
+                    try {
+                        ResponseUtil.sendErrorResponse(resp, HttpServletResponse.SC_NOT_FOUND, e.getMessage());
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } catch (Exception e) {
+                    try {
+                        System.out.println("e = " + e);
+                        ResponseUtil.sendErrorResponse(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while retrieving user information.");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             }
         });
     }
-
 }
+

@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 @WebServlet("/api/user")
-public class UserController extends HttpServlet {
+public class AccountController extends HttpServlet {
 
     private final UserService userService = new UserService();
     private final RequestProcessor requestProcessor = new RequestProcessor();

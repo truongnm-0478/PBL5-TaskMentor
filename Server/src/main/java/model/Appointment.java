@@ -51,10 +51,4 @@ public class Appointment {
 
     @Column(name = "delete_by")
     private Integer deleteBy;
-
-    @OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL)
-    private Set<Reminder> reminders;
-
-    @OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL)
-    private Set<GroupMeeting> groupMeetings;
 }

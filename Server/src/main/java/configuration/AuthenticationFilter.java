@@ -25,13 +25,13 @@ public class AuthenticationFilter implements Filter {
         securedEndpoints.add("/TaskMentor/api/logout");
         securedEndpoints.add("/TaskMentor/websocket");
         securedEndpoints.add("/TaskMentor/api/user-information");
+        securedEndpoints.add("/TaskMentor/api/appointment");
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        System.out.println("AUTH CALL");
 
         String requestURI = httpRequest.getRequestURI();
 

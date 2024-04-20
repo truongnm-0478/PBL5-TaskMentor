@@ -1,6 +1,7 @@
 package service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import dto.response.UserInfoResponse;
 import dto.response.UserResponse;
 import model.User;
 import repository.UserRepository;
@@ -16,6 +17,10 @@ public class UserService {
 
     public List<UserResponse> getAllUsers(int pageNumber, int pageSize) {
         return userRepository.getAllUsers(pageNumber, pageSize);
+    }
+
+    public List<UserInfoResponse> getAllUserInfo() {
+        return userRepository.getAllUsers();
     }
 
     public int getTotalUsers() {

@@ -13,9 +13,7 @@ public class CorsFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        System.out.println("CORS CALL");
 
-        System.out.println("O DAY = ");
         httpResponse.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
         httpResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
         httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept, Origin");
