@@ -35,8 +35,8 @@
                 @event-click="openModelInfo"
                 @onEventDblclick="openModelInfo"
                 :minCellWidth="100"
-                @event-duration-change="handleDurationChange"
-                @event-drop="handleEventDrop"
+                @event-duration-change="handleChangeOnBoard"
+                @event-drop="handleChangeOnBoard"
             >
                 <template v-slot:controls="{ changeView }">
                     <div class="custom-buttons">
@@ -47,9 +47,10 @@
                 </template>
             </vue-cal>
         </div>
-        <a-modal v-model:open="modalVisible" @ok="handleOk" @cancel="cancelEvent" >
+        <a-modal v-model:open="modalVisible" @ok="handleOk" @cancel="cancelEvent">
             <div class="form-model">
-                <a-input :value="newEvent.title" @update:value="newValue => newEvent.title = newValue" id="title" placeholder="Add title" class="space" />
+                <a-input :value="newEvent.title" @update:value="newValue => newEvent.title = newValue" id="title"
+                         placeholder="Add title" class="space"/>
 
                 <a-time-range-picker
                     :value="[newEvent.startTime, newEvent.endTime]"
@@ -58,17 +59,19 @@
                     class="space"
                     style="width: 50%"
                 />
-                <a-input-number :value="reminder" @update:value=" newValue => reminder= newValue" style="width: 45%; margin-left: 5%" class="space" placeholder="Reminder">
+                <a-input-number :value="reminder" @update:value=" newValue => reminder= newValue"
+                                style="width: 45%; margin-left: 5%" class="space" placeholder="Reminder">
                     <template #addonAfter>
                         <a-select :value="typeTime" @update:value=" newValue => typeTime= newValue"
                                   style="width: 100px;">
                             <a-select-option value="Minutes">Minutes</a-select-option>
                             <a-select-option value="Hours">Hours</a-select-option>
-                            <a-select-option value="Day">Day</a-select-option>
+                            <a-select-option value="Days">Days</a-select-option>
                         </a-select>
                     </template>
                 </a-input-number>
-                <a-input :value="newEvent.location" @update:value=" newValue => newEvent.location= newValue" id="location" placeholder="Add location" class="space"/>
+                <a-input :value="newEvent.location" @update:value=" newValue => newEvent.location= newValue"
+                         id="location" placeholder="Add location" class="space"/>
                 <a-select
                     v-model:value="guest"
                     mode="multiple"
@@ -80,27 +83,37 @@
                 />
             </div>
         </a-modal>
-        <a-modal v-model:open="modelInfoVisible" >
+        <a-modal v-model:open="modelInfoVisible" @ok="updateEvent">
             <div class="form-model">
-                <a-input :value="infoEvent.title" @update:value="newValue => infoEvent.title = newValue" id="title" placeholder="Add title" class="space" />
-                <a-time-range-picker
-                    :value="[infoEvent.startTime, infoEvent.endTime]"
-                    id="timeRange"
+                <a-input :value="infoEvent.title" @update:value="newValue => infoEvent.title = newValue" id="title"
+                         placeholder="Add title" class="space"/>
+                <a-time-picker
+                    v-model:value="infoEvent.startTime"
+                    placeholder="Start Time"
                     class="space"
-                    style="width: 50%"
+                    style="width: 23%; margin-right: 2%"
+                />
+                <a-time-picker
+                    v-model:value="infoEvent.endTime"
+                    placeholder="End Time"
+                    class="space"
+                    style="width: 22%;  margin-right: 4%"
                 />
 
-                <a-input-number :value="infoEvent.reminder" @update:value="newValue => infoEvent.reminder = newValue" style="width: 45%; margin-left: 5%" class="space" placeholder="Reminder">
+                <a-input-number :value="infoEvent.reminder" @update:value="newValue => infoEvent.reminder = newValue"
+                                style="width: 45%; margin-left: 4%" class="space" placeholder="Reminder">
                     <template #addonAfter>
-                        <a-select :value="infoEvent.typeTime" @update:value="newValue => infoEvent.typeTime = newValue" style="width: 100px;">
+                        <a-select :value="infoEvent.typeTime" @update:value="newValue => infoEvent.typeTime = newValue"
+                                  style="width: 100px;">
                             <a-select-option value="Minutes">Minutes</a-select-option>
                             <a-select-option value="Hours">Hours</a-select-option>
-                            <a-select-option value="Day">Day</a-select-option>
+                            <a-select-option value="Days">Days</a-select-option>
                         </a-select>
                     </template>
                 </a-input-number>
 
-                <a-input :value="infoEvent.location" @update:value="newValue => infoEvent.location = newValue" id="location" placeholder="Add location" class="space"/>
+                <a-input :value="infoEvent.location" @update:value="newValue => infoEvent.location = newValue"
+                         id="location" placeholder="Add location" class="space"/>
 
                 <a-select
                     v-model:value="infoEvent.listGuest"
@@ -112,6 +125,11 @@
                     :filter-option="(input, option) => option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0"
                 />
             </div>
+            <template #footer>
+                <a-button key="delete" @click="deleteEvent" type="primary" danger>Delete</a-button>
+                <a-button key="cancel" @click="cancelEvent">Cancel</a-button>
+                <a-button key="ok" @click="updateEvent" type="primary">OK</a-button>
+            </template>
         </a-modal>
     </div>
 </template>
@@ -119,8 +137,15 @@
 <script setup>
 import VueCal from 'vue-cal'
 import 'vue-cal/dist/vuecal.css'
-import {ref, watch} from 'vue'
-import dayjs from "dayjs"
+import {createVNode, ref} from 'vue'
+import dayjs from 'dayjs'
+import userApi from '@/repositories/userApi.js'
+import appointmentApi from '@/repositories/appointmentApi.js'
+import {useMessageStore} from '@/stores/messageStore.js'
+import {Modal} from "ant-design-vue";
+import {ExclamationCircleOutlined} from "@ant-design/icons-vue";
+import classApi from "@/repositories/classApi.js";
+
 const reminder = ref()
 const typeTime = ref('Minutes')
 const modalVisible = ref(false)
@@ -131,6 +156,7 @@ const listGuest = ref([])
 const title = ref('')
 const activeView = ref('week')
 const modelInfoVisible = ref(false)
+const messageStore = useMessageStore()
 const newEvent = ref({
     title: '',
     startTime: dayjs(),
@@ -145,78 +171,89 @@ const infoEvent = ref({
     location: '',
     listGuest: [],
     reminder: '',
-    typeTime: ''
+    typeTime: '',
+    class: 'important'
 
 })
-const listUser = ref([
-    {
-        value: 1,
-        label: 'Ngô Mậu Trường'
-    },
-    {
-        value: 2,
-        label: 'Phạm Thành Vinh'
-    },
-    {
-        value: 3,
-        label: 'Nguyễn Trương Anh Minh'
-    }
-])
-const events = ref([
-    {
-        id: 1,
-        start: '2024-04-13 14:00',
-        end: '2024-04-13 22:00',
-        title: 'Need to go shopping',
-        location: 'Phòng E404',
-        class: 'student',
-        listGuest: ['Ngo Mau Truong'],
-        reminder: '30',
-        typeTime: 'Minutes'
-    },
-    {
-        id: 2,
-        start: '2024-04-12 16:00',
-        end: '2024-04-12 19:00',
-        title: 'Golf with John',
-        location: 'Phòng F204',
-        class: 'important',
-        listGuest: ['Nguyen Ho Minh Quan', 'Tran Tan Thanh'],
-        reminder: '1',
-        typeTime: 'Hours'
-    },
-    {
-        id: 3,
-        start: '2024-04-11 08:00',
-        end: '2024-04-11 20:00',
-        title: 'Golf with John',
-        location: 'Phòng H203',
-        class: 'important',
-        listGuest: ['Nguyen Ho Minh Quan', 'Tran Tan Thanh'],
-        reminder: '2',
-        typeTime: 'Hours'
-    },
-])
+
+const listUser = ref([])
+const getListUser = () => {
+    userApi.getListUser()
+        .then(res => {
+            listUser.value = res.data.map(user => ({
+                value: user.id,
+                label: user.name
+            }))
+        })
+}
+getListUser()
+
+const getListAppointment = () => {
+    appointmentApi.getListAppointment()
+        .then(res => {
+            events.value = res.data.map(event => ({
+                title: event.title,
+                start: new Date(event.start),
+                end: new Date(event.end),
+                location: event.location,
+                listGuest: event.listGuest,
+                reminder: event.reminder,
+                typeTime: event.typeTime,
+                formattedStart: formatTimestamp(event.start),
+                formattedEnd: formatTimestamp(event.end),
+                class: event.color,
+                timeBefore: event.timeBefore,
+                id: event.id
+            }))
+            console.log(events.value)
+
+        })
+        .catch(err => {
+            messageStore.addMessage('error', err.response.data.message);
+        });
+}
+getListAppointment()
+
+
+const events = ref([])
 
 const handleChangeView = view => {
     activeView.value = view
 }
 
 
-const handleOk = () => {
-    const nameValue = newEvent.value.title
-    console.log('Name value:', nameValue)
-    console.log('ENd: ', newEvent.value.endTime)
-    console.log('Start: ', newEvent.value.startTime)
-    console.log('ListGuest', listGuest.value)
-    console.log('Reminder: ', reminder.value + ' ' + typeTime.value)
+const handleOk = async () => {
+    const startTimeTimestamp = new Date(dayjs(newEvent.value.startTime).valueOf())
+    const endTimeTimestamp = new Date(dayjs(newEvent.value.endTime).valueOf())
+    const guestArray = Array.from(listGuest.value)
+    const reminderTmp = reminder.value + ' ' + typeTime.value
 
+    const data = {
+        name: newEvent.value.title,
+        date_start: startTimeTimestamp,
+        date_end: endTimeTimestamp,
+        location: newEvent.value.location,
+        list_guest: guestArray,
+        reminder: reminderTmp
+    }
+
+
+    await appointmentApi.createAppointment(data)
+        .then(response => {
+            if (response.status === 200) {
+                messageStore.addMessage('success', 'Create appointment successfully.')
+                getListAppointment()
+            }
+        })
+        .catch(err => {
+            messageStore.addMessage('error', err.response.data.message)
+        })
     modalVisible.value = false
 }
 
+
 const cancelEvent = () => {
-    modalVisible.value = false
-    // window.location.reload()
+    modelInfoVisible.value = false
 }
 
 const openModal = (event) => {
@@ -228,17 +265,18 @@ const openModal = (event) => {
 }
 
 const openModelInfo = (event) => {
-    modelInfoVisible.value = true
-    infoEvent.value.title = event.title
-    infoEvent.value.id = event.id
-    infoEvent.value.startTime = dayjs(event.start)
-    infoEvent.value.endTime = dayjs(event.end)
-    infoEvent.value.location = event.location
-    infoEvent.value.listGuest = event.listGuest
-    infoEvent.value.reminder = event.reminder
-    infoEvent.value.typeTime = event.typeTime
-
-    console.log('EVENT:', infoEvent);
+    console.log(event)
+    modelInfoVisible.value = true;
+    infoEvent.value.title = event.title;
+    infoEvent.value.id = event.id;
+    infoEvent.value.startTime = dayjs(event.start);
+    infoEvent.value.endTime = dayjs(event.end);
+    infoEvent.value.location = event.location;
+    infoEvent.value.listGuest = convertGuestsToNames(event.listGuest)
+    infoEvent.value.reminder = event.reminder;
+    infoEvent.value.typeTime = event.typeTime;
+    infoEvent.value.formattedStart = formatTimestamp(event.start);
+    infoEvent.value.formattedEnd = formatTimestamp(event.end);
 }
 
 const getCurrentDay = () => {
@@ -247,8 +285,7 @@ const getCurrentDay = () => {
 currentDate.value = getCurrentDay()
 
 const handleChange = guest => {
-    console.log('User: ', guest)
-    listGuest.value.push(guest)
+    listGuest.value = guest
 }
 
 const updateTimeRange = (newValue) => {
@@ -256,40 +293,114 @@ const updateTimeRange = (newValue) => {
     newEvent.value.endTime = newValue[1]
 }
 
-const handleCancel = () => {
-    open.value = false;
+const handleChangeOnBoard = (event) => {
+    const reminderTmp = event.event.reminder + ' ' + event.event.typeTime
+    const userIds = event.event.listGuest.map(guest => guest.userId);
+
+    const data = {
+        name: event.event.title,
+        date_start: event.event.start,
+        date_end: event.event.end,
+        location: event.event.location,
+        list_guest: userIds,
+        reminder: reminderTmp,
+        id: event.event.id
+    }
+    appointmentApi.updateDateStart(data)
+        .then(response => {
+            if (response.status === 200) {
+                messageStore.addMessage('success', 'Update appointment successfully.')
+                getListAppointment()
+            }
+            getListAppointment()
+        })
+        .catch(err => {
+            getListAppointment()
+        })
+
 }
 
-const handleDurationChange = (event) => {
-    console.log('Event resized:', event)
+const formatTimestamp = (timestamp) => {
+    return dayjs(timestamp).format('YYYY-MM-DD HH:mm')
 }
 
-const handleEventDrop = (event) => {
-    console.log('Event drop:', event)
+const convertGuestsToNames = (guests) => {
+    return guests.map(guest => guest.name)
 }
 
 // Phương thức xử lý xóa sự kiện
 const deleteEvent = () => {
-    const eventId = infoEvent.value.id;
-    // Thực hiện xóa sự kiện ở đây (ví dụ: thông qua API hoặc một hành động khác)
-    // Sau khi xóa xong, đóng modal
-    modalVisible.value = false;
+    const eventId = infoEvent.value.id
+
+
+    Modal.confirm({
+        title: 'Do you want to remove event?',
+        icon: createVNode(ExclamationCircleOutlined),
+        onOk() {
+            appointmentApi.deleteAppointment(eventId)
+                .then(res => {
+                    messageStore.addMessage('success', 'Remove successfully.')
+                    getListAppointment()
+                })
+                .catch(err => {
+                    messageStore.addMessage('error', 'Something went wrong.')
+                })
+            modelInfoVisible.value = false
+        },
+        onCancel() {
+            console.log('Cancel')
+        },
+    })
 }
 
 // Phương thức xử lý cập nhật sự kiện
 const updateEvent = () => {
+    const reminderTmp = infoEvent.value.reminder + ' ' + infoEvent.value.typeTime
+    const startTimeTimestamp = new Date(dayjs(infoEvent.value.startTime).valueOf())
+    const endTimeTimestamp = new Date(dayjs(infoEvent.value.endTime).valueOf())
+
+    const userIds = infoEvent.value.listGuest.map(guest => guest.userId);
+
+
     const eventId = infoEvent.value.id;
     const updatedEvent = {
         id: eventId,
-        title: infoEvent.value.title,
-        startTime: infoEvent.value.startTime,
-        endTime: infoEvent.value.endTime,
+        name: infoEvent.value.title,
+        date_start: startTimeTimestamp,
+        date_end: endTimeTimestamp,
         location: infoEvent.value.location,
-        listGuest: infoEvent.value.listGuest,
-        reminder: infoEvent.value.reminder
+        list_guest: userIds,
+        reminder: reminderTmp
     }
-    modalVisible.value = false;
+    console.log(updatedEvent)
+
+    appointmentApi.updateDateStart(updatedEvent)
+        .then(response => {
+            if (response.status === 200) {
+                messageStore.addMessage('success', 'Update appointment successfully.')
+                getListAppointment()
+            }
+            getListAppointment()
+        })
+        .catch(err => {
+            getListAppointment()
+        })
+    modelInfoVisible.value = false;
+
 }
+
+const checkTimeBefore = () => {
+    const currentTime = new Date();
+    events.value.forEach(event => {
+        const timeBefore = new Date(event.timeBefore);
+        const timeAfter = new Date(event.timeBefore);
+        timeAfter.setMinutes(timeAfter.getMinutes() + 1);
+        if (currentTime >= timeBefore && currentTime <= timeAfter) {
+            messageStore.addMessage('warning', `${event.title} is about to start!`)
+        }
+    });
+}
+setInterval(checkTimeBefore, 60000);
 
 </script>
 
@@ -328,8 +439,7 @@ const updateEvent = () => {
     color: var(--color-blue);
 }
 
-#name:focus-visible, #name:focus
-{
+#name:focus-visible, #name:focus {
     border-color: var(--color-white);
     border-bottom: 2px var(--color-blue) solid;
     box-shadow: none;

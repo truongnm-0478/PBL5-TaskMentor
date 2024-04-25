@@ -54,7 +54,8 @@ const handleLogout = () => {
 
 </script>
 
-<style scoped>
+<style>
+
 .container-header {
     height: 100%;
     display: flex;

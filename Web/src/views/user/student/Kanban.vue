@@ -1,9 +1,8 @@
 <template>
     <div class="kanban-board">
         <div v-for="(list, index) in lists" :key="index" class="kanban-list" :data-index="index">
-            <div class="list-header">
+            <div :class="['list-header', list.type]">
                 <input v-model="list.title" @blur="saveListTitle(index)" class="list-title-input" />
-                <span class="delete-list" @click="deleteList(index)">✖</span>
             </div>
             <div class="drop-zone" @drop="onDrop($event, index)" @dragover.prevent @dragenter.prevent>
                 <a-card
@@ -13,6 +12,7 @@
                     :draggable="true"
                     @dragstart="startDrag($event, item)"
                     @dragover="dragOver(index, item)"
+                    style="margin-bottom: 10px"
                 >
                 {{ item.title }}
                 </a-card>
@@ -24,7 +24,6 @@
                 <a-button v-else @click="showAddItemForm">Add a Card</a-button>
             </div>
         </div>
-        <a-button @click="addList">Add a List</a-button>
     </div>
 </template>
 
@@ -35,30 +34,45 @@ export default {
             lists: [
                 {
                     title: 'To Do',
+                    type: 'todo',
                     items: [
                         { id: 0, title: 'Task 1' },
                         { id: 1, title: 'Task 2' }
                     ]
                 },
                 {
-                    title: 'Doing',
+                    title: 'In progress',
+                    type: 'progress',
                     items: [
                         { id: 2, title: 'Task 3' },
                         { id: 3, title: 'Task 4' }
                     ]
                 },
                 {
-                    title: 'Done',
+                    title: 'In review',
+                    type: 'review',
                     items: [
                         { id: 4, title: 'Task 5' },
                         { id: 5, title: 'Task 6' }
+                    ]
+                },
+                {
+                    title: 'Completed',
+                    type: 'completed',
+                    items: [
+                        { id: 6, title: 'Task 6' },
+                        { id: 7, title: 'Task 7' },
+                        { id: 8, title: 'Task 8' },
+                        { id: 9, title: 'Task 9' },
+                        { id: 10, title: 'Task 10' },
+                        { id: 11, title: 'Task 11' }
                     ]
                 }
             ],
             newItemTitle: '',
             newTitle: '',
             isAddingItem: false,
-            dropIndex: -1 // Biến lưu trữ vị trí chèn
+            dropIndex: -1
         };
     },
     methods: {
@@ -132,9 +146,6 @@ export default {
         saveListTitle(index) {
             this.lists[index].title = this.lists[index].title.trim();
         },
-        deleteList(index) {
-            this.lists.splice(index, 1);
-        },
         showAddItemForm() {
             this.isAddingItem = true;
         },
@@ -163,23 +174,40 @@ export default {
 <style scoped>
 .kanban-board {
     display: flex;
+    overflow-x: auto;
+    min-height: calc(100vh - 70px);
 }
 
 .kanban-list {
-    background-color: #ebecf0;
-    margin: 0 10px;
+    flex: 1;
     min-width: 250px;
-    border-radius: 3px;
+    background-color: var(--color-white);
+    margin: 0 10px 30px;
+    border-radius: 6px;
+    box-shadow: rgba(9, 30, 66, 0.13) 0 1px 2px;
 }
 
 .list-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 8px;
-    background-color: #ebecf0;
-    border-bottom: 1px solid #ccc;
+    border-radius: 6px;
 }
+
+.list-header.todo {
+    border-top: var(--color-blue) 3px solid;
+}
+
+.list-header.progress {
+    border-top: var(--color-yellow) 3px solid;
+}
+
+.list-header.review {
+    border-top: var(--color-danger) 3px solid;
+}
+
+.list-header.completed {
+    border-top: var(--color-success) 3px solid;
+}
+
 
 .list-title-input {
     border: none;
@@ -191,10 +219,13 @@ export default {
 
 .drop-zone {
     padding: 10px;
+    display: flex;
+    flex-direction: column; /* Hiển thị các thẻ card theo chiều dọc */
+    align-items: stretch; /* Các thẻ card sẽ tự động mở rộng để điền vào không gian */
 }
 
 .drag-el {
-    background-color: #fff;
+    background-color: var(--color-blue);
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 3px;

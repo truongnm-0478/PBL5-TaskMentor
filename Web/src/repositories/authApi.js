@@ -11,6 +11,9 @@ const authApi = {
     },
     getCurrentUser: async () => {
         return await instance.get(nameModel + '/user-information')
+    },
+    refreshToken: async (token) => {
+        return await instance.post('/TaskMentor/refresh', token)
     }
 }
 

@@ -41,7 +41,8 @@
                     </span>
                 </template>
                 <a-menu-item key="4" v-if="role === '2'" @click="handleMenuItemClick('4')">Create class</a-menu-item>
-                <a-menu-item key="5" v-if="role === '0' || role === '1'">Join class</a-menu-item>
+                <a-menu-item key="5" v-if="role === '0' || role === '1'" @click="handleMenuItemClick('5')">Join class</a-menu-item>
+                <a-menu-item key="6" v-if="role === '2'" @click="handleMenuItemClick('6')">List class</a-menu-item>
             </a-sub-menu>
             <a-sub-menu key="sub2">
                 <template #title>
@@ -65,13 +66,23 @@
 
 <script setup>
 import {onMounted, onUnmounted, ref} from 'vue'
+import { useUserStore } from '@/stores/userStore.js'
 import {CalendarOutlined, BellOutlined, MessageOutlined, FileOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons-vue"
 
 const isCollapsed = ref(false)
 const selectedKeys = ref(['1'])
 const collapsedWidth = 80
-import router from "@/router/index.js";
-const role = ref('2')
+import router from '@/router/index.js'
+const role = ref('0')
+const useUser = useUserStore()
+
+if(useUser.getUserRole === 1) {
+    role.value = '1'
+} else if (useUser.getUserRole === 2) {
+    role.value = '2'
+} else if (useUser.getUserRole === 3) {
+    role.value = '3'
+}
 
 const handleMenuItemClick = (key) => {
     switch (key) {
@@ -86,6 +97,12 @@ const handleMenuItemClick = (key) => {
             break
         case '4':
             router.push('/createClass')
+            break
+        case '5':
+            router.push('/joinClass')
+            break
+        case '6':
+            router.push('/listClass')
             break
     }
 }

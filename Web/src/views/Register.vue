@@ -44,6 +44,8 @@
                 <a-button type="primary" @click="resetForm" class="reset-button">
                     <span class="reset-text"></span>Reset</a-button>
             </a-form-item>
+            <a href="/login" style="text-decoration: underline; display: flex; justify-content: center">Already have an account ?</a>
+
         </a-form>
     </div>
 </template>
@@ -180,7 +182,7 @@ const handleFinish = async (values: FormState) => {
         })
         if (response.status === 201) {
             spinStore.stopLoading()
-            messageStore.addMessage('success', response.message)
+            messageStore.addMessage('success', 'User registered successfully.')
             router.push('/login')
         }
     } catch (error) {
