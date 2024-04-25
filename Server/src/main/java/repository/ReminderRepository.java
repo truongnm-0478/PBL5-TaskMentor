@@ -6,6 +6,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
 
+import org.hibernate.query.Query;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ReminderRepository {
 
     private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -24,4 +29,17 @@ public class ReminderRepository {
         }
         return reminder;
     }
+
+    public List<Reminder> findRemindersByAppointmentId(int appointmentId) {
+        List<Reminder> reminders = null;
+        try (Session session = sessionFactory.openSession()) {
+            Query<Reminder> query = session.createQuery("FROM Reminder r WHERE r.appointment.id = :appointmentId", Reminder.class);
+            query.setParameter("appointmentId", appointmentId);
+            reminders = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return reminders;
+    }
+
 }

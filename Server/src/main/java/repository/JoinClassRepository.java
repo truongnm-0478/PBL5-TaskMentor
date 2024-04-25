@@ -45,4 +45,33 @@ public class JoinClassRepository {
             return null;
         }
     }
+
+    public List<StudentClass> getClassesByClassCode(String classCode) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<StudentClass> query = session.createQuery("FROM StudentClass sc WHERE sc.classRoom.code = :classCode", StudentClass.class);
+            query.setParameter("classCode", classCode);
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void deleteStudentById(int id) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+
+            StudentClass studentClass = session.get(StudentClass.class, id);
+
+            if (studentClass != null) {
+                session.delete(studentClass);
+                transaction.commit();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }

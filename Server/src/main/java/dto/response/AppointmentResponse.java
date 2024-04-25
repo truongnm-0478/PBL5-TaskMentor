@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @Builder
@@ -13,8 +14,13 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class AppointmentResponse {
     private int id;
-    private Timestamp startDate;
-    private Timestamp endDate;
-    private String name;
+    private Timestamp start;
+    private Timestamp end;
+    private String title;
     private String location;
+    private List<GuestResponse> listGuest;
+    private Timestamp timeBefore;
+    private int reminder;
+    private String typeTime;
+    private String color;
 }

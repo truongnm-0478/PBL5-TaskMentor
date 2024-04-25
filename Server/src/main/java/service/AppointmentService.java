@@ -2,27 +2,78 @@ package service;
 
 import dto.response.AppointmentResponse;
 import model.Appointment;
+import model.ClassRoom;
 import model.GroupMeeting;
 import model.User;
 import repository.AppointmentRepository;
 import repository.GroupMeetingRepository;
+import repository.ReminderRepository;
+import repository.UserRepository;
 
 import javax.persistence.EntityManager;
 import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class AppointmentService {
 
+    private final UserRepository userRepository = new UserRepository();
+
     private final AppointmentRepository appointmentRepository = new AppointmentRepository();
     private final ReminderService reminderService = new ReminderService();
     private final GroupMeetingService groupMeetingService = new GroupMeetingService();
     private final GroupMeetingRepository groupMeetingRepository = new GroupMeetingRepository();
+    private final ReminderRepository reminderRepository = new ReminderRepository();
     public AppointmentService() {}
 
     public List<AppointmentResponse> getAppointmentsByUserId(int userId) {
-        return appointmentRepository.findByUserId(userId);
+        List<Appointment> appointmentList = appointmentRepository.findByUserId(userId);
+        List<AppointmentResponse> appointmentResponsesList = new ArrayList<>();
+
+        int role = userRepository.getUserById(userId).getRole();
+
+        for(Appointment a : appointmentList) {
+            Timestamp timeBefore = reminderRepository.findRemindersByAppointmentId(a.getId()).get(0).getTimeBefore();
+            Timestamp startDate = a.getDateStart();
+
+            Duration duration = Duration.between(timeBefore.toInstant(), startDate.toInstant());
+
+            int amount;
+            String unit;
+
+            if (duration.toMinutes() % 60 == 0 && duration.toHours() % 24 == 0) {
+                amount = (int) duration.toDays();
+                unit = "Days";
+            } else if (duration.toMinutes() % 60 == 0) {
+                amount = (int) duration.toHours();
+                unit = "Hours";
+            } else {
+                amount = (int) duration.toMinutes();
+                unit = "Minutes";
+            }
+
+
+            AppointmentResponse appointmentResponse = AppointmentResponse.builder()
+                    .id(a.getId())
+                    .start(a.getDateStart())
+                    .end(a.getDateEnd())
+                    .title(a.getName())
+                    .location(a.getLocation())
+                    .timeBefore(timeBefore)
+                    .listGuest(groupMeetingRepository.findByAppointmentId(a.getId()))
+                    .reminder(amount)
+                    .typeTime(unit)
+                    .color((role == 2) ? "important" : "student")
+                    .build();
+            appointmentResponsesList.add(appointmentResponse);
+        }
+
+        return appointmentResponsesList;
     }
+
 
     public Appointment createAppointment(String name, Timestamp dateStart, Timestamp dateEnd, String location, String reminder, int userId, List<Integer> listGuest) {
         System.out.println("APP SER");
@@ -46,6 +97,36 @@ public class AppointmentService {
         createGroupMeetingsForGuests(savedAppointment, listGuest);
 
         return savedAppointment;
+    }
+
+    public Appointment updateAppointment(int id, String name, Timestamp dateStart, Timestamp dateEnd, String location, String reminder, int userId, List<Integer> listGuest) {
+        User user = User.builder().id(userId).build();
+        Appointment appointment = appointmentRepository.findById(id);
+        appointment.setDateStart(dateStart);
+        appointment.setDateEnd(dateEnd);
+        appointment.setLocation(location);
+        appointment.setUpdateBy(userId);
+        appointment.setUpdateTime(new java.sql.Timestamp(new Date().getTime()));
+        appointment.setName(name);
+
+        System.out.println("appointment = " + appointment);
+
+        Appointment updateAppointment = appointmentRepository.update(appointment);
+        System.out.println("updateAppointment = " + updateAppointment);
+
+        return updateAppointment;
+    }
+
+    public boolean removeAppointment(int id, int userId) {
+        try {
+            Appointment appointment = appointmentRepository.findById(id);
+            appointment.setDeleteBy(userId);
+            appointment.setDeleteTime(new java.sql.Timestamp(new Date().getTime()));
+            appointmentRepository.update(appointment);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private void createGroupMeetingsForGuests(Appointment appointment, List<Integer> listGuest) {
@@ -94,3 +175,4 @@ public class AppointmentService {
         reminderService.createReminder(appointment, reminderTime, userId);
     }
 }
+

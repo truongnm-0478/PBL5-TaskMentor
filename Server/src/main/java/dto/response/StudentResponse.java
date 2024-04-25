@@ -1,4 +1,4 @@
-package dto.request;
+package dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Builder
-public class ClassRequest {
+@Data
+public class StudentResponse {
+    private int id;
+    private String studentId;
+    private String email;
     private String name;
-    private String code;
-    private int year;
-    private String description;
+    private String phone;
 }

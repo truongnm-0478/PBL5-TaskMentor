@@ -55,6 +55,14 @@ CREATE TABLE classes (
   FOREIGN KEY (teacher_id) REFERENCES teachers (id)
 );
 
+CREATE TABLE student_class (
+  id SERIAL PRIMARY KEY,
+  student_id INT NOT NULL,
+  class_id INT NOT NULL,
+  FOREIGN KEY (student_id) REFERENCES students (id),
+  FOREIGN KEY (class_id) REFERENCES classes (id)
+)
+
 CREATE TABLE teams (
   id SERIAL PRIMARY KEY,
   name TEXT,
@@ -245,7 +253,7 @@ CREATE TABLE group_meeting (
 CREATE TABLE notifications (
   id SERIAL PRIMARY KEY,
   class_id INT NOT NULL,
-  user_id INT NOT NULL,
+  user_ids INT[] NOT NULL,
   is_seen BOOLEAN DEFAULT FALSE,
   content TEXT,
   insert_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -254,9 +262,9 @@ CREATE TABLE notifications (
   update_by INT,
   delete_time TIMESTAMP,
   delete_by INT,
-  FOREIGN KEY (class_id) REFERENCES classes (id),
-  FOREIGN KEY (user_id) REFERENCES users (id)
+  FOREIGN KEY (class_id) REFERENCES classes (id)
 );
+
 
 CREATE TABLE messages (
   id SERIAL PRIMARY KEY,

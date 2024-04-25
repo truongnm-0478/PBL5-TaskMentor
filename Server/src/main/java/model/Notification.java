@@ -1,6 +1,7 @@
 package model;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -21,9 +22,9 @@ public class Notification {
     @JoinColumn(name = "class_id", referencedColumnName = "id")
     private ClassRoom classRoom;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @Type(type = "util.IntegerArrayType")
+    @Column(name = "user_ids", columnDefinition = "integer[]")
+    private Integer[] userIds;
 
     @Column(name = "is_seen")
     private boolean isSeen;

@@ -2,10 +2,13 @@ package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.request.ClassRequest;
-import dto.request.JoinClassRequest;
+import dto.response.NotificationClassResponse;
+import dto.response.NotificationTeacherSendToClassResponse;
+import dto.response.StudentResponse;
 import model.ClassRoom;
-import model.StudentClass;
+import model.Notification;
 import service.ClassService;
+import service.NotificationService;
 import util.AuthorizationUtil;
 import util.RequestProcessor;
 import util.ResponseUtil;
@@ -20,21 +23,17 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
-@WebServlet("/api/joinClass")
-public class JoinClassController extends HttpServlet {
+@WebServlet("/api/notification-class")
+public class NotificationClassController extends HttpServlet {
     private final RequestProcessor requestProcessor = new RequestProcessor();
-    private static final ClassService classService = new ClassService();
+    private static final NotificationService notificationService = new NotificationService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)  {
         requestProcessor.processRequest(() -> {
             try {
-                List<Integer> requiredRoles = Arrays.asList(1, 0);
-                if (!AuthorizationUtil.checkListUserRole(request, response, requiredRoles)) {
-                    return;
-                }
+
                 int userId = AuthorizationUtil.getUserId(request);
-                System.out.println("userId JOIN CLASS = " + userId);
 
                 // read data from JSON
                 BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
@@ -46,11 +45,12 @@ public class JoinClassController extends HttpServlet {
 
                 // parse JSON to User object
                 ObjectMapper mapper = new ObjectMapper();
-                JoinClassRequest joinClassRequest = mapper.readValue(jsonRequest.toString(), JoinClassRequest.class);
+                NotificationTeacherSendToClassResponse notifi = mapper.readValue(jsonRequest.toString(), NotificationTeacherSendToClassResponse.class);
 
-                Boolean isJoin = classService.joinClass(joinClassRequest, userId);
+                Boolean isSave = notificationService.saveNotificationClass(notifi.getClassCode(), notifi.getContent(), userId);
 
-                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "Join class successfully.", isJoin);
+
+                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "Class notification successfully.", isSave);
             } catch (IllegalArgumentException e) {
                 try {
                     ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
@@ -63,6 +63,8 @@ public class JoinClassController extends HttpServlet {
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         });
     }
@@ -73,15 +75,16 @@ public class JoinClassController extends HttpServlet {
             try{
                 int userId = AuthorizationUtil.getUserId(request);
 
-                List<Integer> requiredRoles = Arrays.asList(1, 0);
+                String code = request.getParameter("code");
+
+                List<Integer> requiredRoles = Arrays.asList(2, 1, 0);
                 if (!AuthorizationUtil.checkListUserRole(request, response, requiredRoles)) {
                     return;
                 }
 
-                List<ClassRequest> studentClasses = classService.listClassForStudent(userId);
+                List<NotificationClassResponse> notifications = notificationService.getListNotificationByClass(code);
 
-
-                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "List class", studentClasses);
+                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "List notification.", notifications);
 
             }  catch (IllegalArgumentException e) {
                 try {
@@ -100,4 +103,6 @@ public class JoinClassController extends HttpServlet {
 
         });
     }
+
+
 }

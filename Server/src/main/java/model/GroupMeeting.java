@@ -21,6 +21,7 @@ public class GroupMeeting {
     @JoinColumn(name = "appointment_id")
     private Appointment appointment;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
     @JoinColumn(name = "user_id")
@@ -35,4 +36,3 @@ public class GroupMeeting {
         private int userId;
     }
 }
-

@@ -15,13 +15,21 @@ public class CorsFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         httpResponse.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
-        httpResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+        httpResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept, Origin");
         httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
         httpResponse.setHeader("Access-Control-Max-Age", "3600");
 
-        // Proceed with the chain
+
+        if (httpRequest.getMethod().equals("OPTIONS")) {
+
+            httpResponse.setStatus(HttpServletResponse.SC_OK);
+
+            return;
+
+        }
         chain.doFilter(request, response);
+
     }
 
     @Override

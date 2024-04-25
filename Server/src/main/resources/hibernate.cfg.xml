@@ -13,6 +13,7 @@
         <property name="hibernate.c3p0.timeout">300</property>
         <property name="hibernate.c3p0.max_statements">50</property>
         <property name="hibernate.c3p0.idle_test_period">3000</property>
+        <property name="hibernate.enable_lazy_load_no_trans">true</property>
         <!-- Specify dialect -->
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <!-- Echo all executed SQL to stdout -->
@@ -44,6 +45,7 @@
         <mapping class="model.TeamMemberFeedback"/>
         <mapping class="model.GroupMeeting" />
         <mapping class="model.Reminder" />
+        <mapping class="model.StudentClass" />
 
     </session-factory>
 </hibernate-configuration>

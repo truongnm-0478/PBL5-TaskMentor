@@ -1,10 +1,17 @@
 package repository;
 
+import dto.response.GuestResponse;
 import model.GroupMeeting;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
+
+import org.hibernate.query.Query;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroupMeetingRepository {
     private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -29,5 +36,25 @@ public class GroupMeetingRepository {
         }
         return groupMeeting;
     }
-}
 
+    public List<GuestResponse> findByAppointmentId(int appointmentId) {
+        List<GuestResponse> results = new ArrayList<>();
+        try (Session session = sessionFactory.openSession()) {
+            Query<Object[]> query = session.createQuery("SELECT gm.user.id, gm.user.name FROM GroupMeeting gm WHERE gm.id.appointmentId = :appointmentId", Object[].class);
+            query.setParameter("appointmentId", appointmentId);
+            List<Object[]> queryResults = query.getResultList();
+            for (Object[] row : queryResults) {
+                int userId = (int) row[0];
+                String name = (String) row[1];
+                results.add(new GuestResponse(userId, name));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return results;
+    }
+
+
+
+
+}

@@ -3,7 +3,9 @@ package service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import dto.response.UserInfoResponse;
 import dto.response.UserResponse;
+import model.Teacher;
 import model.User;
+import repository.TeacherRepository;
 import repository.UserRepository;
 
 import java.util.Date;
@@ -14,6 +16,7 @@ import util.UserValidationUtil;
 
 public class UserService {
     private final UserRepository userRepository = new UserRepository();
+    private final TeacherRepository teacherRepository = new TeacherRepository();
 
     public List<UserResponse> getAllUsers(int pageNumber, int pageSize) {
         return userRepository.getAllUsers(pageNumber, pageSize);
@@ -139,16 +142,20 @@ public class UserService {
                 .password(hashedPassword)
                 .role(2)
                 .phone(phone)
-                .deleteTime(null)
-                .deleteBy(null)
                 .insertTime(new java.sql.Timestamp(new Date().getTime()))
                 .insertBy(userId)
-                .updateTime(null)
-                .updateBy(null)
                 .build();
 
+        User user = userRepository.save(newUser);
 
-        userRepository.save(newUser);
+        if (user != null) {
+            Teacher teacher = Teacher.builder()
+                    .user(newUser)
+                    .insertTime(new java.sql.Timestamp(new Date().getTime()))
+                    .insertBy(userId)
+                    .build();
+            teacherRepository.save(teacher);
+        }
 
         return newUser;
     }

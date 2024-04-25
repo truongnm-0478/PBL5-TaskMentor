@@ -69,7 +69,7 @@ public class UserRepository {
     }
 
 
-    public void save(User user) {
+    public User save(User user) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -81,6 +81,7 @@ public class UserRepository {
             }
             e.printStackTrace();
         }
+        return user;
     }
 
 }
