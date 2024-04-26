@@ -1,19 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import ErrorView from '../views/Error.vue'
-import HomeView from '../views/Home.vue'
-import LoginView from '../views/Login.vue'
-import RegisterView from '../views/Register.vue'
-import Appointment from '../views/user/Appointment.vue'
+import ErrorView from '@/views/Error.vue'
+import HomeView from '@/views/Home.vue'
+import LoginView from '@/views/Login.vue'
+import RegisterView from '@/views/Register.vue'
+import Appointment from '@/views/user/Appointment.vue'
 import CreateClass from '@/views/user/teacher/CreateClass.vue'
 import Kanban from '@/views/user/student/Kanban.vue'
 import Requirement from '@/views/user/student/Requirement.vue'
 import QRAndCode from '@/views/user/QRAndCode.vue'
-import ListClass from '../views/user/teacher/ListClass.vue'
-import JoinClass from '../views/user/student/JoinClass.vue'
-import ListClassStudent from '../views/user/student/ListClass.vue'
-import Class from '../views/user/teacher/Class.vue'
-import Notification from '../views/user/student/Notification.vue'
-import User from "@/views/admin/User.vue";
+import ListClass from '@/views/user/teacher/ListClass.vue'
+import JoinClass from '@/views/user/student/JoinClass.vue'
+import ListClassStudent from '@/views/user/student/ListClass.vue'
+import Class from '@/views/user/Class.vue'
+import Notification from '@/views/user/student/Notification.vue'
+import User from '@/views/admin/User.vue'
 
 
 import DashboardView from '../views/admin/DashboardView.vue'
@@ -35,7 +35,7 @@ const routes =  [
     { path: '/QRAndCode', name: 'QRAndCode', component: QRAndCode },
     { path: '/joinClass', name: 'JoinClass', component: JoinClass },
     { path: '/listClass', name: 'ListClass', component: ListClass},
-    { path: '/joinedClass', name: 'ListClassStudent', component: ListClassStudent },
+    { path: '/student/listClass', name: 'ListClassStudent', component: ListClassStudent },
     { path: '/notification', name: 'Notification', component: Notification },
     { path: '/:pathMatch(.*)*', redirect: { name: 'notfound'} },
     { path: '/class', name: 'Class', component: Class },

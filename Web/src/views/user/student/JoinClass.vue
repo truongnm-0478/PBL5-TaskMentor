@@ -59,13 +59,13 @@ const onFinish = async values => {
         .then(res => {
             if(res.data == true) {
                 useMessage.addMessage('success', 'Successfully participate in class.')
-                router.push('/joinedClass')
+                router.push('/student/listClass')
             } else {
                 useMessage.addMessage('error', 'Student ID or Class incorrect or already used.')
             }
         })
         .catch(err => {
-            seMessage.addMessage('error', 'Student ID or Class incorrect or already used.')
+            useMessage.addMessage('error', 'Student ID or Class incorrect or already used.')
             console.log(err)
         })
 };

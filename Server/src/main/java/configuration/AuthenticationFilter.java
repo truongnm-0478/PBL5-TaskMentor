@@ -23,14 +23,13 @@ public class AuthenticationFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         securedEndpoints.add("/TaskMentor/api/user");
         securedEndpoints.add("/TaskMentor/api/logout");
-//        securedEndpoints.add("/TaskMentor/websocket");
-//        securedEndpoints.add("/TaskMentor/notification");
         securedEndpoints.add("/TaskMentor/api/notification-class");
         securedEndpoints.add("/TaskMentor/api/user-information");
         securedEndpoints.add("/TaskMentor/api/appointment");
         securedEndpoints.add("/TaskMentor/api/class");
         securedEndpoints.add("/TaskMentor/api/joinClass");
         securedEndpoints.add("/TaskMentor/api/student");
+        securedEndpoints.add("/TaskMentor/api/class-introduction");
     }
 
     @Override

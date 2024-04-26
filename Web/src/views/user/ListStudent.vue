@@ -1,8 +1,8 @@
 <template>
     <a-table :columns="columns" :data-source="data" :scroll="{ x: 1300, y: 1000 }">
         <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'operation'">
-                <a @click="handleClickAction(record)"><UserDeleteOutlined/> Remove</a>
+            <template v-if="column.key === 'operation'" >
+                <a v-if="useUserStore().getUserRole === 2" @click="handleClickAction(record)"><UserDeleteOutlined/> Remove</a>
             </template>
         </template>
     </a-table>
@@ -16,6 +16,7 @@ import {ExclamationCircleOutlined, UserDeleteOutlined} from '@ant-design/icons-v
 import {useMessageStore} from "@/stores/messageStore.js";
 import {useSpinStore} from "@/stores/spinStore.js";
 import {Modal} from "ant-design-vue";
+import {useUserStore} from "@/stores/userStore.js";
 
 const useMessage = useMessageStore()
 const useSpin = useSpinStore()
@@ -27,6 +28,7 @@ const columns = [
         dataIndex: 'studentId',
         key: 'studentId',
         fixed: 'left',
+        sorter: (a, b) => a.studentId - b.studentId,
     },
     {
         title: 'Name',

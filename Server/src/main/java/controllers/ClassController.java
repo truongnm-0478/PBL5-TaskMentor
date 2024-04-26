@@ -147,7 +147,6 @@ public class ClassController extends HttpServlet {
                     return;
                 }
                 int userId = AuthorizationUtil.getUserId(request);
-                System.out.println("userId DELETE = " + userId);
 
                 String code = request.getParameter("code");
 
@@ -170,6 +169,4 @@ public class ClassController extends HttpServlet {
             }
         });
     }
-
-
 }

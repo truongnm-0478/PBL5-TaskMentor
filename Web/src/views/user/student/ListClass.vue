@@ -7,9 +7,9 @@
                         <div class="avatar">
                             <a-avatar size="large" :style="{ backgroundColor: getColorForLastLetter(item.name) }">{{ getLastLetter(item.name) }}</a-avatar>
                         </div>
-                        <p style="margin-top: 20px">{{ item.name }}</p>
+                        <p @click="handleNameClick(item)" style="margin-top: 20px">{{ item.name }}</p>
                         <template #actions>
-                            <EditOutlined key="edit" @click="showEditModal(item)" />
+                            <ExclamationCircleOutlined key="edit" @click="showEditModal(item)" />
                             <a-popover style="width: 300px" trigger="click" placement="bottom">
                                 <template #content>
                                     <a-button type="text" style="width: 100%" @click="showQRAndCode(item)"><UsergroupAddOutlined style="margin-right: 10px"/>Add menber  </a-button>
@@ -26,30 +26,32 @@
                 </a-card>
             </template>
         </a-flex>
-        <a-modal v-model:open="isModalOpen" title="Class Name" @cancel="handleCancel" @ok="handleOk">
+        <a-modal v-model:open="isModalOpen" title="Class Information" @cancel="handleCancel" @ok="handleOk" >
             <a-form-item label="Class Name" :label-col="{ span: 24 }">
-                <a-input v-model:value="editedClassName" />
+                <a-input v-model:value="editedClassName" readonly="true" />
                 <span style="color: red">{{ messageErr }}</span>
             </a-form-item>
             <a-form-item label="Class Description" :label-col="{ span: 24 }">
-                <a-textarea v-model:value="editedClassDescription" />
+                <a-textarea v-model:value="editedClassDescription" readonly="true" />
             </a-form-item>
             <a-form-item label="Class Code" :label-col="{ span: 24 }" style="display: none">
                 <a-input v-model:value="editedClassCode" />
             </a-form-item>
+
+            <template #footer>
+                <a-button key="cancel" @click="handleCancel">Cancel</a-button>
+            </template>
         </a-modal>
     </a-space>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { EditOutlined, EllipsisOutlined, DeleteOutlined, UsergroupAddOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue'
+import { ExclamationCircleOutlined, EllipsisOutlined, UsergroupAddOutlined } from '@ant-design/icons-vue'
 import classApi from '@/repositories/classApi.js'
 import { useMessageStore } from "@/stores/messageStore.js";
 import { useSpinStore } from "@/stores/spinStore.js";
 import router from "@/router/index.js"
-import { Modal } from 'ant-design-vue'
-import { createVNode } from 'vue';
 
 const listClass = ref([])
 const isModalOpen = ref(false)
@@ -125,6 +127,10 @@ const handleOk = async () => {
 
 const showQRAndCode = (item) => {
     router.push({path: '/QRAndCode', query: {code: item.code}})
+}
+
+const handleNameClick = (item) => {
+    router.push({ path: '/class', query: { code: item.code } })
 }
 
 </script>

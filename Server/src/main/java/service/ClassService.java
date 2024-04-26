@@ -2,6 +2,7 @@ package service;
 
 import dto.request.ClassRequest;
 import dto.request.JoinClassRequest;
+import dto.response.ClassIntroductionResponse;
 import model.*;
 import repository.*;
 
@@ -127,5 +128,19 @@ public class ClassService {
                 return true;
             }
         }
+    }
+
+    public ClassIntroductionResponse getIntroduction(String code) {
+        System.out.println("code VV = " + code);
+        ClassRoom classRoom = classRepository.findByCode(code);
+        System.out.println("classRoom = " + classRoom);
+        return ClassIntroductionResponse.builder()
+                .code(classRoom.getCode())
+                .description(classRoom.getDescription())
+                .teacher(classRoom.getTeacher())
+                .description(classRoom.getDescription())
+                .name(classRoom.getClassName())
+                .createDate(classRoom.getInsertTime())
+                .build();
     }
 }

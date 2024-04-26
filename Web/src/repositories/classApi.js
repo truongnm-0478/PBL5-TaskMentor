@@ -26,6 +26,9 @@ const classApi = {
     },
     removeStudentToClass: async (id) => {
         return await instance.delete(`${nameModel}/student?id=${id}`)
+    },
+    getClassIntroduction: async (code) => {
+        return await instance.get(`${nameModel}/class-introduction?code=${code}`)
     }
 }
 

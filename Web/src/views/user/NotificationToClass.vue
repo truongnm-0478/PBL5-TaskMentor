@@ -1,6 +1,6 @@
 <template>
     <div class="container-add">
-        <a-button @click="createNotification" type="primary">
+        <a-button @click="createNotification" type="primary" v-if="useUserStore().getUserRole === 2">
             New Notification <PlusOutlined />
         </a-button>
     </div>
@@ -33,11 +33,12 @@
 </template>
 
 <script setup>
-import {PlusOutlined} from '@ant-design/icons-vue'
-import {onMounted, ref} from "vue";
-import notificationApi from "@/repositories/notificationApi.js";
-import dayjs from "dayjs";
-import router from "@/router/index.js";
+import { PlusOutlined } from '@ant-design/icons-vue'
+import { onMounted, ref } from 'vue'
+import notificationApi from '@/repositories/notificationApi.js'
+import dayjs from 'dayjs'
+import router from '@/router/index.js'
+import { useUserStore } from '@/stores/userStore.js'
 
 
 const code = router.currentRoute.value.query.code;
@@ -70,7 +71,6 @@ const handleOk = async () => {
         })
 }
 
-//
 const getListNotification = async () => {
     await notificationApi.getNotificationsClass(code)
         .then(res => {
