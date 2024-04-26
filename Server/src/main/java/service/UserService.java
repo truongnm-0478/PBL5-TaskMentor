@@ -18,8 +18,8 @@ public class UserService {
     private final UserRepository userRepository = new UserRepository();
     private final TeacherRepository teacherRepository = new TeacherRepository();
 
-    public List<UserResponse> getAllUsers(int pageNumber, int pageSize) {
-        return userRepository.getAllUsers(pageNumber, pageSize);
+    public List<UserResponse> getAllUsers() {
+        return userRepository.getAllUsersAdmin();
     }
 
     public List<UserInfoResponse> getAllUserInfo() {

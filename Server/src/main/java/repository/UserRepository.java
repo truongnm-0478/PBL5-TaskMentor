@@ -15,13 +15,11 @@ import java.util.List;
 public class UserRepository {
     private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
-    public List<UserResponse> getAllUsers(int pageNumber, int pageSize) {
+    public List<UserResponse> getAllUsersAdmin() {
         try (Session session = sessionFactory.openSession()) {
             String jpql = "SELECT new dto.response.UserResponse(u.id, u.email, u.username, u.role, u.name, u.phone, u.deleteTime, u.deleteBy, u.insertTime, u.insertBy, u.updateTime, u.updateBy) " +
                     "FROM User u";
             Query query = session.createQuery(jpql);
-            query.setFirstResult((pageNumber - 1) * pageSize);
-            query.setMaxResults(pageSize);
             return query.getResultList();
         }
     }

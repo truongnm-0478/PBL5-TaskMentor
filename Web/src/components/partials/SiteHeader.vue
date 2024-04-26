@@ -3,7 +3,7 @@
         <a-flex justify="flex-end" align="center">
             <a-dropdown placement="bottomRight">
                 <span style="cursor: pointer;">
-                    Xin chào,
+                    Hello,
                     <strong style="color: var(--color-blue)"> {{ user.username }} <UserOutlined/> </strong>
                 </span>
                 <template #overlay>

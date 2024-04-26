@@ -20,7 +20,7 @@
                     <h1 class="brand brand-sub">&nbsp;Mentor</h1>
                 </div>
             </div>
-            <a-menu-item key="1" >
+            <a-menu-item key="1">
                 <BellOutlined/>
                 <span>Notification</span>
             </a-menu-item>
@@ -41,21 +41,14 @@
                     </span>
                 </template>
                 <a-menu-item key="4" v-if="role === '2'" @click="handleMenuItemClick('4')">Create class</a-menu-item>
-                <a-menu-item key="5" v-if="role === '0' || role === '1'" @click="handleMenuItemClick('5')">Join class</a-menu-item>
+                <a-menu-item key="5" v-if="role === '0' || role === '1'" @click="handleMenuItemClick('5')">Join class
+                </a-menu-item>
                 <a-menu-item key="6" v-if="role === '2'" @click="handleMenuItemClick('6')">List class</a-menu-item>
             </a-sub-menu>
-            <a-sub-menu key="sub2">
-                <template #title>
-            <span>
-              <user-outlined/>
-              <span>User</span>
-            </span>
-                </template>
-                <a-menu-item key="3">Tom</a-menu-item>
-                <a-menu-item key="4">Bill</a-menu-item>
-                <a-menu-item key="5">Alex</a-menu-item>
-            </a-sub-menu>
-
+            <a-menu-item key="7" v-if="role === '3'" @click="handleMenuItemClick('7')">
+                <user-outlined/>
+                <span>User</span>
+            </a-menu-item>
             <a-menu-item key="9">
                 <file-outlined/>
                 <span>File</span>
@@ -66,17 +59,25 @@
 
 <script setup>
 import {onMounted, onUnmounted, ref} from 'vue'
-import { useUserStore } from '@/stores/userStore.js'
-import {CalendarOutlined, BellOutlined, MessageOutlined, FileOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons-vue"
+import {useUserStore} from '@/stores/userStore.js'
+import {
+    CalendarOutlined,
+    BellOutlined,
+    MessageOutlined,
+    FileOutlined,
+    TeamOutlined,
+    UserOutlined
+} from "@ant-design/icons-vue"
 
 const isCollapsed = ref(false)
 const selectedKeys = ref(['1'])
 const collapsedWidth = 80
 import router from '@/router/index.js'
+
 const role = ref('0')
 const useUser = useUserStore()
 
-if(useUser.getUserRole === 1) {
+if (useUser.getUserRole === 1) {
     role.value = '1'
 } else if (useUser.getUserRole === 2) {
     role.value = '2'
@@ -104,6 +105,10 @@ const handleMenuItemClick = (key) => {
         case '6':
             router.push('/listClass')
             break
+        case '7':
+            router.push('/admin/user')
+            break
+
     }
 }
 

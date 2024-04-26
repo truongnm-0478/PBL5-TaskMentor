@@ -13,6 +13,7 @@ import JoinClass from '../views/user/student/JoinClass.vue'
 import ListClassStudent from '../views/user/student/ListClass.vue'
 import Class from '../views/user/teacher/Class.vue'
 import Notification from '../views/user/student/Notification.vue'
+import User from "@/views/admin/User.vue";
 
 
 import DashboardView from '../views/admin/DashboardView.vue'
@@ -37,7 +38,9 @@ const routes =  [
     { path: '/joinedClass', name: 'ListClassStudent', component: ListClassStudent },
     { path: '/notification', name: 'Notification', component: Notification },
     { path: '/:pathMatch(.*)*', redirect: { name: 'notfound'} },
-    { path: '/class', name: 'Class', component: Class }
+    { path: '/class', name: 'Class', component: Class },
+
+    { path: '/admin/user', name: 'User', component: User },
 
 ]
 

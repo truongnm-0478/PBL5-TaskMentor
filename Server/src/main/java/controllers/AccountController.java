@@ -55,32 +55,14 @@ public class AccountController extends HttpServlet {
     }
 
     private void getAllUsers(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int pageNumber = 1;
-        int pageSize = 7;
 
-        String pageParam = req.getParameter("page");
-        String pageSizeParam = req.getParameter("pageSize");
-
-        if (pageParam != null && !pageParam.isEmpty()) {
-            pageNumber = Integer.parseInt(pageParam);
-        }
-
-        if (pageSizeParam != null && !pageSizeParam.isEmpty()) {
-            pageSize = Integer.parseInt(pageSizeParam);
-        }
-
-        if (pageNumber <= 0 || pageSize <= 0) {
-            ResponseUtil.sendErrorResponse(resp, HttpServletResponse.SC_BAD_REQUEST, "Page number and page size must be positive integers.");
+        if(!AuthorizationUtil.checkUserRole(req, resp, 3)) {
             return;
         }
 
-        List<UserResponse> userList = userService.getAllUsers(pageNumber, pageSize);
+        List<UserResponse> userList = userService.getAllUsers();
 
-        int totalUsers = userService.getTotalUsers();
-
-        int totalPages = (int) Math.ceil((double) totalUsers / pageSize);
-
-        ResponseUtil.sendPagedJsonResponse(resp, HttpServletResponse.SC_OK, "User list retrieved successfully.", pageNumber, pageSize, totalUsers, totalPages, userList);
+        ResponseUtil.sendJsonResponse(resp, HttpServletResponse.SC_OK, "User list retrieved successfully.", userList);
     }
 
     private void getUserById(HttpServletRequest req, HttpServletResponse resp, String id) throws ServletException, IOException {
