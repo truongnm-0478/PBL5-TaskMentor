@@ -51,7 +51,7 @@
             </a-menu-item>
             <a-menu-item key="9">
                 <file-outlined/>
-                <span>File</span>
+                <span>Project</span>
             </a-menu-item>
         </a-menu>
     </a-layout-sider>

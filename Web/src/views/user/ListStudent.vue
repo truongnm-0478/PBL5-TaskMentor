@@ -67,7 +67,7 @@ const getListStudent = async () => {
     }
 }
 
-onMounted(() => getListStudent());
+onMounted(() => getListStudent())
 
 const handleClickAction = (record) => {
 

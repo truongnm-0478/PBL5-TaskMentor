@@ -68,10 +68,8 @@ public class StudentController extends HttpServlet {
                     return;
                 }
                 int userId = AuthorizationUtil.getUserId(request);
-                System.out.println("userId STUDENT = " + userId);
 
                 int id = Integer.parseInt(request.getParameter("id"));
-                System.out.println("id = " + id);
 
                 Boolean isDelete = studentService.removeStudentToClass(id);
 

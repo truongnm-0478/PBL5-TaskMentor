@@ -1,11 +1,13 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dto.request.ClassRequest;
+import dto.request.GroupCreateRequest;
 import dto.request.JoinClassRequest;
-import model.ClassRoom;
-import model.StudentClass;
+import dto.response.StudentResponse;
+import dto.response.TeamResponse;
+import model.Team;
 import service.ClassService;
+import service.TeamService;
 import util.AuthorizationUtil;
 import util.RequestProcessor;
 import util.ResponseUtil;
@@ -20,16 +22,16 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
-@WebServlet("/api/joinClass")
-public class JoinClassController extends HttpServlet {
+@WebServlet("/api/team")
+public class TeamController extends HttpServlet {
     private final RequestProcessor requestProcessor = new RequestProcessor();
-    private static final ClassService classService = new ClassService();
+    private final TeamService teamService = new TeamService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)  {
         requestProcessor.processRequest(() -> {
             try {
-                List<Integer> requiredRoles = Arrays.asList(1, 0);
+                List<Integer> requiredRoles = Arrays.asList(1, 0, 2);
                 if (!AuthorizationUtil.checkListUserRole(request, response, requiredRoles)) {
                     return;
                 }
@@ -45,21 +47,23 @@ public class JoinClassController extends HttpServlet {
 
                 // parse JSON to User object
                 ObjectMapper mapper = new ObjectMapper();
-                JoinClassRequest joinClassRequest = mapper.readValue(jsonRequest.toString(), JoinClassRequest.class);
+                GroupCreateRequest groupCreateRequest = mapper.readValue(jsonRequest.toString(), GroupCreateRequest.class);
 
-                Boolean isJoin = classService.joinClass(joinClassRequest, userId);
+                Boolean isSave = teamService.saveTeam(groupCreateRequest, userId);
 
-                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "Join class successfully.", isJoin);
+                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "Create team successfully.", isSave);
             } catch (IllegalArgumentException e) {
                 try {
                     ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
                 } catch (IOException ex) {
+                    ex.printStackTrace();
                     throw new RuntimeException(ex);
                 }
             } catch (IOException e) {
                 try {
                     ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request.");
                 } catch (IOException ex) {
+                    ex.printStackTrace();
                     throw new RuntimeException(ex);
                 }
             }
@@ -72,15 +76,46 @@ public class JoinClassController extends HttpServlet {
             try{
                 int userId = AuthorizationUtil.getUserId(request);
 
-                List<Integer> requiredRoles = Arrays.asList(1, 0);
+                String code = request.getParameter("code");
+
+                List<Integer> requiredRoles = Arrays.asList(2, 1, 0);
                 if (!AuthorizationUtil.checkListUserRole(request, response, requiredRoles)) {
                     return;
                 }
 
-                List<ClassRequest> studentClasses = classService.listClassForStudent(userId);
+                List<TeamResponse> teamList = teamService.getListTeamByClassCode(code);
 
+                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "List team", teamList);
 
-                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "List class", studentClasses);
+            }  catch (IllegalArgumentException e) {
+                try {
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } catch (Exception e) {
+                try {
+                    System.out.println("e = " + e);
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+        });
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) {
+        requestProcessor.processRequest(() -> {
+            try{
+                int userId = AuthorizationUtil.getUserId(request);
+
+                int id = Integer.parseInt(request.getParameter("id"));
+
+                Boolean isDelete = teamService.deleteTeam(id, userId);
+
+                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "Delete successfully", isDelete);
 
             }  catch (IllegalArgumentException e) {
                 try {

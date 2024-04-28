@@ -22,7 +22,7 @@ import router from '@/router/index.js'
 import ListStudent from '@/views/user/ListStudent.vue'
 import NotificationToClass from '@/views/user/NotificationToClass.vue'
 import Introduction from '@/views/user/Introduction.vue'
-import Team from '@/views/user/teacher/Team.vue'
+import Team from '@/views/user/Team.vue'
 const activeKey = ref('1')
 
 const getCode = () => {

@@ -1,13 +1,9 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import dto.request.ClassRequest;
-import dto.response.AppointmentResponse;
-import dto.response.ClassIntroductionResponse;
-import model.ClassRoom;
-import model.User;
-import service.ClassService;
-import service.UserService;
+import dto.response.TeamMemberResponse;
+import dto.response.TeamResponse;
+import model.TeamMember;
+import service.TeamService;
 import util.AuthorizationUtil;
 import util.RequestProcessor;
 import util.ResponseUtil;
@@ -16,17 +12,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
-@WebServlet("/api/class-introduction")
-public class ClassIntroductionController extends HttpServlet {
-
+@WebServlet("/api/teamMember")
+public class TeamMemberController extends HttpServlet {
     private final RequestProcessor requestProcessor = new RequestProcessor();
-    private static final ClassService classService = new ClassService();
+    private final TeamService teamService = new TeamService();
 
 
     @Override
@@ -35,11 +28,16 @@ public class ClassIntroductionController extends HttpServlet {
             try{
                 int userId = AuthorizationUtil.getUserId(request);
 
-                String code = request.getParameter("code");
+                int id = Integer.parseInt(request.getParameter("id"));
 
-                ClassIntroductionResponse classIntroductionResponse = classService.getIntroduction(code);
+                List<Integer> requiredRoles = Arrays.asList(2, 1, 0);
+                if (!AuthorizationUtil.checkListUserRole(request, response, requiredRoles)) {
+                    return;
+                }
 
-                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "Class introduction", classIntroductionResponse);
+                List<TeamMemberResponse> teamMemberList = teamService.getTeamMemberByTeamID(id);
+
+                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "List member", teamMemberList);
 
             }  catch (IllegalArgumentException e) {
                 try {

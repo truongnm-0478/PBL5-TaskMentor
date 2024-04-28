@@ -57,7 +57,7 @@ const onFinish = async values => {
         classCode: values.classCode
     })
         .then(res => {
-            if(res.data == true) {
+            if(res.data === true) {
                 useMessage.addMessage('success', 'Successfully participate in class.')
                 router.push('/student/listClass')
             } else {

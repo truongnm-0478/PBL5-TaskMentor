@@ -91,4 +91,15 @@ public class StudentRepository {
         }
     }
 
+    public Student getStudentByStudentCode(String studentCode) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Student> query = session.createQuery("FROM Student WHERE code = :studentCode", Student.class);
+            query.setParameter("studentCode", studentCode);
+            return query.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

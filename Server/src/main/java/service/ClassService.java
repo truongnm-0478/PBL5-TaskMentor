@@ -131,9 +131,7 @@ public class ClassService {
     }
 
     public ClassIntroductionResponse getIntroduction(String code) {
-        System.out.println("code VV = " + code);
         ClassRoom classRoom = classRepository.findByCode(code);
-        System.out.println("classRoom = " + classRoom);
         return ClassIntroductionResponse.builder()
                 .code(classRoom.getCode())
                 .description(classRoom.getDescription())

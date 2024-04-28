@@ -16,7 +16,6 @@ import java.io.IOException;
 
 @WebServlet("/api/login")
 public class LoginController extends HttpServlet {
-
     private final UserService userService = new UserService();
 
     @Override
