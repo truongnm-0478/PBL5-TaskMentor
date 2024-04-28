@@ -1,5 +1,6 @@
 <template>
     <div class="editor">
+        <a-input class="title" v-model:value="title" placeholder="Project name"/>
         <div class="ql-toolbar">
             <QuillEditor
                 :toolbar="toolbarOptions"
@@ -26,12 +27,16 @@ import {ref, watch} from 'vue'
 import {QuillEditor} from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import {QuillDeltaToHtmlConverter} from 'quill-delta-to-html'
+import router from '@/router/index.js'
+import pako from 'pako'
+import projectApi from '@/repositories/projectApi.js'
 
 
 export default {
     components: {QuillEditor},
     setup(props, context) {
         const content = ref('')
+        const title = ref('')
 
         const editorOption = ref({
             // debug: 'info',
@@ -64,7 +69,22 @@ export default {
         }
 
         const save = () => {
-            console.log(renderHTML.value)
+            const id = router.currentRoute.value.query.id
+            const compressedData = pako.deflate(renderHTML.value)
+            const base64Data = btoa(String.fromCharCode.apply(null, new Uint8Array(compressedData)))
+            const data = {
+                teamId: id,
+                title: title.value,
+                contentBase64: base64Data
+            }
+            projectApi.addRequirement(data)
+                .then(res => {
+                    console.log("RES: ", res)
+                    window.location.reload()
+                })
+                .catch(err => {
+                    console.log("ERR: ", err)
+                })
         }
 
         return {
@@ -74,6 +94,7 @@ export default {
             toolbarOptions,
             content,
             editorOption,
+            title
         }
     }
 }
@@ -86,7 +107,7 @@ export default {
     background-color: var(--color-white);
     overflow: auto;
     border-radius: 10px;
-    height: calc(100vh - 100px);
+    height: 100%;
 }
 
 .ql-toolbar {
@@ -103,6 +124,12 @@ export default {
 }
 .ql-container.ql-snow {
     border: none;
+}
+
+.title {
+    border: none;
+    border-radius: 0px;
+    font-size: 30px;
 }
 
 </style>

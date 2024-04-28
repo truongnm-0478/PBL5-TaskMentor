@@ -78,7 +78,6 @@ const handleClickAction = (record) => {
             useSpin.startLoading()
             classApi.removeStudentToClass(record.id)
                 .then(res => {
-                    console.log(res.data)
                     useSpin.stopLoading()
                     if(res.data === true) {
                         useMessage.addMessage('success', 'Delete successfully.')

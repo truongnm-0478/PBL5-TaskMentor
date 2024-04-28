@@ -10,6 +10,9 @@
                     <InfoCircleOutlined/>
                 </a-button>
             </template>
+            <span v-else-if="column.key === 'name' ">
+                <a @click="handleShowDetail(record)" >{{ record.name }}</a>
+            </span>
         </template>
     </a-table>
     <a-drawer
@@ -33,7 +36,6 @@
             </a-descriptions>
             <a-divider />
         </div>
-
     </a-drawer>
 
 </template>
@@ -43,7 +45,7 @@ import teamApi from '@/repositories/teamApi.js'
 import router from '@/router/index.js'
 import {createVNode, onMounted, ref} from 'vue'
 import dayjs from 'dayjs'
-import {DeleteOutlined, ExclamationCircleOutlined, InfoCircleOutlined} from '@ant-design/icons-vue'
+import {DeleteOutlined, ExclamationCircleOutlined, InfoCircleOutlined, ArrowRightOutlined} from '@ant-design/icons-vue'
 import {Modal} from 'ant-design-vue'
 import classApi from '@/repositories/classApi.js'
 import {useMessageStore} from '@/stores/messageStore.js'
@@ -125,11 +127,14 @@ const handleShowMember = (record) => {
     teamApi.getListMember(record.id)
         .then(res => {
             listMember.value = res.data
-            console.log(listMember.value)
         })
         .catch(err => {
             useMessageStore().addMessage('error', 'Something went wrong!')
         })
+}
+
+const handleShowDetail = record => {
+    router.push({ path: '/project', query: { id: record.key } })
 }
 
 </script>

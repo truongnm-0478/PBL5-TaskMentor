@@ -1,7 +1,7 @@
 <template class="container">
     <a-layout-sider
         theme="light"
-        width="260"
+        width="220"
         v-model:collapsed="isCollapsed"
         style="position: sticky; top: 0; height: 100vh;"
         class="main"
@@ -49,9 +49,9 @@
                 <user-outlined/>
                 <span>User</span>
             </a-menu-item>
-            <a-menu-item key="9">
-                <file-outlined/>
-                <span>Project</span>
+            <a-menu-item key="9" v-if="role === '0' || role === '1'" @click="handleMenuItemClick('9')">
+                <ProjectOutlined />
+                <span>Team</span>
             </a-menu-item>
         </a-menu>
     </a-layout-sider>
@@ -66,7 +66,8 @@ import {
     MessageOutlined,
     FileOutlined,
     TeamOutlined,
-    UserOutlined
+    UserOutlined,
+    ProjectOutlined
 } from "@ant-design/icons-vue"
 
 const isCollapsed = ref(false)
@@ -111,7 +112,9 @@ const handleMenuItemClick = (key) => {
         case '8':
             router.push('/student/listClass')
             break
-
+        case '9':
+            router.push('/student/team')
+            break
     }
 }
 

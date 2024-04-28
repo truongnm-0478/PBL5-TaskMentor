@@ -15,6 +15,9 @@ const teamApi = {
     removeTeamToClass: async (id) => {
         return await instance.delete(`${nameModel}/team?id=${id}`)
     },
+    getTeamByUser: async () => {
+        return await instance.get( nameModel + '/student/team')
+    }
 }
 
 export default teamApi

@@ -39,4 +39,15 @@ public class TeamMemberRepository {
             return null;
         }
     }
+
+    public List<TeamMember> getTeamMemberByStudentCode(String studentCode) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<TeamMember> query = session.createQuery("FROM TeamMember WHERE student.code = :studentCode AND deleteTime IS NULL AND team.deleteTime IS NULL", TeamMember.class);
+            query.setParameter("studentCode", studentCode);
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

@@ -3,6 +3,7 @@ package service;
 import dto.request.GroupCreateRequest;
 import dto.response.TeamMemberResponse;
 import dto.response.TeamResponse;
+import dto.response.TeamStudentResponse;
 import model.ClassRoom;
 import model.Student;
 import model.Team;
@@ -21,8 +22,8 @@ public class TeamService {
     private final TeamRepository teamRepository = new TeamRepository();
     private final TeamMemberRepository teamMemberRepository = new TeamMemberRepository();
     private final ClassRepository classRepository = new ClassRepository();
-
     private final StudentRepository studentRepository = new StudentRepository();
+
     public Boolean saveTeam(GroupCreateRequest groupCreateRequest, int userId) {
         ClassRoom classRoom = classRepository.findByCode(groupCreateRequest.getCode());
 
@@ -93,5 +94,40 @@ public class TeamService {
         Team teamUpdate = teamRepository.update(team);
         return teamUpdate != null;
     }
+
+    public List<TeamStudentResponse> getListTeamByUser(int userId) {
+        Student student = studentRepository.getStudentByUserId(userId);
+        List<TeamMember> teamMemberList = teamMemberRepository.getTeamMemberByStudentCode(student.getCode());
+        List<TeamStudentResponse> teamStudentResponses = new ArrayList<>();
+
+        for(TeamMember teamMember : teamMemberList) {
+            List<TeamMemberResponse> listTeamMember = getTeamMemberByTeamID(teamMember.getTeam().getId());
+            TeamStudentResponse.Leader leader = null;
+
+            for(TeamMemberResponse tmb : listTeamMember) {
+                if (tmb.getIsLeader()) {
+                    leader = TeamStudentResponse.Leader.builder()
+                            .studentId(tmb.getStudentID())
+                            .name(tmb.getName())
+                            .build();
+                    break;
+                }
+            }
+
+            TeamStudentResponse teamStudentResponse = TeamStudentResponse.builder()
+                    .id(teamMember.getTeam().getId())
+                    .name(teamMember.getTeam().getName())
+                    .className(teamMember.getTeam().getClassRoom().getClassName())
+                    .classCode(teamMember.getTeam().getClassRoom().getCode())
+                    .role(teamMember.getRole())
+                    .leader(leader)
+                    .build();
+
+            teamStudentResponses.add(teamStudentResponse);
+        }
+
+        return teamStudentResponses;
+    }
+
 
 }

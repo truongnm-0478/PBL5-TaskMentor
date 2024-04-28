@@ -14,6 +14,9 @@ import ListClassStudent from '@/views/user/student/ListClass.vue'
 import Class from '@/views/user/Class.vue'
 import Notification from '@/views/user/student/Notification.vue'
 import User from '@/views/admin/User.vue'
+import TeamManager from '@/views/user/student/TeamManagement.vue'
+import ProjectManagement from '@/views/user/ProjectManagement.vue'
+import ListRequirement from '@/views/user/ListRequirement.vue'
 
 
 import DashboardView from '../views/admin/DashboardView.vue'
@@ -34,11 +37,14 @@ const routes =  [
     { path: '/kanban', name: 'Kanban', component: Kanban },
     { path: '/QRAndCode', name: 'QRAndCode', component: QRAndCode },
     { path: '/joinClass', name: 'JoinClass', component: JoinClass },
-    { path: '/listClass', name: 'ListClass', component: ListClass},
+    { path: '/listClass', name: 'ListClass', component: ListClass },
+    { path: '/student/team', name: 'TeamManager', component: TeamManager },
     { path: '/student/listClass', name: 'ListClassStudent', component: ListClassStudent },
     { path: '/notification', name: 'Notification', component: Notification },
     { path: '/:pathMatch(.*)*', redirect: { name: 'notfound'} },
     { path: '/class', name: 'Class', component: Class },
+    { path: '/project', name: 'ProjectManagement', component: ProjectManagement },
+    { path: '/project/requirement', name: 'ListRequirement', component: ListRequirement },
 
     { path: '/admin/user', name: 'User', component: User },
 
