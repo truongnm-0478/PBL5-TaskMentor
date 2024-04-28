@@ -2,7 +2,7 @@ import * as React from 'react'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import { FontSize,color,image } from '../constants'
 const Tab = createBottomTabNavigator()
-import {Profile,Chat} from "../screens"
+import {Profile,Chat, Notification, Home} from "../screens"
 import { Login_1,Register } from '../screens'
 import Icon from 'react-native-vector-icons/FontAwesome';
 const screenOptions = ({route})=>({
@@ -32,8 +32,8 @@ const screenOptions = ({route})=>({
 function UITab(props){
 
     return <Tab.Navigator screenOptions={screenOptions}>
-        <Tab.Screen name={'Login'} component={Login_1} />
-        <Tab.Screen name={'Register'} component={Register} />
+        <Tab.Screen name={'Home'} component={Home} />
+        <Tab.Screen name={'Notification'} component={Notification} />
         <Tab.Screen name={'Chat'} component={Chat} />
         <Tab.Screen name={'Profile'} component={Profile} />
          </Tab.Navigator>

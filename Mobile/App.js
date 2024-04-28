@@ -4,6 +4,7 @@ import { Welcome, Login , Login_1, Register} from './screens/index';
 import React from 'react';
 import CategoryListItem from './screens/CategoryListItem'; 
 import App_1 from './Navigation/App_1';
+
 export default function App() {
   return (
     <View style={styles.container}>

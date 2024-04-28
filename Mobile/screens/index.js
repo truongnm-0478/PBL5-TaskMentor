@@ -5,6 +5,10 @@ import Register from "./Register";
 import Chat from './Chat/Chat'
 import Profile from './Menu/Profile'
 import Messenger from './Messenger/Messenger'
+import Notification from "./Notification/Notification";
+import Scanner from "./Home/Scanner";
+import Home from "./Home/Home";
+import ChangePassword from "./Menu/ChangePassword"
 export{
     Welcome,
     Login,
@@ -12,5 +16,9 @@ export{
     Register,
     Chat,
     Profile,
-    Messenger
+    Messenger,
+    Notification,
+    Scanner,
+    Home,
+    ChangePassword,
 }

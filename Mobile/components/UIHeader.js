@@ -6,6 +6,7 @@ function UIHeader( props){
     const {title,leftIconName='',onPressLeftIcon,onPressRightIcon,rightIconName='',image} = props
    
     return <View style={{
+       // backgroundColor:'white',
         flexDirection:'row',
         height:55,
        justifyContent:'space-between',
