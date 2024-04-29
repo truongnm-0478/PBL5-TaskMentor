@@ -7,10 +7,6 @@
                         <a-button v-if="isWriteRequirement === false"  type="primary" @click="handleOpenWriteRequirement" >Create <PlusOutlined /></a-button>
                         <a-button v-if="isWriteRequirement === true" type="primary" @click="handleOpenWriteRequirement" >Back <EnterOutlined /></a-button>
                     </span>
-                    <span v-else-if="role === 2">
-                        <a-button v-if="isWriteRequirement === false"  type="primary" style="background-color: #cd201f; margin-right: 10px">Add Comment <FormOutlined /></a-button>
-                        <a-button v-if="isWriteRequirement === false"  type="primary" style="background-color: #87d068">Approve <CheckOutlined /></a-button>
-                    </span>
                 </div>
                 <Requirement v-if="isWriteRequirement" />
                 <ListRequirement v-else />
@@ -26,7 +22,7 @@ import { ref } from 'vue'
 import router from '@/router/index.js'
 import Requirement from '@/views/user/student/Requirement.vue'
 import ListRequirement from '@/views/user/ListRequirement.vue'
-import { PlusOutlined, EnterOutlined, CheckOutlined, FormOutlined } from '@ant-design/icons-vue'
+import { PlusOutlined, EnterOutlined } from '@ant-design/icons-vue'
 import { useUserStore } from '@/stores/userStore.js'
 import Comment from '@/views/user/Comment.vue'
 
