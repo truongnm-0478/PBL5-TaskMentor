@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.request.CommentRequest;
 import dto.request.RequirementRequest;
+import dto.response.CommentResponse;
 import model.Project;
 import model.ProjectApproval;
 import service.ProjectService;
@@ -31,8 +32,7 @@ public class CommentController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)  {
         requestProcessor.processRequest(() -> {
             try {
-                List<Integer> requiredRoles = Arrays.asList(1, 0, 2);
-                if (!AuthorizationUtil.checkListUserRole(request, response, requiredRoles)) {
+                if (!AuthorizationUtil.checkUserRole(request, response, 2)) {
                     return;
                 }
                 int userId = AuthorizationUtil.getUserId(request);
@@ -67,4 +67,117 @@ public class CommentController extends HttpServlet {
             }
         });
     }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)  {
+        requestProcessor.processRequest(() -> {
+            try {
+                List<Integer> requiredRoles = Arrays.asList(1, 0, 2);
+                if (!AuthorizationUtil.checkListUserRole(request, response, requiredRoles)) {
+                    return;
+                }
+                int userId = AuthorizationUtil.getUserId(request);
+                int teamId = Integer.parseInt(request.getParameter("id"));
+
+                // read data from JSON
+                BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
+                StringBuilder jsonRequest = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    jsonRequest.append(line);
+                }
+
+                List<CommentResponse> projectApproval = projectService.getProjectApproval(teamId);
+
+                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "Get comment successfully.", projectApproval);
+            } catch (IllegalArgumentException e) {
+                try {
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } catch (IOException e) {
+                try {
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request.");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)  {
+        requestProcessor.processRequest(() -> {
+            try {
+                if (!AuthorizationUtil.checkUserRole(request, response, 2)) {
+                    return;
+                }
+                int userId = AuthorizationUtil.getUserId(request);
+                int id = Integer.parseInt(request.getParameter("id"));
+
+                // read data from JSON
+                BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
+                StringBuilder jsonRequest = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    jsonRequest.append(line);
+                }
+
+                ProjectApproval projectApproval = projectService.deleteApproval(id, userId);
+
+                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "Delete successfully.", projectApproval);
+            } catch (IllegalArgumentException e) {
+                try {
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } catch (IOException e) {
+                try {
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request.");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)  {
+        requestProcessor.processRequest(() -> {
+            try {
+                if (!AuthorizationUtil.checkUserRole(request, response, 2)) {
+                    return;
+                }
+                int userId = AuthorizationUtil.getUserId(request);
+                int id = Integer.parseInt(request.getParameter("id"));
+
+                // read data from JSON
+                BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
+                StringBuilder jsonRequest = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    jsonRequest.append(line);
+                }
+
+                ProjectApproval projectApproval = projectService.destroyApproval(id, userId);
+
+                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "Destroy successfully.", projectApproval);
+            } catch (IllegalArgumentException e) {
+                try {
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } catch (IOException e) {
+                try {
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request.");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+    }
+
 }

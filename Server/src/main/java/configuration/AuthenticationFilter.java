@@ -34,6 +34,7 @@ public class AuthenticationFilter implements Filter {
         securedEndpoints.add("/TaskMentor/api/teamMember");
         securedEndpoints.add("/TaskMentor/api/student/team");
         securedEndpoints.add("/TaskMentor/api/requirement");
+        securedEndpoints.add("/TaskMentor/api/comment");
     }
 
     @Override

@@ -1,11 +1,17 @@
 package service;
 
+import dto.request.CommentRequest;
 import dto.request.RequirementRequest;
+import dto.response.CommentResponse;
 import dto.response.RequirementResponse;
 import model.Project;
+import model.ProjectApproval;
 import model.Team;
+import model.User;
+import repository.ProjectApprovalRepository;
 import repository.ProjectRepository;
 import repository.TeamRepository;
+import repository.UserRepository;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -23,6 +29,8 @@ public class ProjectService {
 
     private final TeamRepository teamRepository = new TeamRepository();
     private final ProjectRepository projectRepository = new ProjectRepository();
+    private final ProjectApprovalRepository projectApprovalRepository = new ProjectApprovalRepository();
+    private final UserRepository userRepository = new UserRepository();
 
 
     public Project saveProject(RequirementRequest requirementRequest, int userId) throws DataFormatException, UnsupportedEncodingException {
@@ -112,6 +120,56 @@ public class ProjectService {
         Project project = projectRepository.update(projectTmp);
 
         return project != null;
+    }
+
+    public ProjectApproval addProjectApproval(CommentRequest commentRequest, int userId) {
+        Project project = projectRepository.getById(commentRequest.getProjectId());
+        ProjectApproval projectApproval = ProjectApproval.builder()
+                .project(project)
+                .status(commentRequest.isStatus())
+                .comments(commentRequest.getComment())
+                .insertTime(new java.sql.Timestamp(new Date().getTime()))
+                .insertBy(userId)
+                .build();
+        projectApprovalRepository.save(projectApproval);
+        return projectApproval;
+    }
+
+    public List<CommentResponse> getProjectApproval(int id) {
+        List<ProjectApproval> approvalList = projectApprovalRepository.findByTeamId(id);
+        List<CommentResponse> commentResponses = new ArrayList<>();
+
+        for(ProjectApproval pa : approvalList) {
+            User user = userRepository.getUserById(pa.getInsertBy());
+            CommentResponse commentResponse = CommentResponse.builder()
+                    .id(pa.getId())
+                    .name(user.getName())
+                    .username(user.getUsername())
+                    .projectId(pa.getProject().getId())
+                    .projectTitle(pa.getProject().getTitle())
+                    .status(pa.isStatus())
+                    .comment(pa.getComments())
+                    .insertTime(pa.getInsertTime())
+                    .build();
+            commentResponses.add(commentResponse);
+        }
+
+        return commentResponses;
+    }
+
+    public ProjectApproval deleteApproval(int id, int userId) {
+        ProjectApproval projectApproval = projectApprovalRepository.getById(id);
+        projectApproval.setDeleteBy(userId);
+        projectApproval.setDeleteTime(new java.sql.Timestamp(new Date().getTime()));
+        return projectApprovalRepository.update(projectApproval);
+    }
+
+    public ProjectApproval destroyApproval(int id, int userId) {
+        ProjectApproval projectApproval = projectApprovalRepository.getById(id);
+        projectApproval.setUpdateBy(userId);
+        projectApproval.setUpdateTime(new java.sql.Timestamp(new Date().getTime()));
+        projectApproval.setStatus(false);
+        return projectApprovalRepository.update(projectApproval);
     }
 }
 
