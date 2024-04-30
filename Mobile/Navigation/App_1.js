@@ -5,7 +5,7 @@ import { Welcome, Login_1, Register, Home, S, Scanner } from "../screens";
 import ChangePassword from "../screens/Menu/ChangePassword";
 import UpdateProfile from "../screens/Menu/UpdateProfile";
 import About from '../screens/Menu/About'
-import Team from "../screens/Home/Team";
+import Class from "../screens/Class/Class";
 import { Messenger } from '../screens'
 import UITab from "./UITab"
 const Stack = createNativeStackNavigator();
@@ -21,7 +21,7 @@ function App_1(props) {
                 <Stack.Screen name="UITab" component={UITab} />
                 <Stack.Screen name="Messenger" component={Messenger} />
                 <Stack.Screen name="Register" component={Register} />
-                <Stack.Screen name="Team" component={Team} />
+                <Stack.Screen name="Class" component={Class} />
                 <Stack.Screen name="ChangePassword" component={ChangePassword} />
                 <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
                 <Stack.Screen name="About" component={About} />

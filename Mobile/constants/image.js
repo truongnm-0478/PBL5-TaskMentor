@@ -9,4 +9,8 @@ export default {
     image_changePass:require('../assets/Settings/padlock.png'),
     image_About:require('../assets/Settings/info.png'),
     image_signOut: require('../assets/Settings/out.png'),
+    tabbar_home:  require('../assets/tabbar/home-2.png'),
+    tabbar_chat: require('../assets/tabbar/chat.png'),    
+    tabbar_notification: require('../assets/tabbar/notification.png'),
+    tabbar_profile: require('../assets/tabbar/user-2.png'),
 }

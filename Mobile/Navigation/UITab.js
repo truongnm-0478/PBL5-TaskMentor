@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import { FontSize,color,image } from '../constants'
+import { StyleSheet, Image, View } from "react-native";
 const Tab = createBottomTabNavigator()
 import {Profile,Chat, Notification, Home} from "../screens"
 import { Login_1,Register } from '../screens'
@@ -12,21 +13,27 @@ const screenOptions = ({route})=>({
     tabBarIcon: ({focused , color, size}) =>{
         let screensName = route.name
         let iconName = ""
-        if(screensName=="Login"){
-            iconName='facebook'
+        if(screensName=="Home"){
+            iconName= image.tabbar_home
         }
-        else if(screensName=="Register"){
-            iconName='facebook'
+        else if(screensName=="Notification"){
+            iconName=image.tabbar_notification
         }
         else if(screensName=="Chat"){
-            iconName='facebook'
+            iconName=image.tabbar_chat
         }
         else if(screensName=="Profile"){
-            iconName='facebook'
+            iconName=image.tabbar_profile
         }
-        return <Icon name={iconName} size={20} color={focused? color.pimary: color.inactive}>
-            
-        </Icon>
+        return <Image source={iconName}  style={
+            { 
+                width:size,
+                height:size,
+                tintColor: focused? color.pimary: color.inactive 
+            }
+        }> 
+           
+            </Image>
     }
 })
 function UITab(props){
