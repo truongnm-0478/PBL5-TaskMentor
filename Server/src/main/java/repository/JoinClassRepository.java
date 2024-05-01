@@ -23,10 +23,11 @@ public class JoinClassRepository {
         }
     }
 
-    public boolean isStudentInClass(Student student) {
+    public boolean isStudentInClass(Student student, String classCode) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Long> query = session.createQuery("SELECT COUNT(*) FROM StudentClass WHERE student.id = :studentId", Long.class);
+            Query<Long> query = session.createQuery("SELECT COUNT(*) FROM StudentClass WHERE Student.id = :studentId AND StudentClass.classRoom.code = :classCode", Long.class);
             query.setParameter("studentId", student.getId());
+            query.setParameter("classCode", classCode);
             Long count = query.uniqueResult();
             return count != null && count > 0;
         } catch (Exception e) {

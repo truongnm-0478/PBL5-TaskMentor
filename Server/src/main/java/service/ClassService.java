@@ -79,8 +79,8 @@ public class ClassService {
         classRepository.update(classRoom);
     }
 
-    public boolean isJoinedClass(Student student) {
-        return joinClassRepository.isStudentInClass(student);
+    public boolean isJoinedClass(Student student, String code) {
+        return joinClassRepository.isStudentInClass(student, code);
     }
 
     public boolean joinClass(JoinClassRequest joinClassRequest, int userId) {
@@ -94,7 +94,7 @@ public class ClassService {
             if(studentRepository.isCodeAndUserIdExists(userId, joinClassRequest.getStudentId())) {
                 Student student = studentRepository.getStudentByCodeAndUserId(userId, joinClassRequest.getStudentId());
 
-                if(isJoinedClass(student)) {
+                if(isJoinedClass(student, joinClassRequest.getClassCode())) {
                     return false;
                 }
 

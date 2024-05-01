@@ -1,17 +1,14 @@
 package service;
 
 import dto.request.CommentRequest;
+import dto.request.PlanRequest;
 import dto.request.RequirementRequest;
+import dto.request.SprintRequest;
 import dto.response.CommentResponse;
+import dto.response.PlanResponse;
 import dto.response.RequirementResponse;
-import model.Project;
-import model.ProjectApproval;
-import model.Team;
-import model.User;
-import repository.ProjectApprovalRepository;
-import repository.ProjectRepository;
-import repository.TeamRepository;
-import repository.UserRepository;
+import model.*;
+import repository.*;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -31,6 +28,8 @@ public class ProjectService {
     private final ProjectRepository projectRepository = new ProjectRepository();
     private final ProjectApprovalRepository projectApprovalRepository = new ProjectApprovalRepository();
     private final UserRepository userRepository = new UserRepository();
+    private final SprintRepository sprintRepository = new SprintRepository();
+    private final PlanningRepository planningRepository = new PlanningRepository();
 
 
     public Project saveProject(RequirementRequest requirementRequest, int userId) throws DataFormatException, UnsupportedEncodingException {
@@ -170,6 +169,63 @@ public class ProjectService {
         projectApproval.setUpdateTime(new java.sql.Timestamp(new Date().getTime()));
         projectApproval.setStatus(false);
         return projectApprovalRepository.update(projectApproval);
+    }
+
+    public Planning createPlanning(PlanRequest planRequest, int useId) {
+        Team team = teamRepository.getById(planRequest.getTeamId());
+        Planning planning = Planning.builder()
+                .team(team)
+                .insertTime(new java.sql.Timestamp(new Date().getTime()))
+                .insertBy(useId)
+                .build();
+        Planning planningResult = planningRepository.create(planning);
+        if (planningResult != null) {
+            List<SprintRequest> requestList = planRequest.getSprints();
+            for(SprintRequest sprintRequest : requestList) {
+                Sprint sprint = Sprint.builder()
+                        .planning(planningResult)
+                        .name(sprintRequest.getName())
+                        .stage(sprintRequest.getStage())
+                        .insertTime(new java.sql.Timestamp(new Date().getTime()))
+                        .insertBy(useId)
+                        .build();
+                Sprint sprintResult = sprintRepository.create(sprint);
+            }
+        }
+        return planningResult;
+    }
+
+    public List<PlanResponse> getPlanning(int teamId) {
+        List<PlanResponse> responseList = new ArrayList<>();
+        List<Sprint> planningList = sprintRepository.findByTeamId(teamId);
+        for(Sprint sp : planningList) {
+            PlanResponse planResponse = PlanResponse.builder()
+                    .sprintId(sp.getId())
+                    .planId(sp.getPlanning().getId())
+                    .insertTime(sp.getInsertTime())
+                    .name(sp.getName())
+                    .stage(sp.getStage())
+                    .build();
+            responseList.add(planResponse);
+        }
+        return responseList;
+    }
+
+    public Sprint updateSprint(SprintRequest sprintRequest, int userId) {
+        System.out.println("sprintRequest = " + sprintRequest);
+        Sprint sprint = sprintRepository.getById(Math.toIntExact(sprintRequest.getId()));
+        sprint.setName(sprintRequest.getName());
+        sprint.setStage(sprintRequest.getStage());
+        sprint.setUpdateBy(userId);
+        sprint.setUpdateTime(new java.sql.Timestamp(new Date().getTime()));
+        return sprintRepository.update(sprint);
+    }
+
+    public Sprint deleteSprint(int sprintId, int userId) {
+        Sprint sprint = sprintRepository.getById(sprintId);
+        sprint.setDeleteBy(userId);
+        sprint.setDeleteTime(new java.sql.Timestamp(new Date().getTime()));
+        return sprintRepository.update(sprint);
     }
 }
 

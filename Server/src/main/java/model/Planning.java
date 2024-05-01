@@ -18,8 +18,8 @@ public class Planning {
     private int id;
 
     @OneToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "id")
-    private Project project;
+    @JoinColumn(name = "team_id", referencedColumnName = "id")
+    private Team team;
 
     @Column(name = "insert_time")
     private Timestamp insertTime;
