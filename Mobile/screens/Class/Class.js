@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
 import { UIHeader } from '../../components'
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import StudentList from "./StudentList";
 function Class(props) {
     const { name } = props.route.params.teams;
     const { navigation } = props;
@@ -13,8 +14,33 @@ function Class(props) {
         {
             name: 'Trần Kim Hiếu',
             phone: '0976568992',
-            
-        }
+            email :'trankimhieu1001@gmail.com'
+        },
+        {
+            name: 'Trần Kim Hiếu',
+            phone: '0976568992',
+            email :'trankimhieu1001@gmail.com'
+        },
+        {
+            name: 'Trần Kim Hiếu',
+            phone: '0976568992',
+            email :'trankimhieu1001@gmail.com'
+        },
+        {
+            name: 'Trần Kim Hiếu',
+            phone: '0976568992',
+            email :'trankimhieu1001@gmail.com'
+        },
+        {
+            name: 'Trần Kim Hiếu',
+            phone: '0976568992',
+            email :'trankimhieu1001@gmail.com'
+        },
+        {
+            name: 'Trần Kim Hiếu',
+            phone: '0976568992',
+            email :'trankimhieu1001@gmail.com'
+        },
     ]);
     const [activeButton, setActiveButton] = useState([
         {
@@ -60,6 +86,15 @@ function Class(props) {
                     </TouchableOpacity>
                 ))}
             </View>
+            <FlatList style={{
+           
+        }} data={students} 
+        renderItem={({item}) => <StudentList onPress={()=>{
+        }} 
+        students={item} key ={item.name}
+        />
+    }
+        />
         </View>
 
     );
