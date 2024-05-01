@@ -156,4 +156,39 @@ public class TaskController extends HttpServlet {
             }
         });
     }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)  {
+        requestProcessor.processRequest(() -> {
+            try {
+                List<Integer> requiredRoles = Arrays.asList(1, 0);
+                if (!AuthorizationUtil.checkListUserRole(request, response, requiredRoles)) {
+                    return;
+                }
+                int userId = AuthorizationUtil.getUserId(request);
+
+                String taskId = request.getParameter("id");
+
+                Boolean isDelete = taskService.deleteTask(Integer.parseInt(taskId), userId);
+
+                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "Delete successfully.", isDelete);
+            } catch (IllegalArgumentException e) {
+                try {
+                    e.printStackTrace();
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    throw new RuntimeException(ex);
+                }
+            } catch (IOException e) {
+                try {
+                    e.printStackTrace();
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request.");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+    }
 }

@@ -54,54 +54,41 @@ public class TaskService {
 //
 //    }
 //
-//    private TaskResponse mapTaskToTaskResponse(Task task) {
-//        return TaskResponse.builder()
-//                .id(task.getId())
-//                .sprintId(task.getSprint().getId())
-//                .sprintName(task.getSprint().getName())
-//                .stage(task.getSprint().getStage())
-//                .taskName(task.getTaskName())
-//                .description(task.getDescription())
-//                .status(task.getStatus())
-//                .insertTime(task.getInsertTime())
-//                .build();
-//    }
 
     public List<TaskResponse> getListTask(int teamId) {
         List<Task> tasks = taskRepository.findByTeamId(teamId);
         List<TaskAssignment> taskAssignments = taskAssignmentRepository.findByTeamId(teamId);
 
+        if(taskAssignments == null) {
+            return tasks.stream()
+                .map(this::mapTaskToTaskResponse)
+                .collect(Collectors.toList());
+        }
+
+        // Tạo một HashMap để ánh xạ từ taskId sang TaskAssignment
         Map<Integer, TaskAssignment> taskAssignmentMap = new HashMap<>();
-        if (taskAssignments != null) {
-            for (TaskAssignment taskAssignment : taskAssignments) {
-                Task task = taskAssignment.getTask();
-                if (task != null) {
-                    taskAssignmentMap.put(task.getId(), taskAssignment);
-                }
-            }
+        for (TaskAssignment assignment : taskAssignments) {
+            taskAssignmentMap.put(assignment.getTask().getId(), assignment);
         }
 
-        List<TaskResponse> taskResponses = new ArrayList<>();
-        for (Task task : tasks) {
-            TaskAssignment taskAssignment = taskAssignmentMap.get(task.getId());
-            taskResponses.add(mapTaskToTaskResponse(task, taskAssignment));
-        }
-
-        return taskResponses;
+        return tasks.stream()
+                .map(task -> mapTaskToTaskResponse(task, taskAssignmentMap.getOrDefault(task.getId(), null)))
+                .collect(Collectors.toList());
     }
 
     private TaskResponse mapTaskToTaskResponse(Task task, TaskAssignment taskAssignment) {
         TaskResponse.TaskResponseBuilder responseBuilder = TaskResponse.builder()
                 .id(task.getId())
+                .sprintId(task.getSprint().getId())
+                .sprintName(task.getSprint().getName())
+                .stage(task.getSprint().getStage())
                 .taskName(task.getTaskName())
                 .description(task.getDescription())
                 .status(task.getStatus())
-                .insertTime(task.getInsertTime())
-                .sprintId(task.getSprint().getId())
-                .sprintName(task.getSprint().getName())
-                .stage(task.getSprint().getStage());
+                .insertTime(task.getInsertTime());
 
-        if (taskAssignment != null) {
+        // Kiểm tra nếu taskAssignment và assignedTo không null, gán userName từ taskAssignment
+        if (taskAssignment != null && taskAssignment.getAssignedTo() != null) {
             responseBuilder.userName(taskAssignment.getAssignedTo().getName());
         }
 
@@ -109,7 +96,18 @@ public class TaskService {
     }
 
 
-
+    private TaskResponse mapTaskToTaskResponse(Task task) {
+        return TaskResponse.builder()
+                .id(task.getId())
+                .sprintId(task.getSprint().getId())
+                .sprintName(task.getSprint().getName())
+                .stage(task.getSprint().getStage())
+                .taskName(task.getTaskName())
+                .description(task.getDescription())
+                .status(task.getStatus())
+                .insertTime(task.getInsertTime())
+                .build();
+    }
 
     public Task updateStatus(StatusRequest statusRequest, int userId) {
         Task task = taskRepository.findById(statusRequest.getId());
@@ -167,5 +165,16 @@ public class TaskService {
 
         taskAssignmentRepository.update(taskAssignment);
         return taskRepository.update(task);
+    }
+
+    public Boolean deleteTask(int taskId, int userId) {
+        Task task = taskRepository.findById(taskId);
+        task.setDeleteBy(userId);
+        task.setDeleteTime(new java.sql.Timestamp(new Date().getTime()));
+        Task taskResult = taskRepository.update(task);
+        if (taskResult.getDeleteTime() != null) {
+            return true;
+        }
+        return false;
     }
 }

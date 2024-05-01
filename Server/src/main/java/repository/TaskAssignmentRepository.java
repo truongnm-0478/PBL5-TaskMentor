@@ -58,7 +58,7 @@ public class TaskAssignmentRepository {
     public List<TaskAssignment> findByTeamId(int teamId) {
         List<TaskAssignment> sprintList  = null;
         try (Session session = sessionFactory.openSession()) {
-            Query<TaskAssignment> query = session.createQuery("FROM TaskAssignment t WHERE t.task.sprint.planning.team.id = :teamId AND deleteTime IS NULL AND t.sprint.planning.deleteTime IS NULL ORDER BY t.insertTime ASC", TaskAssignment.class);
+            Query<TaskAssignment> query = session.createQuery("FROM TaskAssignment t WHERE t.task.sprint.planning.team.id = :teamId AND deleteTime IS NULL AND  t.task.sprint.planning.deleteTime IS NULL ORDER BY t.insertTime ASC", TaskAssignment.class);
             query.setParameter("teamId", teamId);
             sprintList = query.getResultList();
         } catch (Exception e) {
