@@ -41,8 +41,9 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import projectApi from '@/repositories/projectApi.js'
 import router from "@/router/index.js"
 import { EllipsisOutlined } from '@ant-design/icons-vue'
-import ProjectApi from '@/repositories/projectApi.js'
-import {useMessageStore} from "@/stores/messageStore.js";
+import {useMessageStore} from '@/stores/messageStore.js'
+import { getColorForLastLetter } from '@/utils/colorUtils.js'
+import { getLastLetter } from '@/utils/stringUtils.js'
 
 dayjs.extend(relativeTime)
 const comments = ref([])
@@ -69,15 +70,7 @@ const getListComment = () => {
 onMounted(() => {
     getListComment()
 })
-const getColorForLastLetter = (name) => {
-    const colors = ['#1A5DB6', '#2E8B57', '#FF8C00', '#FF1493', '#8A2BE2']
-    const lastLetter = getLastLetter(name)
-    const index = lastLetter.charCodeAt(0) % colors.length
-    return colors[index]
-}
-const getLastLetter = (name) => {
-    return name.charAt(0).toUpperCase()
-}
+
 const showMore = (item) => {
     console.log('More content:', item.content);
 }

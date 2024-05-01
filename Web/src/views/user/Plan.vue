@@ -67,7 +67,8 @@ const onFinish = () => {
         })
         .catch(err => {
             useMessageStore().addMessage('error', 'Create failure!')
-        });
+        })
+    window.location.reload()
 }
 
 </script>

@@ -14,6 +14,12 @@
             <a-tab-pane key="2" tab="Comment">
                 <Comment />
             </a-tab-pane>
+            <a-tab-pane key="3" tab="Plan">
+                <Timeline />
+            </a-tab-pane>
+            <a-tab-pane key="4" tab="Task">
+                <Task />
+            </a-tab-pane>
         </a-tabs>
     </div>
 </template>
@@ -25,10 +31,14 @@ import ListRequirement from '@/views/user/ListRequirement.vue'
 import { PlusOutlined, EnterOutlined } from '@ant-design/icons-vue'
 import { useUserStore } from '@/stores/userStore.js'
 import Comment from '@/views/user/Comment.vue'
+import Timeline from '@/views/user/Plan.vue'
+import Task from '@/views/user/Task.vue'
 
 const role = ref(useUserStore().getUserRole)
 const activeKey = ref('1')
 const isWriteRequirement = ref(false)
+const projectId = ref(null)
+
 
 const getCode = () => {
     const code = router.currentRoute.value.query.code

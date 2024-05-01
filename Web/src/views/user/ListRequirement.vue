@@ -7,8 +7,8 @@
                         <span>
                             {{ item.title }}
                             <a-tag :color="listRequirement.length - 1 === index ? '#f50' : '#2db7f5'">ver {{ index + 1}}.0</a-tag>
+                            <a-tag v-if="star.includes(item.id) && useUserStore().getUserRole === 0 || useUserStore().getUserRole === 1" color="#cd201f">Approved</a-tag>
                         </span>
-
                     </div>
                 </template>
                 <p v-html="item.content"></p>
@@ -19,7 +19,7 @@
                     <a-tooltip title="Delete">
                         <a-button danger type="link" :icon="h(DeleteOutlined)"  @click="handleClick(item)" style="margin: 0 3px"/>
                     </a-tooltip>
-                    <a-tooltip title="Approve">
+                    <a-tooltip title="Approve" v-if="useUserStore().getUserRole === 2">
                         <a-button v-if="star.includes(item.id)" type="link" :icon="h(StarFilled)" style="margin: 0 3px; color: var(--color-yellow);"/>
                         <a-button v-else type="link" :icon="h(StarOutlined)"  @click="handleApprove(item)" style="margin: 0 3px; color: var(--color-yellow);"/>
                     </a-tooltip>
@@ -45,23 +45,26 @@
     </div>
 </template>
 <script setup>
-import { createVNode, h, onMounted, ref } from 'vue';
-import projectApi from '@/repositories/projectApi.js';
-import router from '@/router/index.js';
-import pako from 'pako';
-import { DeleteOutlined, ExclamationCircleOutlined, StarOutlined, StarFilled, CommentOutlined } from '@ant-design/icons-vue';
-import { Modal } from 'ant-design-vue';
-import { useMessageStore } from '@/stores/messageStore.js';
-const id = ref(0);
-const comment = ref('');
-const expandIconPosition = ref('start');
-const open = ref(false);
-const openApprove = ref(false);
-const listRequirement = ref([]);
-const activeKey = ref('1');
-const star = ref([]);
+import { createVNode, h, onMounted, ref } from 'vue'
+import projectApi from '@/repositories/projectApi.js'
+import router from '@/router/index.js'
+import pako from 'pako'
+import { DeleteOutlined, ExclamationCircleOutlined, StarOutlined, StarFilled, CommentOutlined } from '@ant-design/icons-vue'
+import { Modal } from 'ant-design-vue'
+import { useMessageStore } from '@/stores/messageStore.js'
+import {useUserStore} from "@/stores/userStore.js";
+
+const id = ref(0)
+const comment = ref('')
+const expandIconPosition = ref('start')
+const open = ref(false)
+const openApprove = ref(false)
+const listRequirement = ref([])
+const activeKey = ref('1')
+const star = ref([])
+
 const getListRequirement = () => {
-    const id = router.currentRoute.value.query.id;
+    const id = router.currentRoute.value.query.id
     projectApi.getListRequirement(id)
         .then(res => {
             listRequirement.value = res.data.map(item => {
@@ -90,7 +93,7 @@ const getListComment = () => {
         .then(res => {
             for (let i = 0; i < res.data.length; i++) {
                 if (res.data[i].status === true) {
-                    star.value.push(res.data[i].projectId);
+                    star.value.push(res.data[i].projectId)
                 }
             }
         })
@@ -166,6 +169,7 @@ const handleOk = () => {
         });
     open.value = false
 }
+
 </script>
 <style scoped>
 .list-container {

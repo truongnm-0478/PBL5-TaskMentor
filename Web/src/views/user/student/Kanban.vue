@@ -1,227 +1,633 @@
 <template>
+    <div class="categories">
+        <a-space :size="[0, 8]" wrap>
+            <span style="margin-right: 8px">Stage:</span>
+            <a-checkable-tag
+                v-for="sprint in planning"
+                :key="sprint.stage"
+                :checked="isSelected(sprint.stage)"
+                @change="handleChange(sprint.stage)"
+            >
+                {{ sprint.stage }}
+            </a-checkable-tag>
+        </a-space>
+        <a-button @click="showDrawer" type="primary">Create task
+            <PlusOutlined/>
+        </a-button>
+    </div>
     <div class="kanban-board">
         <div v-for="(list, index) in lists" :key="index" class="kanban-list" :data-index="index">
             <div :class="['list-header', list.type]">
-                <input v-model="list.title" @blur="saveListTitle(index)" class="list-title-input" />
+                <input v-model="list.title" @blur="saveListTitle(index)" class="list-title-input"/>
             </div>
             <div class="drop-zone" @drop="onDrop($event, index)" @dragover.prevent @dragenter.prevent>
-                <a-card
-                    :key="item.id"
-                    v-for="(item, itemIndex) in list.items"
-                    :title="item.title"
-                    :draggable="true"
-                    @dragstart="startDrag($event, item)"
-                    @dragover="dragOver(index, item)"
-                    style="margin-bottom: 10px"
+                <div :key="item.id"
+                     v-for="(item, itemIndex) in filteredItems(index)"
+                     :draggable="true"
+                     @dragstart="startDrag($event, item)"
+                     @dragover="dragOver(index, item)"
+                     @click="editSelectedItem(item)"
+                     class="card"
                 >
-                {{ item.title }}
+                    <p style="font-weight: 500; color: #2B3441">{{ item.description }}</p>
+                    <a-tag :bordered="false" :color="getTagColor(item.task_name)">
+                        <strong style="text-transform: uppercase; font-size: 10px">
+                            {{ item.task_name }}
+                        </strong>
+                    </a-tag>
+                    <div style="display: flex; justify-content: space-between; align-items: center">
+                        <div class="stage">
+                            <TagTwoTone/>
+                            Stage {{ item.sprint_id }}
+                        </div>
+                        <div class="user" v-if="item.userName != null">
+                            <a-avatar size="small" :style="{ backgroundColor: getColorForLastLetter(item.userName) }">{{ getLastLetter(item.userName) }}</a-avatar>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add -->
+                <a-card v-if="isAddingItem === index">
+                    <a-input type="text" v-model="newItemTitle" placeholder="Enter title" style="margin-bottom: 10px"/>
+                    <a-button @click="addItem(index)" style="width: 49%; margin-right: 1px">Add</a-button>
+                    <a-button @click="cancelAddItem" style="width: 50%">Cancel</a-button>
                 </a-card>
-                <a-card v-if="isAddingItem">
-                    <input type="text" v-model="newItemTitle" placeholder="Enter title"/>
-                    <a-button @click="addItem(index)">Add</a-button>
-                    <a-button @click="cancelAddItem">Cancel</a-button>
-                </a-card>
-                <a-button v-else @click="showAddItemForm">Add a Card</a-button>
+                <div v-else @click="showAddItemForm(index)" class="create">
+                    <PlusOutlined/>
+                    Create issue
+                </div>
             </div>
         </div>
     </div>
+    <a-drawer
+        title="Create a new account"
+        :width="720"
+        :open="open"
+        :body-style="{ paddingBottom: '80px' }"
+        :footer-style="{ textAlign: 'right' }"
+        @close="onClose"
+    >
+        <a-form :model="form" :rules="rules" layout="vertical" ref="formRef">
+            <a-row :gutter="16">
+                <a-col :span="12">
+                    <a-form-item label="Epic" name="name">
+                        <a-input v-model:value="form.name" placeholder="Please enter epic"/>
+                    </a-form-item>
+                </a-col>
+                <a-col :span="12">
+                    <a-form-item label="Status" name="status">
+                        <a-select v-model:value="form.status" placeholder="Please choose the status">
+                            <a-select-option v-for="(statusLabel, statusValue) in statusMapping" :key="statusValue" :value="statusValue">
+                                {{ statusLabel }}
+                            </a-select-option>
+                        </a-select>
+                    </a-form-item>
+                </a-col>
+            </a-row>
+            <a-row :gutter="16">
+                <a-col :span="12">
+                    <a-form-item label="Sprint" name="sprint">
+                        <a-select v-model:value="form.sprint" placeholder="Please choose the sprint">
+                            <a-select-option v-for="sprint in planning" :key="sprint.id" :value="sprint.id">
+                                Stage {{ sprint.stage }}: {{ sprint.name }}
+                            </a-select-option>
+                        </a-select>
+                    </a-form-item>
+                </a-col>
+                <a-col :span="12">
+                    <a-form-item label="Deadline" name="deadline">
+                        <a-date-picker
+                            v-model:value="form.deadline"
+                            style="width: 100%"
+                            :get-popup-container="trigger => trigger.parentElement"
+                        />
+                    </a-form-item>
+                </a-col>
+            </a-row>
+            <a-row :gutter="16">
+                <a-col :span="24">
+                    <a-form-item label="Description" name="description">
+                        <a-textarea
+                            v-model:value="form.description"
+                            :rows="4"
+                            placeholder="please enter url description"
+                        />
+                    </a-form-item>
+                </a-col>
+            </a-row>
+        </a-form>
+        <template #extra>
+            <a-space>
+                <a-button @click="onClose">Cancel</a-button>
+                <a-button type="primary" @click="handleSubmit">Submit</a-button>
+            </a-space>
+        </template>
+    </a-drawer>
+    <a-drawer
+        :width="720"
+        :open="openEdit"
+        :body-style="{ paddingBottom: '80px' }"
+        :footer-style="{ textAlign: 'right' }"
+        @close="onCloseEdit"
+    >
+        <a-form :model="formEdit" :rules="rules" layout="vertical" ref="formRef">
+            <a-row :gutter="16">
+                <a-col :span="12">
+                    <a-form-item label="Epic" name="name">
+                        <a-input v-model:value="formEdit.name" placeholder="Please enter epic"/>
+                    </a-form-item>
+                </a-col>
+                <a-col :span="12">
+                    <a-form-item label="Assignee" name="assignedTo">
+                        <a-select
+                            v-model:value="formEdit.assignedTo"
+                            show-search
+                            placeholder="Select a member"
+                            style="width: 100%"
+                            :options="options"
+                        ></a-select>
+                    </a-form-item>
+                </a-col>
+            </a-row>
+            <a-row :gutter="16">
+                <a-col :span="12">
+                    <a-form-item label="Sprint" name="sprint">
+                        <a-select v-model:value="formEdit.sprint" placeholder="Please choose the sprint">
+                            <a-select-option v-for="sprint in planning" :key="sprint.id" :value="sprint.id">
+                                Stage {{ sprint.stage }}: {{ sprint.name }}
+                            </a-select-option>
+                        </a-select>
+                    </a-form-item>
+                </a-col>
+                <a-col :span="12">
+                    <a-form-item label="Deadline" name="deadline">
+                        <a-date-picker
+                            v-model:value="formEdit.deadline"
+                            style="width: 100%"
+                            :get-popup-container="trigger => trigger.parentElement"
+                        />
+                    </a-form-item>
+                </a-col>
+            </a-row>
+            <a-row :gutter="16">
+                <a-col :span="24">
+                    <a-form-item label="Description" name="description">
+                        <a-textarea
+                            v-model:value="formEdit.description"
+                            :rows="4"
+                            placeholder="please enter url description"
+                        />
+                    </a-form-item>
+                </a-col>
+            </a-row>
+        </a-form>
+        <template #extra>
+            <a-space>
+                <a-button type="dashed" danger @click="deleteItem">Delete</a-button>
+                <a-button @click="onCloseEdit">Cancel</a-button>
+                <a-button type="primary" @click="handleSubmitEdit">Submit</a-button>
+            </a-space>
+        </template>
+    </a-drawer>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            lists: [
-                {
-                    title: 'To Do',
-                    type: 'todo',
-                    items: [
-                        { id: 0, title: 'Task 1' },
-                        { id: 1, title: 'Task 2' }
-                    ]
-                },
-                {
-                    title: 'In progress',
-                    type: 'progress',
-                    items: [
-                        { id: 2, title: 'Task 3' },
-                        { id: 3, title: 'Task 4' }
-                    ]
-                },
-                {
-                    title: 'In review',
-                    type: 'review',
-                    items: [
-                        { id: 4, title: 'Task 5' },
-                        { id: 5, title: 'Task 6' }
-                    ]
-                },
-                {
-                    title: 'Completed',
-                    type: 'completed',
-                    items: [
-                        { id: 6, title: 'Task 6' },
-                        { id: 7, title: 'Task 7' },
-                        { id: 8, title: 'Task 8' },
-                        { id: 9, title: 'Task 9' },
-                        { id: 10, title: 'Task 10' },
-                        { id: 11, title: 'Task 11' }
-                    ]
-                }
-            ],
-            newItemTitle: '',
-            newTitle: '',
-            isAddingItem: false,
-            dropIndex: -1
-        };
-    },
-    methods: {
-        startDrag(evt, item) {
-            evt.dataTransfer.dropEffect = 'move';
-            evt.dataTransfer.effectAllowed = 'move';
-            evt.dataTransfer.setData('itemID', item.id);
-            evt.dataTransfer.setData(
-                'fromIndex',
-                parseInt(evt.target.closest('.kanban-list').getAttribute('data-index'))
-            );
+<script setup>
+import {computed, onMounted, ref, watch} from 'vue'
+import {PlusOutlined, TagTwoTone, DeleteOutlined} from '@ant-design/icons-vue'
+import taskApi from '@/repositories/taskApi.js'
+import {reactive} from 'vue'
+import projectApi from '@/repositories/projectApi.js'
+import router from '@/router/index.js'
+import {useMessageStore} from '@/stores/messageStore.js'
+import dayjs from 'dayjs'
+import { getColorForLastLetter } from '@/utils/colorUtils.js'
+import { getLastLetter } from '@/utils/stringUtils.js'
+
+const open = ref(false)
+const openEdit = ref(false)
+const form = reactive({
+    name: '',
+    status: null,
+    sprint: '',
+    deadline: null,
+    description: '',
+})
+const planning = ref([])
+const statusMapping = {
+    0: 'To Do',
+    1: 'In Progress',
+    2: 'In Review',
+    3: 'Done'
+}
+
+const showDrawer = () => {
+    open.value = true
+}
+const onClose = () => {
+    open.value = false
+}
+
+const getListSprint = () => {
+    projectApi.getPlan(router.currentRoute.value.query.id)
+        .then(res => {
+            planning.value = res.data.map(sprint => ({
+                id: sprint.sprintId,
+                stage: sprint.stage,
+                name: sprint.name,
+            }))
+        })
+        .catch(err => {
+            console.log("ERR: ", err)
+        })
+}
+onMounted(() => {
+    getListSprint()
+})
+
+const rules = {
+    name: [
+        {
+            required: true,
+            message: 'Please enter epic',
         },
-        onDrop(evt, toIndex) {
-            const fromIndex = parseInt(evt.dataTransfer.getData('fromIndex'));
-            const itemID = parseInt(evt.dataTransfer.getData('itemID'));
-            const toList = this.lists[toIndex];
-
-            // Tìm danh sách từ index của toIndex
-            const fromList = this.lists[fromIndex];
-
-            if (fromList && toList) {
-                // Kiểm tra nếu đang thả vào cùng một danh sách
-                if (fromList === toList) {
-                    const itemIndex = fromList.items.findIndex(item => item.id === itemID);
-                    const item = fromList.items.splice(itemIndex, 1)[0];
-
-                    // Tính toán vị trí chèn dựa trên vị trí chuột trong sự kiện drop
-                    const dropIndex = Array.from(evt.target.closest('.drop-zone').childNodes).indexOf(evt.target);
-
-                    // Chèn phần tử vào vị trí mới
-                    toList.items.splice(dropIndex, 0, item);
-
-                    console.log(`Moved item with ID ${itemID} within list ${toIndex}`);
-                } else { // Nếu đang thả vào một danh sách khác
-                    const itemIndex = fromList.items.findIndex(item => item.id === itemID);
-                    const item = fromList.items.splice(itemIndex, 1)[0];
-
-                    // Tính toán vị trí chèn dựa trên vị trí chuột trong sự kiện drop
-                    const dropIndex = Array.from(evt.target.closest('.drop-zone').childNodes).indexOf(evt.target);
-
-                    // Chèn phần tử vào danh sách đích
-                    toList.items.splice(dropIndex, 0, item);
-
-                    console.log(`Moved item with ID ${itemID} from list ${fromIndex} to list ${toIndex}`);
-                }
-            }
+    ],
+    status: [
+        {
+            required: true,
+            message: 'Please choose the status',
         },
-        editItem(item) {
-            const index = this.lists.findIndex(list => list.items.includes(item));
-            const itemIndex = this.lists[index].items.findIndex(i => i.id === item.id);
-            this.$set(this.lists[index].items, itemIndex, {
-                ...item,
-                title: this.newItemTitle.trim()
+    ],
+    sprint: [
+        {
+            required: true,
+            message: 'Please choose the sprint',
+        },
+    ],
+    deadline: [
+        {
+            required: true,
+            message: 'Please choose the deadline',
+            type: 'object',
+        },
+    ],
+    description: [
+        {
+            required: true,
+            message: 'Please enter url description',
+        },
+    ],
+}
+
+const formRef = ref(null)
+
+const handleSubmit = () => {
+    formRef.value.validate().then(() => {
+        taskApi.addTask(form)
+            .then(res => {
+                useMessageStore().addMessage('success', 'Create successfully!')
+                form.name = ''
+                form.status = null
+                form.sprint = ''
+                form.deadline = null
+                form.description = ''
+            })
+            .catch(err => {
+                useMessageStore().addMessage('error', 'Create failure!')
+            })
+        onClose();
+    }).catch((error) => {
+        console.error('Validation Error:', error)
+    })
+}
+
+// Khai báo lists
+const lists = ref([
+    { title: 'To do', type: 'todo', items: [] },
+    { title: 'In progress', type: 'progress', items: [] },
+    { title: 'In review', type: 'review', items: [] },
+    { title: 'Completed', type: 'completed', items: [] }
+])
+
+const getListTasks = () => {
+    lists.value.forEach(list => {
+        list.items = [];
+    });
+
+    taskApi.getListTaskByTeamId(router.currentRoute.value.query.id)
+        .then(res => {
+            res.data.forEach(task => {
+                const listIndex = task.status;
+                if (listIndex >= 0 && listIndex < lists.value.length) {
+                    lists.value[listIndex].items.push({
+                        id: task.id,
+                        sprintName: task.sprintName,
+                        sprint_id: task.sprintId,
+                        task_name: task.taskName,
+                        stage: task.stage,
+                        description: task.description,
+                        status: task.status,
+                        userName: task.userName
+                    });
+                }
             });
-            this.newItemTitle = '';
-        },
-        deleteItem(item) {
-            const index = this.lists.findIndex(list => list.items.includes(item));
-            const itemIndex = this.lists[index].items.findIndex(i => i.id === item.id);
-            this.lists[index].items.splice(itemIndex, 1);
-        },
-        addList() {
-            if (this.newTitle.trim() === '') return;
-            const newList = {
-                title: this.newTitle.trim(),
-                items: []
-            };
-            this.lists.push(newList);
-            this.newTitle = '';
-        },
-        saveListTitle(index) {
-            this.lists[index].title = this.lists[index].title.trim();
-        },
-        showAddItemForm() {
-            this.isAddingItem = true;
-        },
-        addItem(index) {
-            if (this.newItemTitle.trim() === '') return;
-            const newItem = {
-                id: this.lists[index].items.length,
-                title: this.newItemTitle.trim()
-            };
-            this.lists[index].items.push(newItem);
-            this.newItemTitle = '';
-            this.isAddingItem = false;
-        },
-        cancelAddItem() {
-            this.isAddingItem = false;
-            this.newItemTitle = '';
-        },
-        dragOver(toIndex, item) {
-            const itemIndex = this.lists[toIndex].items.findIndex(i => i.id === item.id);
-            this.dropIndex = itemIndex + 1; // Chèn sau phần tử được hover
-        },
-    }
+        })
+        .catch(err => {
+            console.error("Error fetching task list:", err)
+        });
+}
+getListTasks()
+
+const newItemTitle = ref('');
+const newTitle = ref('');
+const isAddingItem = ref(null);
+const dropIndex = ref(-1);
+
+const tagColors = {
+    A: 'processing',
+    B: 'volcano',
+    C: 'warning',
+    D: 'error',
+    G: 'cyan',
+    M: 'success',
+    N: 'magenta',
+    H: 'orange',
+    I: 'volcano',
+    K: 'gold',
+    L: 'lime',
+    O: 'green',
+    P: 'red',
+    Q: 'blue',
+    R: 'geekblue',
+    S: 'processing',
+    T: 'volcano',
+    U: 'magenta',
+    V: 'orange',
 };
+
+
+// Update status
+const startDrag = (evt, item) => {
+    evt.dataTransfer.dropEffect = 'move';
+    evt.dataTransfer.effectAllowed = 'move';
+    evt.dataTransfer.setData('itemID', item.id);
+    evt.dataTransfer.setData(
+        'fromIndex',
+        parseInt(evt.target.closest('.kanban-list').getAttribute('data-index'))
+    );
+};
+
+const updateItemStatus = (item, newStatus) => {
+    let status = null
+    switch (newStatus) {
+        case 'todo':
+            status = 0
+            break
+        case 'progress':
+            status = 1
+            break
+        case 'review':
+            status = 2
+            break
+        case 'completed':
+            status = 3
+            break
+    }
+    taskApi.updateTaskStatus({
+        id: item.id,
+        status: status
+    })
+        .then(res => {
+            useMessageStore().addMessage('success', 'Successfully!')
+            getListTasks()
+        })
+        .catch(err => {
+            useMessageStore().addMessage('error', 'Failure!')
+        })
+}
+
+const onDrop = (evt, toIndex) => {
+    const fromIndex = parseInt(evt.dataTransfer.getData('fromIndex'));
+    const itemID = parseInt(evt.dataTransfer.getData('itemID'));
+    const toList = lists.value[toIndex];
+    const fromList = lists.value[fromIndex];
+
+    if (fromList && toList) {
+        const itemIndex = fromList.items.findIndex(item => item.id === itemID);
+        const item = fromList.items.splice(itemIndex, 1)[0];
+        const dropIndex = Array.from(evt.target.closest('.drop-zone').childNodes).indexOf(evt.target);
+
+        toList.items.splice(dropIndex, 0, item);
+
+        if (fromIndex !== toIndex) {
+            updateItemStatus(item, toList.type);
+        }
+    }
+}
+
+const saveListTitle = (index) => {
+    lists.value[index].title = lists.value[index].title.trim()
+}
+
+const showAddItemForm = (index) => {
+    isAddingItem.value = index;
+}
+
+const addItem = (index) => {
+    if (newItemTitle.value.trim() === '') return;
+    const newItem = {
+        id: lists.value[index].items.length,
+        title: newItemTitle.value.trim()
+    };
+    lists.value[index].items.push(newItem);
+    newItemTitle.value = '';
+    isAddingItem.value = false;
+};
+
+const cancelAddItem = () => {
+    isAddingItem.value = false;
+    newItemTitle.value = '';
+};
+
+const dragOver = (toIndex, item) => {
+    const itemIndex = lists.value[toIndex].items.findIndex(i => i.id === item.id)
+    dropIndex.value = itemIndex + 1
+};
+
+const getTagColor = (taskName) => {
+    const firstLetter = taskName.charAt(0).toUpperCase();
+    return tagColors[firstLetter] || 'green'
+}
+
+// Edit
+const options = ref([])
+const formEdit = reactive({
+    id: null,
+    taskId: null,
+    name: '',
+    sprint: '',
+    deadline: null,
+    description: '',
+    assignedTo: null,
+})
+
+const editSelectedItem = (item) => {
+    taskApi.getAssignByTaskId(item.id)
+        .then(res => {
+            formEdit.name = res.data.taskName
+            formEdit.sprint = res.data.sprintId
+            formEdit.deadline = dayjs(res.data.deadline)
+            formEdit.description = res.data.description
+            formEdit.assignedTo = res.data.assignedTo === 0 ? null : res.data.assignedTo
+            formEdit.id = res.data.id
+            formEdit.taskId = res.data.taskId
+
+
+            options.value = res.data.listAssigned.map(user => ({
+                value: user.userId,
+                label: user.name
+            }))
+        })
+        .catch(err => {
+            console.log("ERR: ", err)
+        })
+    openEdit.value = true
+}
+
+const onCloseEdit = () => {
+    openEdit.value = false
+}
+
+const handleSubmitEdit = () => {
+    taskApi.updateAssign(formEdit)
+        .then(res => {
+            useMessageStore().addMessage('success', 'Successfully!')
+            openEdit.value = false
+            getListTasks()
+        })
+        .catch(err => {
+            useMessageStore().addMessage('error', 'Failure!')
+        })
+}
+
+const deleteItem = () => {
+    taskApi.deleteTask(formEdit.taskId)
+        .then(res => {
+            useMessageStore().addMessage('success', 'Delete successfully!')
+            getListTasks()
+        })
+        .catch(err => {
+            useMessageStore().addMessage('error', 'Delete failure!')
+        })
+    openEdit.value = false
+}
+
+// Categories
+const selectedSprint = ref(null)
+
+const handleChange = (stage) => {
+    selectedSprint.value = selectedSprint.value === stage ? null : stage
+}
+
+const isSelected = (stage) => {
+    return selectedSprint.value === stage
+}
+
+const filteredItems = (index) => {
+    const list = lists.value[index];
+    if (!selectedSprint.value) {
+        return list.items;
+    }
+    return list.items.filter(item => item.stage === selectedSprint.value);
+}
 </script>
 
 <style scoped>
+
+.categories {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px 20px 10px;
+}
+
 .kanban-board {
     display: flex;
     overflow-x: auto;
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh - 234px);
 }
 
 .kanban-list {
     flex: 1;
     min-width: 250px;
-    background-color: var(--color-white);
+    background-color: var(--color-gray-light);
     margin: 0 10px 30px;
-    border-radius: 6px;
+    border-radius: 3px;
     box-shadow: rgba(9, 30, 66, 0.13) 0 1px 2px;
 }
 
 .list-header {
     padding: 8px;
-    border-radius: 6px;
 }
-
-.list-header.todo {
-    border-top: var(--color-blue) 3px solid;
-}
-
-.list-header.progress {
-    border-top: var(--color-yellow) 3px solid;
-}
-
-.list-header.review {
-    border-top: var(--color-danger) 3px solid;
-}
-
-.list-header.completed {
-    border-top: var(--color-success) 3px solid;
-}
-
 
 .list-title-input {
     border: none;
     background: transparent;
-    font-size: 16px;
+    font-size: 13px;
+    color: #1A5DB6;
+    text-transform: uppercase;
     font-weight: bold;
     width: calc(100% - 20px);
+}
+
+.card {
+    background-color: var(--color-white);
+    margin-bottom: 4px;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.card:hover {
+    background-color: #E9F2FF;
+}
+
+.more_btn {
+    display: none;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    justify-content: center;
+    align-items: center;
+    height: 24px;
+}
+
+.card:hover .more_btn {
+    display: flex;
+}
+
+.stage {
+    margin-top: 10px;
+    font-weight: 600;
+    color: #2B3441;
+}
+
+.create {
+    font-weight: 600;
+    color: #2B3441;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.create:hover {
+    background-color: rgba(43, 52, 65, 0.1);
 }
 
 .drop-zone {
     padding: 10px;
     display: flex;
-    flex-direction: column; /* Hiển thị các thẻ card theo chiều dọc */
-    align-items: stretch; /* Các thẻ card sẽ tự động mở rộng để điền vào không gian */
+    flex-direction: column;
+    align-items: stretch;
 }
 
 .drag-el {
@@ -247,7 +653,7 @@ export default {
     cursor: pointer;
     text-align: center;
     color: #fff;
-    border-radius: 4px;
+    border-radius: 3px;
     margin-top: 5px;
 }
 

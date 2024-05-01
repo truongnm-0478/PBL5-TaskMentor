@@ -1,10 +1,11 @@
-<script setup>
+<template>
+    <Kanban />
+</template>
 
+<script setup>
+import Kanban from '@/views/user/student/Kanban.vue'
 </script>
 
-<template>
-  $END$
-</template>
 
 <style scoped>
 
