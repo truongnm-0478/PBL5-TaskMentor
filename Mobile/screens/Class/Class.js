@@ -12,8 +12,8 @@ import ListTeams from "./ListTeam";
 function Class(props) {
     const { name, code } = props.route.params.teams;
     const { navigation } = props;
-    const { goBack } = navigation;
-    const [intro, setIntro]=useState([{}])
+    const { navigate, goBack } = navigation;
+    const [intro, setIntro] = useState([{}])
     const [students, setStudents] = useState([{}]);
     const [Notification, setNotification] = useState([{}])
     const [teams, setTeams] = useState([{}])
@@ -41,6 +41,7 @@ function Class(props) {
                 const code_r = { code }
                 const accessToken = await AsyncStorage.getItem('accessToken');
                 const stdata = await _class.getStudentByClass(accessToken, code_r);
+
                 setStudents(stdata); // Cập nhật state students với dữ liệu từ API
             } catch (error) {
                 console.error("Error fetching student data:", error);
@@ -80,7 +81,7 @@ function Class(props) {
                 const code_r = { code }
                 const accessToken = await AsyncStorage.getItem('accessToken');
                 const data = await _class.getIntroByClass(accessToken, code_r);
-                console.log(data)
+
                 setIntro(data)// Cập nhật state students với dữ liệu từ API
             } catch (error) {
                 console.error("Error fetching student data:", error);
@@ -111,7 +112,7 @@ function Class(props) {
                     <TouchableOpacity
                         key={index}
                         style={{
-                            backgroundColor: button.status ? color.primary : color.inactive,
+                            //backgroundColor: button.status ? color.primary : color.inactive,
                             padding: 10,
                             borderRadius: 5,
                             marginTop: 10,
@@ -120,7 +121,7 @@ function Class(props) {
                         }}
                         onPress={() => handleButtonPress(index)}
                     >
-                        <Text style={{ color: 'black' }}>{button.name}</Text>
+                        <Text style={{ color: button.status ? color.BGlogin : 'black' }}>{button.name}</Text>
                     </TouchableOpacity>
                 ))}
             </View>
@@ -142,20 +143,92 @@ function Class(props) {
                 />
                 }
             />}
-            {isliststeamActive == true && <FlatList style={{
+            {isliststeamActive == true && <View>
+                <FlatList style={{
 
-            }} data={teams}
-                renderItem={({ item }) => <ListTeams onPress={() => {
-                }}
-                teams={item} key={item.name}
+                }} data={teams}
+                    renderItem={({ item }) => <ListTeams onPress={() => {
+                        navigate('Members', { teams: item })
+                    }}
+                        teams={item} key={item.name}
+                    />
+                    }
+                    keyExtractor={(item) => item.id}
+                    ListHeaderComponent={() => (
+                        <View style={{ flexDirection: 'row', padding: 0, backgroundColor: '#f2f2f2' }}>
+                            <Text style={{ flex: 1, textAlign: 'center' }}>ID</Text>
+                            <Text style={{ flex: 1, textAlign: 'center' }}>Name</Text>
+                            <Text style={{ flex: 1, textAlign: 'center' }}>Creat Time</Text>
+                        </View>
+                    )}
                 />
-                }
-            />}
-            {isintroActive==true && <View> 
-                <Text>
-                 {intro.name}
-                </Text>
-            </View> }
+                <TouchableOpacity 
+          
+          onPress={() => {navigate('AddTeams')}} style={{
+              backgroundColor: color.BGlogin,
+              //justifyContent: "center",
+              //alignItems: "center",
+             marginTop:20,
+              borderRadius: 10,
+              alignSelf: "center",
+            //   height:60
+          }}>
+              <Text style={{
+                  padding: 10,
+                  fontSize: FontSize.h5,
+                  color: 'white'
+              }}>Create teams</Text>
+          </TouchableOpacity> 
+            </View>
+
+            }
+            {isintroActive == true && <View style={{
+                flexDirection: 'column',
+                marginLeft: 20,
+            }}>
+                <View style={{
+                    flexDirection: 'row',
+                }}>
+                    <Text>Name: </Text>
+                    <Text>{intro.name}</Text>
+                </View>
+                <View style={{
+                    flexDirection: 'row',
+                }}>
+                    <Text>Teacher: </Text>
+                    <Text>{intro.teacher.user.name}</Text>
+                </View>
+                <View style={{
+                    flexDirection: 'row',
+                }}>
+                    <Text>Phone: </Text>
+                    <Text>{intro.teacher.user.phone}</Text>
+                </View>
+                <View style={{
+                    flexDirection: 'row',
+                }}>
+                    <Text>Email: </Text>
+                    <Text>{intro.teacher.user.email}</Text>
+                </View>
+                <View style={{
+                    flexDirection: 'row',
+                }}>
+                    <Text>Create Time: </Text>
+                    <Text>{intro.createDate}</Text>
+                </View>
+                <View style={{
+                    flexDirection: 'row',
+                }}>
+                    <Text>Description: </Text>
+                    <Text>{intro.description}</Text>
+                </View>
+                <View style={{
+                    flexDirection: 'row',
+                }}>
+                    <Text>Code: </Text>
+                    <Text>{intro.code}</Text>
+                </View>
+            </View>}
         </View>
 
     );

@@ -85,10 +85,34 @@ const getIntroByClass = async(accessToken,code)=>{
         throw error; // Ném lỗi nếu có lỗi xảy ra
     }
 }
+const JoinClass = async(accessToken,studentId, classCode)=>{
+    console.log(studentId)
+    console.log(classCode)
+    try {
+        const response = await axios.post(
+            `${baseURL}/TaskMentor/api/joinClass`, // Đường dẫn API để lấy thông tin người dùng
+            {
+                studentId,
+                classCode,
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}` // Thêm token vào header
+                }
+            }
+        );
+        
+        return response.data.data; // Trả về dữ liệu của người dùng từ API
+    } catch (error) {
+        throw error; // Ném lỗi nếu có lỗi xảy ra
+    }
+}
 export default {
     getClass,
     getStudentByClass,
     getNotificationByClass,
     getTeamByClass,
     getIntroByClass,
+    JoinClass,
 }

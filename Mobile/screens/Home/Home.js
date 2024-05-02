@@ -35,7 +35,7 @@ function Home(props){
     }}>
          <UIHeader title={'Teams'}
         // leftIconName={'arrow-left'}
-        JoinIcon={'qrcode'}
+        JoinIcon={'plus-square'}
         rightIconName={'qrcode'}
         //  onPressLeftIcon= {()=>{
         //     alert('back')

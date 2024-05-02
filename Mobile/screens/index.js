@@ -10,6 +10,8 @@ import Scanner from "./Home/Scanner";
 import Home from "./Home/Home";
 import ChangePassword from "./Menu/ChangePassword"
 import JoinTeam from "./Home/JoinTeam";
+import Members from "./Teams/Member";
+import AddTeams from "./Teams/AddTeams";
 export{
     Welcome,
     Login,
@@ -22,5 +24,7 @@ export{
     Scanner,
     Home,
     ChangePassword,
-    JoinTeam
+    JoinTeam,
+    Members,
+    AddTeams,
 }

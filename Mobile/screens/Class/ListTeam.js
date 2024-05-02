@@ -1,42 +1,48 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, ImageBackground, TouchableOpacity, TextInput, KeyboardAvoidingView, Keyboard } from "react-native";
+import { Text, View, Image, ImageBackground, TouchableOpacity, TextInput, KeyboardAvoidingView, Keyboard , FlatList,StyleSheet} from "react-native";
 import { image, icons, color, FontSize } from "../../constants";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
-function ListTeams(props){
-    let { id, name,insertTime } = props.teams
-    const {onPress} = props
-    return(<TouchableOpacity onPress={onPress} style={{
-        marginBottom:5,
-        paddingTop: 20,
-        paddingStart: 10,
-        flexDirection:'row',
-       // alignItems:"center"
-      // alignItems:"center",
-       marginEnd:10,
-    }}>
-      
-      <View style={{
-        flexDirection:'column',
-      }}>
-      <Text style={{
-        color:'black',
-        fontSize:FontSize.h5,
-        fontWeight:'bold'
-      }}>{id}</Text>
-      <View style={{
-        marginRight:60
-      }}>
-      <Text style={{
-       
-        paddingEnd:10,
-        color:color.inactive,
-        fontSize:FontSize.h5,
-        marginRight:10,
-      }}>{name}</Text>
-      </View>
-    
-      </View>
 
-    </TouchableOpacity>)
-} export default ListTeams
+
+
+const styles = StyleSheet.create({
+  row: {
+   
+    flexDirection: 'row',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
+  },
+  cell: {
+    flex: 1,
+    alignItems: 'center',
+    textAlign:"center"
+
+  },
+});
+
+const ListTeams = ({ teams , onPress}) => {
+  const insertTime = new Date(teams.insertTime);
+  // Lấy các thành phần của ngày và giờ
+  const year = insertTime.getFullYear();
+  const month = insertTime.getMonth() + 1;
+  const date = insertTime.getDate();
+  const hours = insertTime.getHours();
+  const minutes = insertTime.getMinutes();
+  const seconds = insertTime.getSeconds();
+
+  // Tạo chuỗi ngày giờ định dạng
+  const formattedInsertTime = `${date}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+  
+  return (
+    
+    <TouchableOpacity onPress={onPress} style={styles.row}>
+      <Text style={styles.cell}>{teams.id}</Text>
+      <Text style={styles.cell}>{teams.name}</Text>
+      <Text style={styles.cell}>{formattedInsertTime}</Text>
+    </TouchableOpacity>
+  );
+};
+
+export default ListTeams;

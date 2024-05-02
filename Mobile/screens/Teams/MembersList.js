@@ -3,8 +3,9 @@ import { Text, View, Image, ImageBackground, TouchableOpacity, TextInput, Keyboa
 import { image, icons, color, FontSize } from "../../constants";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
-function StudentList(props) {
-  let { name, phone, email, studentId } = props.students
+function MembersList(props) {
+  let { studentID, phone, mail, isLeader ,name} = props.member
+  const role = isLeader ? "Leader" : "Member";
   const { onPress } = props
   return <View style={{
     marginTop: 5,
@@ -12,7 +13,7 @@ function StudentList(props) {
     <View style={styles.container}>
       <View style={styles.row}>
         <Text style={styles.label}>StudentId:</Text>
-        <Text style={styles.info}>{studentId}</Text>
+        <Text style={styles.info}>{studentID}</Text>
       </View>
       <View style={styles.row}>
         <Text style={styles.label}>Name:</Text>
@@ -24,7 +25,11 @@ function StudentList(props) {
       </View>
       <View style={styles.row}>
         <Text style={styles.label}>Email:</Text>
-        <Text style={styles.info}>{email}</Text>
+        <Text style={styles.info}>{mail}</Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.label}>Role:</Text>
+        <Text style={styles.info}>{role}</Text>
       </View>
     </View>
   </View>
@@ -50,4 +55,4 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-export default StudentList
+export default MembersList
