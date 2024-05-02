@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, View ,Image} from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import {color, FontSize} from '../constants'
 function UIHeader( props){
-    const {title,leftIconName='',onPressLeftIcon,onPressRightIcon,rightIconName='',image} = props
+    const {title,leftIconName='',onPressLeftIcon,onPressRightIcon,rightIconName='',image,JoinIcon='', onPressJoinicon} = props
    
     return <View style={{
        // backgroundColor:'white',
@@ -41,8 +41,9 @@ function UIHeader( props){
             </Text>
            {rightIconName && <Icon name={rightIconName} size={25} color='black' style={{
             padding:10,
-            
-
         }} onPress={onPressRightIcon}></Icon>}
+         {JoinIcon && <Icon name={JoinIcon} size={25} color='black' style={{
+            padding:10,
+        }} onPress={onPressJoinicon}></Icon>}
     </View>
 } export default UIHeader

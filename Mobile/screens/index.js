@@ -9,6 +9,7 @@ import Notification from "./Notification/Notification";
 import Scanner from "./Home/Scanner";
 import Home from "./Home/Home";
 import ChangePassword from "./Menu/ChangePassword"
+import JoinTeam from "./Home/JoinTeam";
 export{
     Welcome,
     Login,
@@ -21,4 +22,5 @@ export{
     Scanner,
     Home,
     ChangePassword,
+    JoinTeam
 }

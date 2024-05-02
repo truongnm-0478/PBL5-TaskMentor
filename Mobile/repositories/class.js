@@ -17,6 +17,78 @@ const getClass = async(accessToken)=>{
         throw error; // Ném lỗi nếu có lỗi xảy ra
     }
 }
+const getStudentByClass = async(accessToken,code)=>{
+    try {
+        const response = await axios.get(
+            `${baseURL}/TaskMentor/api/student?code=${code.code}`, // Đường dẫn API để lấy thông tin người dùng
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}` // Thêm token vào header
+                }
+            }
+        );
+        
+        return response.data.data; // Trả về dữ liệu của người dùng từ API
+    } catch (error) {
+        throw error; // Ném lỗi nếu có lỗi xảy ra
+    }
+}
+const getNotificationByClass = async(accessToken,code)=>{
+    try {
+        const response = await axios.get(
+            `${baseURL}/TaskMentor/api/notification-class?code=${code.code}`, // Đường dẫn API để lấy thông tin người dùng
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}` // Thêm token vào header
+                }
+            }
+        );
+        
+        return response.data.data; // Trả về dữ liệu của người dùng từ API
+    } catch (error) {
+        throw error; // Ném lỗi nếu có lỗi xảy ra
+    }
+}
+const getTeamByClass = async(accessToken,code)=>{
+    try {
+        const response = await axios.get(
+            `${baseURL}/TaskMentor/api/team?code=${code.code}`, // Đường dẫn API để lấy thông tin người dùng
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}` // Thêm token vào header
+                }
+            }
+        );
+        
+        return response.data.data; // Trả về dữ liệu của người dùng từ API
+    } catch (error) {
+        throw error; // Ném lỗi nếu có lỗi xảy ra
+    }
+}
+const getIntroByClass = async(accessToken,code)=>{
+    try {
+        const response = await axios.get(
+            `${baseURL}/TaskMentor/api/class-introduction?code=${code.code}`, // Đường dẫn API để lấy thông tin người dùng
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}` // Thêm token vào header
+                }
+            }
+        );
+        
+        return response.data.data; // Trả về dữ liệu của người dùng từ API
+    } catch (error) {
+        throw error; // Ném lỗi nếu có lỗi xảy ra
+    }
+}
 export default {
     getClass,
+    getStudentByClass,
+    getNotificationByClass,
+    getTeamByClass,
+    getIntroByClass,
 }

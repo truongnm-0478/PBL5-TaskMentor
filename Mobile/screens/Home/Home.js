@@ -35,6 +35,7 @@ function Home(props){
     }}>
          <UIHeader title={'Teams'}
         // leftIconName={'arrow-left'}
+        JoinIcon={'qrcode'}
         rightIconName={'qrcode'}
         //  onPressLeftIcon= {()=>{
         //     alert('back')
@@ -42,6 +43,9 @@ function Home(props){
          onPressRightIcon= {()=>{
             navigate('Scanner')
          }}
+         onPressJoinicon= {()=>{
+          navigate('JoinTeam')
+       }}
         ></UIHeader>
         <FlatList style={{
            
@@ -55,80 +59,3 @@ function Home(props){
         />
     </View>
 } export default Home
-// {   id: 1,
-//     name: "Pbl5",
-//     year: 2024,
-//     image:"https://i.pinimg.com/736x/5b/b7/ea/5bb7ea5849b86c43ef4691dea43ee049.jpg",
-//     detail: 'nhóm này lập ra để hổ trợ sinh viên làm đồ án năm 2025'
-
-// },
-// {   id: 2,
-//     name: "Pbl5",
-//     year: 2024,
-//     image:"https://i.pinimg.com/736x/5b/b7/ea/5bb7ea5849b86c43ef4691dea43ee049.jpg",
-//     detail: 'nhóm này lập ra để hổ trợ sinh viên làm đồ án năm 2025'
-
-// },
-// {   id: 3,
-//     name: "Pbl5",
-//     year: 2024,
-//     image:"https://i.pinimg.com/736x/5b/b7/ea/5bb7ea5849b86c43ef4691dea43ee049.jpg",
-//     detail: 'nhóm này lập ra để hổ trợ sinh viên làm đồ án năm 2025'
-
-// },
-// {   id: 4,
-//     name: "Pbl5",
-//     year: 2024,
-//     image:"https://i.pinimg.com/736x/5b/b7/ea/5bb7ea5849b86c43ef4691dea43ee049.jpg",
-//     detail: 'nhóm này lập ra để hổ trợ sinh viên làm đồ án năm 2025'
-
-// },
-// {   id: 5,
-//     name: "Pbl5",
-//     year: 2024,
-//     image:"https://i.pinimg.com/736x/5b/b7/ea/5bb7ea5849b86c43ef4691dea43ee049.jpg",
-//     detail: 'nhóm này lập ra để hổ trợ sinh viên làm đồ án năm 2025'
-
-// },
-// {   id: 6,
-//     name: "Pbl5",
-//     year: 2024,
-//     image:"https://i.pinimg.com/736x/5b/b7/ea/5bb7ea5849b86c43ef4691dea43ee049.jpg",
-//     detail: 'nhóm này lập ra để hổ trợ sinh viên làm đồ án năm 2025'
-
-// },
-// {   id: 7,
-//     name: "Pbl5",
-//     year: 2024,
-//     image:"https://i.pinimg.com/736x/5b/b7/ea/5bb7ea5849b86c43ef4691dea43ee049.jpg",
-//     detail: 'nhóm này lập ra để hổ trợ sinh viên làm đồ án năm 2025'
-
-// },
-// {   id: 8,
-//     name: "Pbl5",
-//     year: 2024,
-//     image:"https://i.pinimg.com/736x/5b/b7/ea/5bb7ea5849b86c43ef4691dea43ee049.jpg",
-//     detail: 'nhóm này lập ra để hổ trợ sinh viên làm đồ án năm 2025'
-
-// },
-// {   id: 9,
-//     name: "Pbl5",
-//     year: 2024,
-//     image:"https://i.pinimg.com/736x/5b/b7/ea/5bb7ea5849b86c43ef4691dea43ee049.jpg",
-//     detail: 'nhóm này lập ra để hổ trợ sinh viên làm đồ án năm 2025'
-
-// },
-// {   id: 10,
-//     name: "Pbl5",
-//     year: 2024,
-//     image:"https://i.pinimg.com/736x/5b/b7/ea/5bb7ea5849b86c43ef4691dea43ee049.jpg",
-//     detail: 'nhóm này lập ra để hổ trợ sinh viên làm đồ án năm 2025'
-
-// },
-// {   id: 11,
-//     name: "Pbl5",
-//     year: 2024,
-//     image:"https://i.pinimg.com/736x/5b/b7/ea/5bb7ea5849b86c43ef4691dea43ee049.jpg",
-//     detail: 'nhóm này lập ra để hổ trợ sinh viên làm đồ án năm 2025'
-
-// },
