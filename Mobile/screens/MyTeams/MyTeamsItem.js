@@ -3,8 +3,8 @@ import { Text, View, Image, ImageBackground, TouchableOpacity, TextInput, Keyboa
 import { image, icons, color, FontSize } from "../../constants";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
-function HomeItem(props) {
-  let {description, name, datetime } = props.teams
+function MyTeamsItem(props) {
+  let { id, name, classname, classcode } = props.myteams
   const { onPress } = props
   if (!name) {
     return null; // hoặc có thể hiển thị một placeholder khác thay vì null
@@ -62,10 +62,10 @@ function HomeItem(props) {
           color: color.inactive,
           fontSize: FontSize.h5,
           marginRight: 10,
-        }}>{description}</Text>
+        }}>{classname}</Text>
       </View>
 
     </View>
 
   </TouchableOpacity>)
-} export default HomeItem
+} export default MyTeamsItem

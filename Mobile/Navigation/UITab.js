@@ -4,6 +4,7 @@ import { FontSize,color,image } from '../constants'
 import { StyleSheet, Image, View } from "react-native";
 const Tab = createBottomTabNavigator()
 import {Profile,Chat, Notification, Home} from "../screens"
+import MyTeams from '../screens/MyTeams/MyTeams';
 import { Login_1,Register } from '../screens'
 import Icon from 'react-native-vector-icons/FontAwesome';
 const screenOptions = ({route})=>({
@@ -40,8 +41,10 @@ function UITab(props){
 
     return <Tab.Navigator screenOptions={screenOptions}>
         <Tab.Screen name={'Home'} component={Home} />
+        <Tab.Screen name={'MyTeams'} component={MyTeams} />
         <Tab.Screen name={'Notification'} component={Notification} />
-        {/* <Tab.Screen name={'Chat'} component={Chat} /> */}
+        <Tab.Screen name={'Chat'} component={Chat} />
         <Tab.Screen name={'Profile'} component={Profile} />
+       
          </Tab.Navigator>
 } export default UITab

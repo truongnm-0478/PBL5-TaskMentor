@@ -164,7 +164,7 @@ function Class(props) {
                 />
                 <TouchableOpacity 
           
-          onPress={() => {navigate('AddTeams')}} style={{
+          onPress={() => {navigate('AddTeams',{code:code})}} style={{
               backgroundColor: color.BGlogin,
               //justifyContent: "center",
               //alignItems: "center",

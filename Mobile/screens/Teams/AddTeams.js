@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, FlatList, Text, StyleSheet } from 'react-native';
-
+import { View, TextInput, Button, FlatList, Text, StyleSheet ,Switch} from 'react-native';
+import { teams } from '../../repositories';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const styles = StyleSheet.create({
   container: {
+    marginTop:40,
     flex: 1,
     padding: 20,
   },
@@ -32,27 +34,53 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f8f8',
     borderWidth: 1,
     borderColor: '#eee',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });
 
-const AddTeams = () => {
+const AddTeams = ({route}) => {
+   const { code } = route.params;
   const [teamName, setTeamName] = useState('');
   const [members, setMembers] = useState([]);
   const [memberInput, setMemberInput] = useState('');
+  const [memberRole, setMemberRole] = useState(false); // State for member role
 
   const addMemberHandler = () => {
-    setMembers(currentMembers => [...currentMembers, memberInput]);
+    const newMember = { studentId: memberInput, leader: memberRole }; // Include role in member object
+    setMembers(currentMembers => [...currentMembers, newMember]);
     setMemberInput('');
+    setMemberRole(false); // Reset role state after adding member
+  };
+
+  const toggleRoleHandler = (index) => {
+    const updatedMembers = [...members];
+    updatedMembers[index].role = !updatedMembers[index].role;
+    setMembers(updatedMembers);
   };
 
   const addTeamHandler = () => {
     // Logic to add the team
-    console.log('Team Name:', teamName);
-    console.log('Members:', members);
+    // console.log({code})
+    // console.log('Team Name:', teamName);
+    // console.log('Members:', members);
     // Reset the states
     setTeamName('');
     setMembers([]);
+    create()
   };
+  const create = async () => {
+    try {
+      const accessToken = await AsyncStorage.getItem('accessToken');
+       const response = await teams.createTeam(teamName , code, members,accessToken)
+
+        
+
+    } catch (error) {
+       console.log(error)
+    } 
+}
 
   return (
     <View style={styles.container}>
@@ -69,15 +97,23 @@ const AddTeams = () => {
           value={memberInput}
           onChangeText={setMemberInput}
         />
+        <Switch
+          value={memberRole}
+          onValueChange={() => setMemberRole(previousState => !previousState)}
+        />
         <Button title="Add Member" onPress={addMemberHandler} />
       </View>
       <FlatList
         style={styles.listContainer}
         data={members}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <View style={styles.listItem}>
-            <Text>{item}</Text>
+            <Text>{item.studentId}</Text>
+            <Switch
+              value={item.leader}
+              onValueChange={() => toggleRoleHandler(index)}
+            />
           </View>
         )}
       />

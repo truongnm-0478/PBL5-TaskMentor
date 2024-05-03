@@ -30,7 +30,20 @@ function Members(props) {
     return <View style={{
         marginTop: 40
     }}>
-
+        <UIHeader title={'MyTeams'}
+        // leftIconName={'arrow-left'}
+        // JoinIcon={'plus-square'}
+        // rightIconName={'qrcode'}
+        //  onPressLeftIcon= {()=>{
+        //     alert('back')
+        //  }}
+    //      onPressRightIcon= {()=>{
+    //         navigate('Scanner')
+    //      }}
+    //      onPressJoinicon= {()=>{
+    //       navigate('JoinTeam')
+    //    }}
+        ></UIHeader>
         <FlatList style={{
 
         }} data={member}
