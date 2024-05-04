@@ -18,6 +18,7 @@ import TeamManager from '@/views/user/student/TeamManagement.vue'
 import ProjectManagement from '@/views/user/ProjectManagement.vue'
 import ListRequirement from '@/views/user/ListRequirement.vue'
 import Chart from '@/views/admin/Chart.vue'
+import AppointmentClass from '@/views/user/teacher/AppointmentClass.vue'
 
 
 import DashboardView from '../views/admin/DashboardView.vue'
@@ -46,6 +47,7 @@ const routes =  [
     { path: '/class', name: 'Class', component: Class },
     { path: '/project', name: 'ProjectManagement', component: ProjectManagement },
     { path: '/project/requirement', name: 'ListRequirement', component: ListRequirement },
+    { path: '/appointment/class', name: 'AppointmentClass', component: AppointmentClass },
 
     { path: '/admin/chart', name: 'Chart', component: Chart },
     { path: '/admin/user', name: 'User', component: User },

@@ -13,6 +13,9 @@
             <a-tab-pane key="4" tab="Introduction">
                 <Introduction />
             </a-tab-pane>
+            <a-tab-pane key="5" tab="Appointment">
+                <AppointmentClass />
+            </a-tab-pane>
         </a-tabs>
     </div>
 </template>
@@ -23,6 +26,7 @@ import ListStudent from '@/views/user/ListStudent.vue'
 import NotificationToClass from '@/views/user/NotificationToClass.vue'
 import Introduction from '@/views/user/Introduction.vue'
 import Team from '@/views/user/Team.vue'
+import AppointmentClass from "@/views/user/teacher/AppointmentClass.vue";
 const activeKey = ref('1')
 
 const getCode = () => {

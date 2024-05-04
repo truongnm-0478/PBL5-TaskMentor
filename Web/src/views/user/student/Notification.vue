@@ -1,5 +1,4 @@
 <template>
-    <h2> Notification </h2>
     <a-list item-layout="horizontal" :data-source="data" style="width: 100%">
         <template #renderItem="{ item }">
             <a-comment class="comment" @click="handleClickItem(item)">

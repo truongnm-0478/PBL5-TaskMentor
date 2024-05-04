@@ -1,18 +1,5 @@
 <template>
-    <div id="appointment" class="appointment-wrapper">
-        <a-select
-            ref="select"
-            v-model:value="selected"
-            style="width: 120px"
-            @focus="focus"
-            @change="handleChangeView"
-            class="select-view"
-        >
-            <a-select-option value="day">Day</a-select-option>
-            <a-select-option value="week">Week</a-select-option>
-            <a-select-option value="month">Month</a-select-option>
-        </a-select>
-
+    <div class="appointment-class">
         <div class="calendar-container">
             <vue-cal
                 ref="vuecal"
@@ -21,7 +8,7 @@
                 hide-view-selector
                 :selected-date="currentDate"
                 :time-from="6 * 60"
-                :time-to="23 * 60"
+                :time-to="21 * 60"
                 :watchRealTime="true"
                 :disable-views="['years', 'year']"
                 editable-events
@@ -72,7 +59,19 @@
                 </a-input-number>
                 <a-input :value="newEvent.location" @update:value=" newValue => newEvent.location= newValue"
                          id="location" placeholder="Add location" class="space"/>
+
                 <a-select
+                    v-if="useUserStore().getUserRole === 2"
+                    v-model:value="guest"
+                    mode="multiple"
+                    style="width: 100%; max-height: 200px"
+                    placeholder="Please select"
+                    :options="[ { value: 'all', label: 'Select All' }, ...listUser ]"
+                    @change="handleChange"
+                    :filter-option="(input, option) => option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0"
+                />
+                <a-select
+                    v-else
                     v-model:value="guest"
                     mode="multiple"
                     style="width: 100%; max-height: 200px"
@@ -81,6 +80,8 @@
                     @change="handleChange"
                     :filter-option="(input, option) => option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0"
                 />
+
+
             </div>
         </a-modal>
         <a-modal v-model:open="modelInfoVisible" @ok="updateEvent">
@@ -151,12 +152,13 @@ import VueCal from 'vue-cal'
 import 'vue-cal/dist/vuecal.css'
 import {createVNode, ref} from 'vue'
 import dayjs from 'dayjs'
-import userApi from '@/repositories/userApi.js'
 import appointmentApi from '@/repositories/appointmentApi.js'
 import {useMessageStore} from '@/stores/messageStore.js'
 import {Modal} from "ant-design-vue";
-import {ExclamationCircleOutlined} from "@ant-design/icons-vue";
-import classApi from "@/repositories/classApi.js";
+import {ExclamationCircleOutlined} from '@ant-design/icons-vue'
+import classApi from '@/repositories/classApi.js'
+import router from '@/router/index.js'
+import {useUserStore} from '@/stores/userStore.js'
 
 const reminder = ref()
 const typeTime = ref('Minutes')
@@ -169,6 +171,7 @@ const title = ref('')
 const activeView = ref('week')
 const modelInfoVisible = ref(false)
 const messageStore = useMessageStore()
+const code = router.currentRoute.value.query.code
 const newEvent = ref({
     title: '',
     startTime: dayjs(),
@@ -190,7 +193,7 @@ const infoEvent = ref({
 
 const listUser = ref([])
 const getListUser = () => {
-    userApi.getListUser()
+    classApi.getListStudentInClass(code)
         .then(res => {
             listUser.value = res.data.map(user => ({
                 value: user.id,
@@ -319,8 +322,16 @@ const getCurrentDay = () => {
 currentDate.value = getCurrentDay()
 
 const handleChange = guest => {
+    if (guest.includes('all')) {
+        guest = listUser.value.map(user => user.value).filter(user => user !== 'all')
+        console.log("LIST ", guest)
+    }
     listGuest.value = guest
+
+    console.log(listGuest.value)
+
 }
+
 
 const updateTimeRange = (newValue) => {
     newEvent.value.startTime = newValue[0]
@@ -439,28 +450,23 @@ setInterval(checkTimeBefore, 60000);
 </script>
 
 <style>
-.appointment-wrapper {
-    padding: 10px;
+.appointment-class {
     background-color: var(--color-white);
-    border-radius: 10px;
-    height: calc(100vh - 100px);
     overflow: hidden;
+    height: 75vh;
 }
 
-.select-view {
-    margin: 10px;
-}
 
-.calendar-container {
+.appointment-class .calendar-container {
     overflow-y: auto;
-    height: 86vh
+    height: 75vh;
 }
 
-.calendar-scrollable {
+.appointment-class .calendar-scrollable {
     overflow-x: hidden
 }
 
-.form-model {
+.appointment-class .form-model {
     padding: 30px 10px;
 }
 
@@ -598,5 +604,8 @@ setInterval(checkTimeBefore, 60000);
     font-style: italic;
 }
 
+.vuecal__flex.vuecal__title {
+    font-size: 16px;
+}
 
 </style>

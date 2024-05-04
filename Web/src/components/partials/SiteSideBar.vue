@@ -24,10 +24,6 @@
                 <BellOutlined/>
                 <span>Notification</span>
             </a-menu-item>
-            <a-menu-item key="2">
-                <MessageOutlined/>
-                <span>Chat</span>
-            </a-menu-item>
             <a-menu-item key="3" @click="handleMenuItemClick('3')">
                 <CalendarOutlined/>
                 <span>Appointment</span>

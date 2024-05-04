@@ -1,7 +1,9 @@
 package repository;
 
 import dto.response.GuestResponse;
+import model.Appointment;
 import model.GroupMeeting;
+import model.Notification;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -54,6 +56,17 @@ public class GroupMeetingRepository {
         return results;
     }
 
+    public List<GroupMeeting> findByUserId(int userId) {
+        List<GroupMeeting> results = new ArrayList<>();
+        try (Session session = sessionFactory.openSession()) {
+            Query query = session.createQuery("SELECT gm FROM GroupMeeting gm WHERE gm.user.id = :userId AND gm.appointment.deleteTime IS NULL", GroupMeeting.class);
+            query.setParameter("userId", userId);
+            results = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return results;
+    }
 
 
 

@@ -4,6 +4,7 @@ import dto.response.StudentResponse;
 import model.ClassRoom;
 import model.Student;
 import model.StudentClass;
+import model.User;
 import repository.JoinClassRepository;
 import repository.StudentRepository;
 

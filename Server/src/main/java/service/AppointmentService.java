@@ -74,9 +74,53 @@ public class AppointmentService {
         return appointmentResponsesList;
     }
 
+    public List<AppointmentResponse> getAppointmentOfGuest(int userId) {
+        List<GroupMeeting> groupMeetingList = groupMeetingRepository.findByUserId(userId);
+
+        List<AppointmentResponse> appointmentResponsesList = new ArrayList<>();
+
+
+        for(GroupMeeting a : groupMeetingList) {
+            Timestamp timeBefore = reminderRepository.findRemindersByAppointmentId(a.getAppointment().getId()).get(0).getTimeBefore();
+            Timestamp startDate = a.getAppointment().getDateStart();
+
+            Duration duration = Duration.between(timeBefore.toInstant(), startDate.toInstant());
+
+            int amount;
+            String unit;
+
+            if (duration.toMinutes() % 60 == 0 && duration.toHours() % 24 == 0) {
+                amount = (int) duration.toDays();
+                unit = "Days";
+            } else if (duration.toMinutes() % 60 == 0) {
+                amount = (int) duration.toHours();
+                unit = "Hours";
+            } else {
+                amount = (int) duration.toMinutes();
+                unit = "Minutes";
+            }
+
+
+            AppointmentResponse appointmentResponse = AppointmentResponse.builder()
+                    .id(a.getAppointment().getId())
+                    .start(a.getAppointment().getDateStart())
+                    .end(a.getAppointment().getDateEnd())
+                    .title(a.getAppointment().getName())
+                    .location(a.getAppointment().getLocation())
+                    .timeBefore(timeBefore)
+                    .listGuest(groupMeetingRepository.findByAppointmentId(a.getAppointment().getId()))
+                    .reminder(amount)
+                    .typeTime(unit)
+                    .color((a.getAppointment().getUser().getRole() == 2) ? "important" : "student")
+                    .build();
+            appointmentResponsesList.add(appointmentResponse);
+        }
+
+        return appointmentResponsesList;
+    }
+
 
     public Appointment createAppointment(String name, Timestamp dateStart, Timestamp dateEnd, String location, String reminder, int userId, List<Integer> listGuest) {
-        System.out.println("APP SER");
         User user = User.builder().id(userId).build();
         Appointment appointment = Appointment.builder()
                 .name(name)
@@ -109,10 +153,8 @@ public class AppointmentService {
         appointment.setUpdateTime(new java.sql.Timestamp(new Date().getTime()));
         appointment.setName(name);
 
-        System.out.println("appointment = " + appointment);
 
         Appointment updateAppointment = appointmentRepository.update(appointment);
-        System.out.println("updateAppointment = " + updateAppointment);
 
         return updateAppointment;
     }

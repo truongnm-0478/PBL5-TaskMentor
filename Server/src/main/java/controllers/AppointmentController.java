@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
-@WebServlet("/api/appointment")
+@WebServlet("/api/appointment/*")
 public class AppointmentController extends HttpServlet {
     private final RequestProcessor requestProcessor = new RequestProcessor();
     private final AppointmentService appointmentService = new AppointmentService();
@@ -30,29 +30,43 @@ public class AppointmentController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         requestProcessor.processRequest(() -> {
-            try{
-                int userId = AuthorizationUtil.getUserId(request);
+            try {
 
-                System.out.println("userId = " + userId);
+                String pathInfo = request.getPathInfo();
 
-                List<Integer> requiredRoles = Arrays.asList(2, 1, 0);
-                if (!AuthorizationUtil.checkListUserRole(request, response, requiredRoles)) {
-                    return;
+                List<AppointmentResponse> appointmentList;
+
+                if (pathInfo != null && pathInfo.equals("/guest")) {
+                    int userId = AuthorizationUtil.getUserId(request);
+
+                    List<Integer> requiredRoles = Arrays.asList(2, 1, 0);
+                    if (!AuthorizationUtil.checkListUserRole(request, response, requiredRoles)) {
+                        return;
+                    }
+                    appointmentList = appointmentService.getAppointmentOfGuest(userId);
+
+                } else {
+                    int userId = AuthorizationUtil.getUserId(request);
+
+                    List<Integer> requiredRoles = Arrays.asList(2, 1, 0);
+                    if (!AuthorizationUtil.checkListUserRole(request, response, requiredRoles)) {
+                        return;
+                    }
+                    appointmentList = appointmentService.getAppointmentsByUserId(userId);
                 }
-
-                List<AppointmentResponse> appointmentList = appointmentService.getAppointmentsByUserId(userId);
 
                 ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "List appointment", appointmentList);
 
-            }  catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 try {
+                    e.printStackTrace();
                     ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
             } catch (Exception e) {
                 try {
-                    System.out.println("e = " + e);
+                    e.printStackTrace();
                     ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request");
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
@@ -61,7 +75,6 @@ public class AppointmentController extends HttpServlet {
 
         });
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -98,7 +111,6 @@ public class AppointmentController extends HttpServlet {
                 }
             } catch (Exception e) {
                 try {
-                    System.out.println("e = " + e);
                     ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request");
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
@@ -144,7 +156,6 @@ public class AppointmentController extends HttpServlet {
                 }
             } catch (Exception e) {
                 try {
-                    System.out.println("e = " + e);
                     ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request");
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
@@ -165,7 +176,6 @@ public class AppointmentController extends HttpServlet {
                 }
 
                 int id = Integer.parseInt(request.getParameter("id"));
-                System.out.println("id SSDS= " + id);
 
                 Boolean isDelete = appointmentService.removeAppointment(id, userId);
 

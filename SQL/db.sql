@@ -107,14 +107,14 @@ CREATE TABLE projects (
 
 CREATE TABLE planning (
   id SERIAL PRIMARY KEY,
-  project_id INT NOT NULL,
+  team_id INT NOT NULL,
   insert_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   insert_by INT,
   delete_time TIMESTAMP,
   delete_by INT,
   update_time TIMESTAMP,
   update_by INT,
-  FOREIGN KEY (project_id) REFERENCES projects (id)
+  FOREIGN KEY (team_id) REFERENCES teams (id)
 );
 
 CREATE TABLE sprints (
