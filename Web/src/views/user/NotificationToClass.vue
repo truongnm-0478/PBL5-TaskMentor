@@ -26,6 +26,16 @@
                 <template #datetime>
                     <span>{{ dayjs(item.dateTime).format('YYYY-MM-DD HH:mm')}}</span>
                 </template>
+                <a-dropdown>
+                    <template #overlay>
+                        <a-menu>
+                            <a-button @click="handleDelete(item)" type="text" danger style="width: 100%">Delete</a-button>
+                        </a-menu>
+                    </template>
+                    <a-button v-if="useUserStore().getUserRole === 2" type="link" class="more-button">
+                        <EllipsisOutlined />
+                    </a-button>
+                </a-dropdown>
             </a-comment>
         </template>
     </a-list>
@@ -33,19 +43,23 @@
 </template>
 
 <script setup>
-import { PlusOutlined } from '@ant-design/icons-vue'
-import { onMounted, ref } from 'vue'
+import {EllipsisOutlined, PlusOutlined} from '@ant-design/icons-vue'
+import {onMounted, ref, watchEffect} from 'vue'
 import notificationApi from '@/repositories/notificationApi.js'
 import dayjs from 'dayjs'
 import router from '@/router/index.js'
 import { useUserStore } from '@/stores/userStore.js'
+import projectApi from '@/repositories/projectApi.js'
+import {useMessageStore} from '@/stores/messageStore.js'
+import {getLastLetter} from '@/utils/stringUtils.js'
+import {getColorForLastLetter} from '@/utils/colorUtils.js'
+import {useSocketStore} from '@/stores/socketStore.js'
 
-
+const socketStore = useSocketStore()
 const code = router.currentRoute.value.query.code;
 const data = ref([])
 const isModalOpen = ref(false)
 const content = ref('')
-
 
 const createNotification = () => {
     isModalOpen.value = true
@@ -79,25 +93,22 @@ const getListNotification = async () => {
 }
 onMounted(() => {getListNotification()})
 
-const getLastLetter = (name) => {
-    const words = name.trim().split(/\s+/);
-    if (words.length < 2) {
-        return ''
+const handleDelete = (item) => {
+    notificationApi.deleteNotification(item.id)
+        .then(res => {
+            useMessageStore().addMessage('success', 'Delete successfully!')
+            getListNotification()
+        })
+        .catch(err => {
+            useMessageStore().addMessage('error', 'Delete failure!')
+        })
+}
+
+watchEffect(() => {
+    if (socketStore.newMessage) {
+        getListNotification()
     }
-    const lastWord = words[words.length - 1];
-    const secondLastWord = words[words.length - 2];
-    const firstTwoLetters = `${secondLastWord.charAt(0)}${lastWord.charAt(0)}`.toUpperCase();
-    return firstTwoLetters;
-}
-
-
-const getColorForLastLetter = (name) => {
-    const colors = ['#1A5DB6', '#2E8B57', '#FF8C00', '#FF1493', '#8A2BE2']
-    const lastLetter = getLastLetter(name)
-    const index = lastLetter.charCodeAt(0) % colors.length
-    return colors[index]
-}
-
+})
 
 </script>
 
@@ -116,6 +127,15 @@ const getColorForLastLetter = (name) => {
     display: flex;
     justify-content: end;
     margin-bottom: 16px;
+}
+
+.more-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #999;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 </style>

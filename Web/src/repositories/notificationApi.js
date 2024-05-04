@@ -8,6 +8,12 @@ const userApi = {
     },
     getNotificationsClass: async(code) => {
         return await instance.get(`${nameModel}/notification-class?code=${code}`)
+    },
+    deleteNotification: async (id) => {
+        return await instance.delete(`${nameModel}/notification-class?id=${id}`)
+    },
+    getListNotificationForUser: async () => {
+        return await instance.get(`${nameModel}/notification-for-user`)
     }
 }
 

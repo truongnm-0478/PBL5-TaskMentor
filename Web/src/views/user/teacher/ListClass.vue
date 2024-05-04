@@ -162,6 +162,7 @@ const handleCardClick = (item) => {
 .card {
     width: 265px;
     height: 200px;
+    cursor: pointer;
 }
 
 .avatar {

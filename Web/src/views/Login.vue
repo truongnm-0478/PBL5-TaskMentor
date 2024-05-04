@@ -48,6 +48,7 @@ import { useMessageStore } from '../stores/messageStore'
 import router from '../router'
 import { useSpinStore } from '@/stores/spinStore.js'
 import { useUserStore } from '@/stores/userStore.js'
+import { useSocketStore } from '@/stores/socketStore.js'
 
 
 const formState = reactive({
@@ -82,6 +83,7 @@ const handleFinish = async () => {
                 const userInfo = response1.data;
                 userStore.setUser(userInfo)
             }
+            useSocketStore().connectSocket(userStore.getUser.id)
             await router.push('/')
         }
     } catch (error) {

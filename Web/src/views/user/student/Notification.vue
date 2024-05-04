@@ -1,63 +1,86 @@
 <template>
-    <div>
-        <div v-for="notification in notifications" :key="notification.id">
-            {{ notification.message }}
-        </div>
-        <input v-model="newMessage" placeholder="Enter new message" />
-        <button @click="sendMessage">Send Message</button>
-    </div>
+    <h2> Notification </h2>
+    <a-list item-layout="horizontal" :data-source="data" style="width: 100%">
+        <template #renderItem="{ item }">
+            <a-comment class="comment" @click="handleClickItem(item)">
+                <template #avatar>
+                    <div class="avatar">
+                        <a-avatar size="large" :style="{ backgroundColor: getColorForLastLetter(item.teacherName) }">{{ getLastLetter(item.teacherName) }}</a-avatar>
+                    </div>
+                </template>
+                <template #content>
+                    <p style="color: #1A5DB6">You have a notification in class <strong>{{item.className}}</strong> from <strong>{{item.teacherName}}</strong></p>
+                    <strong></strong>
+                    <p>{{ item.content }}</p>
+                    <span style="color: #4880FF; font-size: 12px">{{ dayjs(item.insertTime).fromNow() }}</span>
+                </template>
+            </a-comment>
+        </template>
+    </a-list>
 </template>
 
-<script>
-import { useUserStore } from "@/stores/userStore.js";
+<script setup>
+import {onMounted, ref, watchEffect} from 'vue'
+import notificationApi from '@/repositories/notificationApi.js'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
+import { getColorForLastLetter } from '@/utils/colorUtils.js'
+import { getLastLetter } from '@/utils/stringUtils.js'
+import router from '@/router/index.js'
+import {useSocketStore} from "@/stores/socketStore.js";
 
-export default {
-    data() {
-        return {
-            socket: null,
-            notifications: [],
-            newMessage: '',
-        };
-    },
-    created() {
-        this.initWebSocket();
-    },
-    methods: {
-        initWebSocket() {
-            // Khởi tạo kết nối WebSocket
-            this.socket = new WebSocket('ws://localhost:8080/TaskMentor/notification');
-            this.socket.onopen = () => {
-                const user = useUserStore().getUser;
-                const credentials = {
-                    username: user.username,
-                    password: user.password
-                };
-                this.socket.send(JSON.stringify(credentials));
-                console.log('Connected to server');
-            };
+const data = ref([])
+const isModalOpen = ref(false)
+const socketStore = useSocketStore()
 
-            // Xử lý sự kiện khi nhận được thông báo từ máy chủ
-            this.socket.onmessage = (event) => {
-                const message = JSON.parse(event.data);
-                this.notifications.push(message); // Thêm thông báo vào danh sách
-            };
+const getListNotification = async () => {
+    await notificationApi.getListNotificationForUser()
+        .then(res => {
+            data.value = res.data
+        })
+}
+onMounted(() => {getListNotification()})
 
-            // Xử lý sự kiện khi kết nối bị đóng
-            this.socket.onclose = () => {
-                console.log('Connection closed');
-            };
-        },
-        sendMessage() {
-            if (this.newMessage.trim() !== '') {
-                // Gửi tin nhắn lên máy chủ thông qua kết nối WebSocket
-                this.socket.send(this.newMessage);
-                this.newMessage = ''; // Xóa nội dung tin nhắn sau khi gửi
-            }
-        }
+const handleClickItem = (item) => {
+    router.push({ path: '/class', query: { code: item.classCode } })
+}
+
+watchEffect(() => {
+    if (socketStore.newMessage) {
+        getListNotification()
     }
-};
+})
+
 </script>
 
-<style>
-/* CSS cho giao diện nếu cần */
+<style scoped>
+
+.comment {
+    border-radius: 8px;
+    padding: 0 10px;
+    background-color: var(--color-white);
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.comment:hover {
+    background-color: rgb(230,244,255);
+}
+
+.container-add {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 16px;
+}
+
+.more-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #999;
+    cursor: pointer;
+    font-size: 16px;
+}
+
 </style>

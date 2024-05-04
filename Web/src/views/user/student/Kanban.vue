@@ -293,7 +293,8 @@ const handleSubmit = () => {
             .catch(err => {
                 useMessageStore().addMessage('error', 'Create failure!')
             })
-        onClose();
+        getListTasks()
+        onClose()
     }).catch((error) => {
         console.error('Validation Error:', error)
     })

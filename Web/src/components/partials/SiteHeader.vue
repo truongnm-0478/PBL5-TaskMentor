@@ -29,7 +29,8 @@
 import { UserOutlined } from "@ant-design/icons-vue"
 import { useUserStore } from "@/stores/userStore.js"
 import {ref} from "vue"
-import router from "@/router/index.js";
+import router from "@/router/index.js"
+import {useSocketStore} from "@/stores/socketStore.js"
 
 const user = ref({
     username: '',
@@ -48,6 +49,7 @@ if(u) {
 
 const handleLogout = () => {
     userStore.clearUser()
+    useSocketStore().disconnectSocket()
     router.push("/login")
 }
 

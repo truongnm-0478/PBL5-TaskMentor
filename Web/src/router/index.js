@@ -17,6 +17,7 @@ import User from '@/views/admin/User.vue'
 import TeamManager from '@/views/user/student/TeamManagement.vue'
 import ProjectManagement from '@/views/user/ProjectManagement.vue'
 import ListRequirement from '@/views/user/ListRequirement.vue'
+import Chart from '@/views/admin/Chart.vue'
 
 
 import DashboardView from '../views/admin/DashboardView.vue'
@@ -46,6 +47,7 @@ const routes =  [
     { path: '/project', name: 'ProjectManagement', component: ProjectManagement },
     { path: '/project/requirement', name: 'ListRequirement', component: ListRequirement },
 
+    { path: '/admin/chart', name: 'Chart', component: Chart },
     { path: '/admin/user', name: 'User', component: User },
 
 ]

@@ -20,7 +20,7 @@
                     <h1 class="brand brand-sub">&nbsp;Mentor</h1>
                 </div>
             </div>
-            <a-menu-item key="1">
+            <a-menu-item key="1" @click="handleMenuItemClick('1')">
                 <BellOutlined/>
                 <span>Notification</span>
             </a-menu-item>
@@ -71,7 +71,6 @@ import {
 } from "@ant-design/icons-vue"
 
 const isCollapsed = ref(false)
-const selectedKeys = ref(['1'])
 const collapsedWidth = 80
 import router from '@/router/index.js'
 
@@ -89,7 +88,7 @@ if (useUser.getUserRole === 1) {
 const handleMenuItemClick = (key) => {
     switch (key) {
         case '1':
-            router.push('/appointment')
+            router.push('/notification')
             break
         case '2':
             router.push('/option2')
