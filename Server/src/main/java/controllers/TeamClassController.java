@@ -45,6 +45,10 @@ public class TeamClassController extends HttpServlet {
                 ObjectMapper mapper = new ObjectMapper();
                 GroupCreateRequest groupCreateRequest = mapper.readValue(jsonRequest.toString(), GroupCreateRequest.class);
 
+                if(groupCreateRequest.getMembers().isEmpty()) {
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_FORBIDDEN, "No members yet!");
+                }
+
                 Boolean isSave = teamService.saveTeam(groupCreateRequest, userId);
 
                 ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "Create team successfully.", isSave);

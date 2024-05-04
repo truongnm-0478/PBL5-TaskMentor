@@ -9,6 +9,7 @@ import java.util.Date;
 @Data
 @Builder
 public class NotificationClassResponse {
+    private int id;
     private String content;
     private String username;
     private String name;

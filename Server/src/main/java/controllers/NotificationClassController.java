@@ -1,13 +1,10 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dto.request.ClassRequest;
 import dto.response.NotificationClassResponse;
+import dto.response.NotificationMessageResponse;
 import dto.response.NotificationTeacherSendToClassResponse;
-import dto.response.StudentResponse;
-import model.ClassRoom;
-import model.Notification;
-import service.ClassService;
+import dto.response.NotificationUserResponse;
 import service.NotificationService;
 import util.AuthorizationUtil;
 import util.RequestProcessor;
@@ -27,6 +24,8 @@ import java.util.List;
 public class NotificationClassController extends HttpServlet {
     private final RequestProcessor requestProcessor = new RequestProcessor();
     private static final NotificationService notificationService = new NotificationService();
+    private final SendNotificationController sendNotificationController = new SendNotificationController();
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)  {
@@ -45,9 +44,18 @@ public class NotificationClassController extends HttpServlet {
 
                 // parse JSON to User object
                 ObjectMapper mapper = new ObjectMapper();
-                NotificationTeacherSendToClassResponse notifi = mapper.readValue(jsonRequest.toString(), NotificationTeacherSendToClassResponse.class);
+                NotificationTeacherSendToClassResponse notification = mapper.readValue(jsonRequest.toString(), NotificationTeacherSendToClassResponse.class);
 
-                Boolean isSave = notificationService.saveNotificationClass(notifi.getClassCode(), notifi.getContent(), userId);
+                Boolean isSave = notificationService.saveNotificationClass(notification.getClassCode(), notification.getContent(), userId);
+
+                if (isSave) {
+                    List<Integer> list = notificationService.getMemberUserIdsOfClass(notification.getClassCode());
+                    NotificationMessageResponse notificationMessageResponse = NotificationMessageResponse.builder()
+                            .classCode(notification.getClassCode())
+                            .content(notification.getContent())
+                            .build();
+                    sendNotificationController.sendNotificationToListUsers(notificationMessageResponse, list);
+                }
 
 
                 ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "Class notification successfully.", isSave);
@@ -94,7 +102,37 @@ public class NotificationClassController extends HttpServlet {
                 }
             } catch (Exception e) {
                 try {
-                    System.out.println("e = " + e);
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+        });
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) {
+        requestProcessor.processRequest(() -> {
+            try {
+                if(!AuthorizationUtil.checkUserRole(request,response, 2)) {
+                    return;
+                }
+                int userId = AuthorizationUtil.getUserId(request);
+                String id = request.getParameter("id");
+
+                Boolean isDelete = notificationService.deleteNotification(Integer.parseInt(id), userId);
+
+                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "Delete successfully!", isDelete);
+
+            }  catch (IllegalArgumentException e) {
+                try {
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } catch (Exception e) {
+                try {
                     ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request");
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);

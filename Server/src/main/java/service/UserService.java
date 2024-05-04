@@ -45,6 +45,7 @@ public class UserService {
                     .insertBy(user.getInsertBy())
                     .updateTime(user.getUpdateTime())
                     .updateBy(user.getUpdateBy())
+                    .id(user.getId())
                     .build();
         }
         return null;

@@ -5,7 +5,11 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import dto.response.NotificationMessageResponse;
 
 @ServerEndpoint(value="/notification")
 public class SendNotificationController {
@@ -21,15 +25,48 @@ public class SendNotificationController {
     public void onMessage(String message, Session session) throws IOException {
         System.out.println("Message from " + session.getId() + ": " + message);
 
-        // Kiểm tra và xác thực thông tin xác thực
-        if (authenticate(message)) {
-            // Xác thực thành công, thực hiện các hành động khác (nếu cần)
-            System.out.println("Authentication successful");
+        if (session.getUserProperties().get("userId") == null) {
+            int userId = Integer.parseInt(message);
+            session.getUserProperties().put("userId", userId);
+            System.out.println("User ID " + userId + " has been saved for session " + session.getId());
         } else {
-            // Xác thực thất bại, có thể đóng kết nối hoặc gửi thông báo lỗi
-            System.out.println("Authentication failed");
+            // Handle other messages here
         }
     }
+
+    public void sendNotificationToUser(String message, int userId) {
+        for (Session client : clients) {
+            if (userId == (int) client.getUserProperties().get("userId")) {
+                try {
+                    client.getBasicRemote().sendText(message);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void sendNotificationToListUsers(NotificationMessageResponse messageObject, List<Integer> userIds) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String messageJson;
+        try {
+            messageJson = objectMapper.writeValueAsString(messageObject);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        for (Session client : clients) {
+            if (userIds.contains((int) client.getUserProperties().get("userId"))) {
+                try {
+                    client.getBasicRemote().sendText(messageJson);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
     @OnClose
     public void onClose(Session session) {
@@ -38,12 +75,6 @@ public class SendNotificationController {
     }
 
     private boolean authenticate(String message) {
-        // Phương thức này kiểm tra và xác thực thông tin xác thực từ message
-        // Trả về true nếu thông tin xác thực hợp lệ, ngược lại trả về false
-        // Đây là nơi bạn thực hiện xác thực thông tin nhận được từ client
-        // Ví dụ: bạn có thể so sánh thông tin nhận được với cơ sở dữ liệu hoặc các cách thức xác thực khác
-        // Trong trường hợp này, bạn có thể so sánh username và password với cơ sở dữ liệu hoặc thông tin được xác thực trước đó
-        // Trong ví dụ này, chúng ta chỉ giả định xác thực luôn thành công
         return true;
     }
 }

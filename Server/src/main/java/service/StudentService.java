@@ -25,6 +25,8 @@ public class StudentService {
                     .email(student.getUser().getEmail())
                     .name(student.getUser().getName())
                     .id(st.getId())
+                    .username(student.getUser().getUsername())
+                    .userId(student.getUser().getId())
                     .build();
             listStudent.add(studentResponse);
         }
