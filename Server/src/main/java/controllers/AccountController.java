@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dto.request.UserUpdateRequest;
 import dto.response.UserResponse;
 import model.User;
 import service.UserService;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.List;
 
 @WebServlet("/api/user")
@@ -70,7 +72,6 @@ public class AccountController extends HttpServlet {
             int userId = Integer.parseInt(id);
 
             UserResponse user = userService.getUserById(userId);
-            System.out.println("user = " + user);
 
             if (user != null) {
                 ResponseUtil.sendJsonResponse(resp, HttpServletResponse.SC_OK, "User information retrieved successfully.", user);
@@ -112,6 +113,79 @@ public class AccountController extends HttpServlet {
                 User teacherAccount = userService.createTeacherAccount(user.getEmail(), user.getUsername(), user.getName(), user.getPhone(), userId);
 
                 ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "Account created successfully.", teacherAccount);
+            } catch (IllegalArgumentException e) {
+                try {
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } catch (IOException e) {
+                try {
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request.");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) {
+        requestProcessor.processRequest(() -> {
+            try {
+                int userId = AuthorizationUtil.getUserId(request);
+
+                if(!AuthorizationUtil.checkUserRole(request, response, 3)) {
+                    return;
+                }
+
+                int id = Integer.parseInt(request.getParameter("id"));
+
+                Boolean isDelete = userService.deleteUser(id, userId);
+
+                // Trả về thông báo thành công
+                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "Deleted successfully.", isDelete);
+            } catch (IllegalArgumentException e) {
+                try {
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } catch (IOException e) {
+                try {
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request.");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)  {
+        requestProcessor.processRequest(() -> {
+            try {
+                if(!AuthorizationUtil.checkUserRole(request, response, 3)) {
+                    return;
+                }
+                int userId = AuthorizationUtil.getUserId(request);
+                // read data from JSON
+                BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
+                StringBuilder jsonRequest = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    jsonRequest.append(line);
+                }
+
+                // parse JSON to User object
+                ObjectMapper mapper = new ObjectMapper();
+                UserUpdateRequest user = mapper.readValue(jsonRequest.toString(), UserUpdateRequest.class);
+                System.out.println("user = " + user);
+
+                // teacher account
+                User userResponse = userService.updateUser(user, userId);
+
+                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "Account update successfully.", userResponse);
             } catch (IllegalArgumentException e) {
                 try {
                     ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());

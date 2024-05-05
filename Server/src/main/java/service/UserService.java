@@ -1,6 +1,7 @@
 package service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import dto.request.UserUpdateRequest;
 import dto.response.UserInfoResponse;
 import dto.response.UserResponse;
 import model.Teacher;
@@ -28,6 +29,44 @@ public class UserService {
 
     public int getTotalUsers() {
         return userRepository.getTotalUsers();
+    }
+
+    public User updateUser(UserUpdateRequest userUpdateRequest, int userId) {
+        // Lấy thông tin người dùng hiện tại từ cơ sở dữ liệu
+        User currentUser = userRepository.getUserById(userUpdateRequest.getId());
+
+        // Kiểm tra email mới có trùng với người dùng khác trong hệ thống không
+        User userByEmail = userRepository.getUserByEmail(userUpdateRequest.getEmail());
+        if (userByEmail != null && userByEmail.getId() != userUpdateRequest.getId()) {
+            throw new IllegalArgumentException("Email already exists.");
+        }
+
+        // Kiểm tra tên người dùng mới có trùng với người dùng khác trong hệ thống không
+        User userByUsername = userRepository.getUserByUsername(userUpdateRequest.getUsername());
+        if (userByUsername != null && userByUsername.getId() != userUpdateRequest.getId()) {
+            throw new IllegalArgumentException("Username already exists.");
+        }
+
+        // Cập nhật thông tin người dùng
+        currentUser.setEmail(userUpdateRequest.getEmail());
+        currentUser.setPhone(userUpdateRequest.getPhone());
+        currentUser.setRole(userUpdateRequest.getRole());
+        currentUser.setUpdateBy(userId);
+        currentUser.setName(userUpdateRequest.getName());
+        currentUser.setUsername(userUpdateRequest.getUsername());
+        currentUser.setUpdateTime(new java.sql.Timestamp(new Date().getTime()));
+
+        // Lưu thông tin người dùng đã cập nhật vào cơ sở dữ liệu
+        return userRepository.update(currentUser);
+    }
+
+    public Boolean deleteUser(int id, int userId) {
+        User user = userRepository.getUserById(id);
+        user.setDeleteBy(userId);
+        user.setDeleteTime(new java.sql.Timestamp(new Date().getTime()));
+
+        User userResult = userRepository.update(user);
+        return true;
     }
 
     public UserResponse getUserById(int userId) throws Exception {

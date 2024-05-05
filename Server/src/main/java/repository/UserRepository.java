@@ -18,7 +18,7 @@ public class UserRepository {
     public List<UserResponse> getAllUsersAdmin() {
         try (Session session = sessionFactory.openSession()) {
             String jpql = "SELECT new dto.response.UserResponse(u.id, u.email, u.username, u.role, u.name, u.phone, u.deleteTime, u.deleteBy, u.insertTime, u.insertBy, u.updateTime, u.updateBy) " +
-                    "FROM User u";
+                    "FROM User u ORDER BY insertTime ASC";
             Query query = session.createQuery(jpql);
             return query.getResultList();
         }
@@ -81,5 +81,21 @@ public class UserRepository {
         }
         return user;
     }
+
+    public User update(User user) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.update(user);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        return user;
+    }
+
 
 }
