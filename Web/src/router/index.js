@@ -19,6 +19,8 @@ import ProjectManagement from '@/views/user/ProjectManagement.vue'
 import ListRequirement from '@/views/user/ListRequirement.vue'
 import Chart from '@/views/admin/Chart.vue'
 import AppointmentClass from '@/views/user/teacher/AppointmentClass.vue'
+import UpdateUser from '@/views/admin/UpdateUser.vue'
+import UserDetail from '@/views/admin/UserDetail.vue'
 
 
 import DashboardView from '../views/admin/DashboardView.vue'
@@ -49,9 +51,10 @@ const routes =  [
     { path: '/project/requirement', name: 'ListRequirement', component: ListRequirement },
     { path: '/appointment/class', name: 'AppointmentClass', component: AppointmentClass },
 
-    { path: '/admin/chart', name: 'Chart', component: Chart },
+    { path: '/admin/dashboard', name: 'Chart', component: Chart },
     { path: '/admin/user', name: 'User', component: User },
-
+    { path: '/admin/user/update/:id', name: 'UpdateUser', component: UpdateUser },
+    { path: '/admin/user/detail/:id', name: 'UserDetail', component: UserDetail }
 ]
 
 const router = createRouter({

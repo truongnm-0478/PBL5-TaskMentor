@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <a-table :columns="columns" :data-source="data" :scroll="{ x: 1500, y: 500 }">
-            <template #bodyCell="{ column, text }">
+            <template #bodyCell="{ record, column, text }">
                 <template v-if="column.dataIndex === 'username'" >
-                    <a>{{text}}</a>
+                    <a @click="handleDetail(record)">{{text}}</a>
                 </template>
                 <template v-if="column.dataIndex === 'role'" >
                     <a-tag v-if="text === 'admin'" color="#f50"  >{{ text }}</a-tag>
@@ -16,10 +16,10 @@
                     <a-tag v-if="text === 'Disabled'" color="#cd201f"  >{{ text }}</a-tag>
                 </template>
                 <template v-if="column.key === 'operation'">
-                    <a-button @click="handleDelete" style="margin-right: 5px; background-color: #FFF1EF; color: #FF4D4E" type="primary" danger>
-                        <DeleteOutlined />
+                    <a-button @click="() => handleDelete(record)" style="margin-right: 5px; background-color: #FFF1EF; color: #FF4D4E" type="primary" danger>
+                        <LockOutlined />
                     </a-button>
-                    <a-button @click="handleUpdate" type="primary" style="background-color: #E6F4FF; color: #1677FF"><FormOutlined /></a-button>
+                    <a-button @click="handleUpdate(record)" type="primary" style="background-color: #E6F4FF; color: #1677FF"><FormOutlined /></a-button>
                 </template>
             </template>
         </a-table>
@@ -29,8 +29,12 @@
 <script setup>
 import userApi from '@/repositories/userApi.js'
 import dayjs from "dayjs"
-import {onMounted, ref} from "vue"
-import { DeleteOutlined, FormOutlined } from "@ant-design/icons-vue"
+import {createVNode, onMounted, ref} from "vue"
+import {LockOutlined, ExclamationCircleOutlined, FormOutlined} from "@ant-design/icons-vue"
+import {Modal} from "ant-design-vue";
+import classApi from "@/repositories/classApi.js";
+import {useMessageStore} from "@/stores/messageStore.js";
+import router from "@/router/index.js";
 
 const columns = [
     {
@@ -148,12 +152,33 @@ const getListUser = () => {
 }
 onMounted(() => {getListUser()})
 
-const handleDelete = () => {
-    console.log("DELETE")
+const handleDelete = (record) => {
+    Modal.confirm({
+        title: 'Do you want to disabled user?',
+        icon: createVNode(ExclamationCircleOutlined),
+        onOk() {
+            userApi.disableUser(record.id)
+                .then(() => {
+                    useMessageStore().addMessage('success', 'Successfully!')
+                    getListUser();
+                })
+                .catch(() => {
+                    useMessageStore().addMessage('error', 'Something went wrong!')
+                })
+        },
+        onCancel() {
+            console.log('Cancel')
+        },
+    })
 }
 
-const handleUpdate = () => {
-    console.log("UPDATE")
+
+const handleUpdate = (record) => {
+    router.push(`/admin/user/update/${record.id}`)
+}
+
+const handleDetail = (record) => {
+    router.push(`/admin/user/detail/${record.id}`)
 }
 </script>
 <style scoped>

@@ -20,16 +20,20 @@
                     <h1 class="brand brand-sub">&nbsp;Mentor</h1>
                 </div>
             </div>
-            <a-menu-item key="1" @click="handleMenuItemClick('1')">
+            <a-menu-item key="10" v-if="role === '3'" @click="handleMenuItemClick('10')">
+                <AreaChartOutlined />
+                <span>Dashboard</span>
+            </a-menu-item>
+            <a-menu-item v-if="role === '0' || role === '1' || role === '2'" key="1" @click="handleMenuItemClick('1')">
                 <BellOutlined/>
                 <span>Notification</span>
             </a-menu-item>
-            <a-menu-item key="3" @click="handleMenuItemClick('3')">
+            <a-menu-item v-if="role === '0' || role === '1' || role === '2'" key="3" @click="handleMenuItemClick('3')">
                 <CalendarOutlined/>
                 <span>Appointment</span>
             </a-menu-item>
 
-            <a-sub-menu key="sub1">
+            <a-sub-menu v-if="role === '0' || role === '1' || role === '2'" key="sub1">
                 <template #title>
                     <span>
                       <team-outlined/>
@@ -63,7 +67,8 @@ import {
     FileOutlined,
     TeamOutlined,
     UserOutlined,
-    ProjectOutlined
+    ProjectOutlined,
+    AreaChartOutlined
 } from "@ant-design/icons-vue"
 
 const isCollapsed = ref(false)
@@ -110,6 +115,8 @@ const handleMenuItemClick = (key) => {
         case '9':
             router.push('/student/team')
             break
+        case '10':
+            router.push('/admin/dashboard')
     }
 }
 

@@ -1,5 +1,6 @@
 <template>
-    <div style="padding: 10px">
+    <h3 style="font-weight: 600">Dashboard</h3>
+    <div style="padding: 2px">
         <a-row :gutter="16">
             <a-col :span="24" :lg="{ span: 12 }" :xl="{ span: 6 }">
                 <a-card class="card card-blue sha-down">
@@ -77,19 +78,19 @@ const chartOptions = {
 
 const areaChartSeries = [
     {
-        name: 'Series 1',
+        name: 'Todo',
         data: [30, 40, 60, 70, 91, 125]
     },
     {
-        name: 'Series 2',
+        name: 'In progress',
         data: [20, 25, 23, 50, 55, 60]
     },
     {
-        name: 'Series 3',
+        name: 'In review ',
         data: [10, 15, 35, 40, 45, 50]
     },
     {
-        name: 'Series 4',
+        name: 'Complete',
         data: [5, 15, 20, 25, 30, 45]
     }
 ]
