@@ -17,6 +17,12 @@ const userApi = {
     },
     updateUser: async (data) => {
         return await instance.put(nameModel + '/user', data)
+    },
+    createAccount: async (data) => {
+        return await instance.post(nameModel + '/user', data)
+    },
+    changePassword: async (data) => {
+        return await instance.put(nameModel + '/change-password', data)
     }
 
 }

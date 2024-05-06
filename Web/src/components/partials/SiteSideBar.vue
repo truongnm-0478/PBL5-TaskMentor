@@ -53,6 +53,10 @@
                 <ProjectOutlined />
                 <span>Team</span>
             </a-menu-item>
+            <a-menu-item key="11" v-if="role === '3'" @click="handleMenuItemClick('11')">
+                <SolutionOutlined />
+                <span>Teacher</span>
+            </a-menu-item>
         </a-menu>
     </a-layout-sider>
 </template>
@@ -63,7 +67,7 @@ import {useUserStore} from '@/stores/userStore.js'
 import {
     CalendarOutlined,
     BellOutlined,
-    MessageOutlined,
+    SolutionOutlined,
     FileOutlined,
     TeamOutlined,
     UserOutlined,
@@ -117,6 +121,10 @@ const handleMenuItemClick = (key) => {
             break
         case '10':
             router.push('/admin/dashboard')
+            break
+        case '11':
+            router.push('/admin/teacher')
+            break
     }
 }
 

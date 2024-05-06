@@ -16,8 +16,11 @@
                     <a-tag v-if="text === 'Disabled'" color="#cd201f"  >{{ text }}</a-tag>
                 </template>
                 <template v-if="column.key === 'operation'">
-                    <a-button @click="() => handleDelete(record)" style="margin-right: 5px; background-color: #FFF1EF; color: #FF4D4E" type="primary" danger>
+                    <a-button v-if="record.state === 'Active'" @click="() => handleDelete(record)" style="margin-right: 5px; background-color: #FFF1EF; color: #FF4D4E" type="primary" danger>
                         <LockOutlined />
+                    </a-button>
+                    <a-button v-else @click="() => handleActive(record)" style="margin-right: 5px; border: none; background-color: #F6FFEC; color: #379E0E;" >
+                        <UnlockOutlined />
                     </a-button>
                     <a-button @click="handleUpdate(record)" type="primary" style="background-color: #E6F4FF; color: #1677FF"><FormOutlined /></a-button>
                 </template>
@@ -30,7 +33,7 @@
 import userApi from '@/repositories/userApi.js'
 import dayjs from "dayjs"
 import {createVNode, onMounted, ref} from "vue"
-import {LockOutlined, ExclamationCircleOutlined, FormOutlined} from "@ant-design/icons-vue"
+import {LockOutlined, ExclamationCircleOutlined, FormOutlined, UnlockOutlined} from "@ant-design/icons-vue"
 import {Modal} from "ant-design-vue";
 import classApi from "@/repositories/classApi.js";
 import {useMessageStore} from "@/stores/messageStore.js";
@@ -172,6 +175,25 @@ const handleDelete = (record) => {
     })
 }
 
+const handleActive = (record) => {
+    Modal.confirm({
+        title: 'Do you want to enable user?',
+        icon: createVNode(ExclamationCircleOutlined),
+        onOk() {
+            userApi.disableUser(record.id)
+                .then(() => {
+                    useMessageStore().addMessage('success', 'Successfully!')
+                    getListUser();
+                })
+                .catch(() => {
+                    useMessageStore().addMessage('error', 'Something went wrong!')
+                })
+        },
+        onCancel() {
+            console.log('Cancel')
+        },
+    })
+}
 
 const handleUpdate = (record) => {
     router.push(`/admin/user/update/${record.id}`)

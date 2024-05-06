@@ -12,8 +12,8 @@
                             <span style="line-height: 30px; font-weight: bold; ">{{ user.name }}</span><br/>
                             <span style="color: var(--color-gray-dark); font-size: 13px">{{ user.email }}</span>
                         </div>
-                        <a-menu-item>
-                            <a href="#">Setting password</a>
+                        <a-menu-item @click="handleChangePassword">
+                            <a>Setting password</a>
                         </a-menu-item>
                         <a-menu-item @click="handleLogout">
                             <a>Log out</a>
@@ -51,6 +51,10 @@ const handleLogout = () => {
     userStore.clearUser()
     useSocketStore().disconnectSocket()
     router.push("/login")
+}
+
+const handleChangePassword = () => {
+    router.push("/change-password")
 }
 
 
