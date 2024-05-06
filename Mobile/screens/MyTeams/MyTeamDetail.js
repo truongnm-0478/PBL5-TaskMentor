@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
 import { UIHeader } from '../../components'
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { teams } from "../../repositories";
+import { _class, teams } from "../../repositories";
 import MyTeamMembers from "./MyTeamMembers";
 function MyteamDetail(props) {
     const { id, name } = props.route.params.Teams;
@@ -56,9 +56,9 @@ function MyteamDetail(props) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const id_ = { id }
+                const id_ = {id}
                 const accessToken = await AsyncStorage.getItem('accessToken');
-                const data = await teams.getComment( id_ ,accessToken);
+                const data = await teams.getComment( accessToken,id_ );
                 setComment(data)// Cập nhật state students với dữ liệu từ API
                 console.log(data)
                 console.log(comment)
@@ -99,7 +99,7 @@ function MyteamDetail(props) {
         flexDirection: 'column',
     }}>
         <UIHeader title={name}
-            leftIconName={'arrow-left'}
+            leftIconName={image.back}
             // JoinIcon={'plus-square'}
             // rightIconName={'qrcode'}
             onPressLeftIcon={() => {

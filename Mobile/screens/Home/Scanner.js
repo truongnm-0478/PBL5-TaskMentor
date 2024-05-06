@@ -61,17 +61,32 @@ function Scanner(props) {
     } 
 }
   return (
-    <View style={styles.container}>
-      <UIHeader title={'Teams'}
-        leftIconName={'arrow-left'}
+   <View style={{
+    flex:1,
+    backgroundColor:color.BackGround
+   }}>
+    <View style={{
+      marginTop:40,
+     
+    }}>
+       <UIHeader title={'Classes'}
+         leftIconName={image.back}
+        //JoinIcon={'plus-square'}
         // rightIconName={'qrcode'}
-        onPressLeftIcon={() => {
-          goBack()
-        }}
-      //  onPressRightIcon= {()=>{
-      //     navigate('Scanner')
+         onPressLeftIcon= {()=>{
+           goBack()
+         }}
+      //   scanner = {image.scanner}
+      //    onPressRightIcon= {()=>{
+      //        navigate('Scanner')
+      //    }}
+        
+      //    onPressJoinicon= {()=>{
+      //     navigate('JoinTeam')
       //  }}
-      ></UIHeader>
+        ></UIHeader>
+    <View style={styles.container}>
+      
 
       <View style={styles.container}>
         <View style={styles.barcodebox}>
@@ -126,25 +141,23 @@ function Scanner(props) {
             }}>
                 <Text style={{
                     padding: 10,
-                    
                     color: 'white'
                 }}>Join class</Text>
             </TouchableOpacity>
       </View>
 
     </View>
-
+    </View>
+    </View>
   );
 }
 export default Scanner;
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
+    marginTop: 20,
+    BackGround:'white',
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
-
-
   },
   maintext: {
 

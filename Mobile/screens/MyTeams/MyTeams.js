@@ -32,7 +32,7 @@ function MyTeams(props){
     <View style={{
         marginTop:40,
     }}>
-         <UIHeader title={'MyTeams'}
+         <UIHeader title={'My Teams'}
         // leftIconName={'arrow-left'}
         // JoinIcon={'plus-square'}
         // rightIconName={'qrcode'}

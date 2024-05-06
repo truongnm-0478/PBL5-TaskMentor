@@ -25,10 +25,11 @@ function JoinTeam(props){
 
 
     return <View style={{
-        marginTop:40
+        marginTop:40,
+       
     }}>
          <UIHeader title={'Join team with code'}
-         leftIconName={'arrow-left'}
+         leftIconName={image.back}
         
       
          onPressLeftIcon= {()=>{

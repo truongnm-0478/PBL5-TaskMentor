@@ -55,7 +55,7 @@ const getRequirement = async(id,accessToken)=>{
         throw error; // Ném lỗi nếu có lỗi xảy ra
     }
 }
-const getComment = async(id,accessToken)=>{
+const getComment = async(accessToken,id)=>{
     try {
        console.log(id)
         const response = await axios.get(

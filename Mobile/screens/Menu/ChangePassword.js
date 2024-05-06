@@ -18,7 +18,7 @@ function ChangePassword(props){
     }}>
        <UIHeader title='Change Password'
             
-            leftIconName={'arrow-left'}
+            leftIconName={image.back}
           //  rightIconName={'ellipsis-v'}
             onPressLeftIcon={() => {
                 goBack()

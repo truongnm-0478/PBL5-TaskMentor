@@ -15,4 +15,7 @@ export default {
     tabbar_profile: require('../assets/tabbar/user-2.png'),
     tabbar_myteams:require('../assets/tabbar/group.png'),
     tabbar_appointment: require('../assets/tabbar/schedule.png'),
+    scanner: require('../assets/Settings/scan.png'),
+    joinclass: require('../assets/Settings/add.png'),
+    back: require('../assets/Settings/left-arrow.png'),
 }

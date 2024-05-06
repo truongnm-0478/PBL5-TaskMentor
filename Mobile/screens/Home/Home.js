@@ -16,7 +16,7 @@ function Home(props){
     useEffect(() => {
         // Gọi hàm getClass khi component được mount
         getClassData();
-      }, []);
+      }, [teams]);
       const getClassData = async () => {
         try {
           // Gọi hàm getClass từ repository để lấy danh sách lớp học từ API
@@ -32,21 +32,23 @@ function Home(props){
       flex:1,
       backgroundColor:color.BackGround
     }}><View style={{
-        marginTop:40,
+      marginTop:40,
         flexDirection:'column',
         marginBottom:100,
         
     }}>
-         <UIHeader title={'Teams'}
+         <UIHeader title={'Classes'}
         // leftIconName={'arrow-left'}
-        JoinIcon={'plus-square'}
-        rightIconName={'qrcode'}
+        JoinIcon={image.joinclass}
+        // rightIconName={'qrcode'}
         //  onPressLeftIcon= {()=>{
         //     alert('back')
         //  }}
+        scanner = {image.scanner}
          onPressRightIcon= {()=>{
-            navigate('Scanner')
+             navigate('Scanner')
          }}
+        
          onPressJoinicon= {()=>{
           navigate('JoinTeam')
        }}

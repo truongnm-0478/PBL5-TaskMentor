@@ -108,7 +108,7 @@ function Class(props) {
         flex:1,
     }}>
         <View style={{ marginTop: 40, flexDirection: 'column', }}>
-            <UIHeader title={name} leftIconName={'arrow-left'} onPressLeftIcon={() => goBack()}></UIHeader>
+            <UIHeader title={name} leftIconName={image.back} onPressLeftIcon={() => goBack()}></UIHeader>
             <View style={{ flexDirection: 'row' }}>
                 {activeButton.map((button, index) => (
                     <TouchableOpacity
@@ -117,7 +117,8 @@ function Class(props) {
                             //backgroundColor: button.status ? color.primary : color.inactive,
                             padding: 10,
                             borderRadius: 5,
-                            marginTop: 10,
+                            // marginTop: 10,
+                           // backgroundColor:'red',
                             alignItems: 'center',
                             marginRight: 10
                         }}
