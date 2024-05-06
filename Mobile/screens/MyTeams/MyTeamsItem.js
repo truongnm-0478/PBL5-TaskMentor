@@ -4,7 +4,7 @@ import { image, icons, color, FontSize } from "../../constants";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
 function MyTeamsItem(props) {
-  let { id, name, classname, classcode } = props.myteams
+  let { id, name, classname, classcode } = props.Teams
   const { onPress } = props
   if (!name) {
     return null; // hoặc có thể hiển thị một placeholder khác thay vì null

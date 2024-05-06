@@ -45,6 +45,7 @@ function JoinTeam(props){
                         setStudentId(Text)
                     }
                     } style={{
+                        marginTop:40,
                         borderWidth: 1,
                         borderColor: color.border, // Màu sắc của đường viền
                         borderRadius: 5, // Độ cong của góc (nếu cần)
@@ -59,6 +60,7 @@ function JoinTeam(props){
                         setClassCode(Text)
                     }
                     } style={{
+                        marginTop:20,
                         borderWidth: 1,
                         borderColor: color.border, // Màu sắc của đường viền
                         borderRadius: 5, // Độ cong của góc (nếu cần)
@@ -71,6 +73,7 @@ function JoinTeam(props){
              <TouchableOpacity 
           
             onPress={() => {handleJoinclass()}} style={{
+                marginTop:20,
                 backgroundColor: color.BGlogin,
                 justifyContent: "center",
                 alignItems: "center",

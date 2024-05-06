@@ -9,7 +9,7 @@ import { teams } from "../../repositories";
 import MembersList from "./MembersList";
 function Members(props) {
 
-    const { id, name } = props.route.params.teams;
+    const { id, name } = props.route.params.Teams;
     const { navigation } = props;
     const { navigate, goBack } = navigation;
     const [member, setMember] = useState([{}])
@@ -30,7 +30,7 @@ function Members(props) {
     return <View style={{
         marginTop: 40
     }}>
-        <UIHeader title={'MyTeams'}
+        <UIHeader title={'Members'}
         // leftIconName={'arrow-left'}
         // JoinIcon={'plus-square'}
         // rightIconName={'qrcode'}

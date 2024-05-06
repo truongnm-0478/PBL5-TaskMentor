@@ -1,6 +1,6 @@
 import React ,{useState,useEffect} from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Text, View , Image, ImageBackground, TouchableOpacity, TextInput, KeyboardAvoidingView,Keyboard, FlatList, VirtualizedList, Button, StyleSheet} from "react-native";
+import { Text, View , Image, ImageBackground, TouchableOpacity, TextInput, KeyboardAvoidingView,Keyboard, FlatList, VirtualizedList, Button, StyleSheet, ScrollView} from "react-native";
 import { image,icons,color, FontSize } from "../../constants";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import{isValidEmail,isValidPassword} from "../../utilies/Validations"
@@ -28,10 +28,14 @@ function Home(props){
           console.log(error)
         }
       };
-    return <View style={{
+    return<View style={{
+      flex:1,
+      backgroundColor:color.BackGround
+    }}><View style={{
         marginTop:40,
         flexDirection:'column',
-        marginBottom:100
+        marginBottom:100,
+        
     }}>
          <UIHeader title={'Teams'}
         // leftIconName={'arrow-left'}
@@ -57,5 +61,5 @@ function Home(props){
         />
     }
         />
-    </View>
+    </View></View> 
 } export default Home

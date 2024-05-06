@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, ImageBackground, TouchableOpacity, TextInput, KeyboardAvoidingView, Keyboard, FlatList } from "react-native";
+import { Text, View, Image, ImageBackground, TouchableOpacity, TextInput, KeyboardAvoidingView, Keyboard, FlatList, ScrollView } from "react-native";
 import { image, icons, color, FontSize } from "../../constants";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
@@ -16,7 +16,7 @@ function Class(props) {
     const [intro, setIntro] = useState([{}])
     const [students, setStudents] = useState([{}]);
     const [Notification, setNotification] = useState([{}])
-    const [teams, setTeams] = useState([{}])
+    const [Teams, setTeams] = useState([{}])
     const [activeButton, setActiveButton] = useState([
         {
             name: 'Notifications',
@@ -104,8 +104,10 @@ function Class(props) {
     const isliststeamActive = activeButton[listteamIndex].status;
     const introIndex = activeButton.findIndex(button => button.name === 'Introduction');
     const isintroActive = activeButton[introIndex].status;
-    return (
-        <View style={{ marginTop: 40, flexDirection: 'column', flex: 1 }}>
+    return ( <View style={{backgroundColor:color.BackGround,
+        flex:1,
+    }}>
+        <View style={{ marginTop: 40, flexDirection: 'column', }}>
             <UIHeader title={name} leftIconName={'arrow-left'} onPressLeftIcon={() => goBack()}></UIHeader>
             <View style={{ flexDirection: 'row' }}>
                 {activeButton.map((button, index) => (
@@ -146,11 +148,11 @@ function Class(props) {
             {isliststeamActive == true && <View>
                 <FlatList style={{
 
-                }} data={teams}
+                }} data={Teams}
                     renderItem={({ item }) => <ListTeams onPress={() => {
-                        navigate('Members', { teams: item })
+                        navigate('MyteamDetail', { Teams: item })
                     }}
-                        teams={item} key={item.name}
+                        Teams={item} key={item.name}
                     />
                     }
                     keyExtractor={(item) => item.id}
@@ -175,62 +177,84 @@ function Class(props) {
           }}>
               <Text style={{
                   padding: 10,
-                  fontSize: FontSize.h5,
+                //   fontSize: FontSize.h5,
                   color: 'white'
               }}>Create teams</Text>
           </TouchableOpacity> 
             </View>
 
             }
-            {isintroActive == true && <View style={{
+            {isintroActive == true && <ScrollView style={{
+                backgroundColor:'red',
                 flexDirection: 'column',
-                marginLeft: 20,
+                marginHorizontal: 20,
             }}>
                 <View style={{
+                    alignItems:'center',
+                    backgroundColor:'aqua',
+                    height:60,
                     flexDirection: 'row',
                 }}>
                     <Text>Name: </Text>
                     <Text>{intro.name}</Text>
                 </View>
                 <View style={{
+                    alignItems:'center',
+                    backgroundColor:'aqua',
+                    height:60,
                     flexDirection: 'row',
                 }}>
                     <Text>Teacher: </Text>
                     <Text>{intro.teacher.user.name}</Text>
                 </View>
                 <View style={{
+                    alignItems:'center',
+                    backgroundColor:'aqua',
+                    height:60,
                     flexDirection: 'row',
                 }}>
                     <Text>Phone: </Text>
                     <Text>{intro.teacher.user.phone}</Text>
                 </View>
                 <View style={{
+                    alignItems:'center',
+                    backgroundColor:'aqua',
+                    height:60,
                     flexDirection: 'row',
                 }}>
                     <Text>Email: </Text>
                     <Text>{intro.teacher.user.email}</Text>
                 </View>
                 <View style={{
+                    alignItems:'center',
+                    backgroundColor:'aqua',
+                    height:60,
                     flexDirection: 'row',
                 }}>
                     <Text>Create Time: </Text>
                     <Text>{intro.createDate}</Text>
                 </View>
                 <View style={{
+                    alignItems:'center',
+                    backgroundColor:'aqua',
+                    height:60,
                     flexDirection: 'row',
                 }}>
                     <Text>Description: </Text>
                     <Text>{intro.description}</Text>
                 </View>
                 <View style={{
+                    alignItems:'center',
+                    backgroundColor:'aqua',
+                    height:60,
                     flexDirection: 'row',
                 }}>
                     <Text>Code: </Text>
                     <Text>{intro.code}</Text>
                 </View>
-            </View>}
+            </ScrollView>}
         </View>
-
+        </View>
     );
 }
 

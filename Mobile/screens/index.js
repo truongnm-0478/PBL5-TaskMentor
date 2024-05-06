@@ -12,6 +12,8 @@ import ChangePassword from "./Menu/ChangePassword"
 import JoinTeam from "./Home/JoinTeam";
 import Members from "./Teams/Member";
 import AddTeams from "./Teams/AddTeams";
+import MyteamDetail from "./MyTeams/MyTeamDetail";
+import Apppointment from "./Appointment/Appointment";
 export{
     Welcome,
     Login,
@@ -27,4 +29,6 @@ export{
     JoinTeam,
     Members,
     AddTeams,
+    MyteamDetail,
+    Apppointment,
 }

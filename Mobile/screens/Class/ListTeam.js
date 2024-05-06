@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const ListTeams = ({ teams , onPress}) => {
-  const insertTime = new Date(teams.insertTime);
+const ListTeams = ({ Teams , onPress}) => {
+  const insertTime = new Date(Teams.insertTime);
   // Lấy các thành phần của ngày và giờ
   const year = insertTime.getFullYear();
   const month = insertTime.getMonth() + 1;
@@ -38,8 +38,8 @@ const ListTeams = ({ teams , onPress}) => {
   return (
     
     <TouchableOpacity onPress={onPress} style={styles.row}>
-      <Text style={styles.cell}>{teams.id}</Text>
-      <Text style={styles.cell}>{teams.name}</Text>
+      <Text style={styles.cell}>{Teams.id}</Text>
+      <Text style={styles.cell}>{Teams.name}</Text>
       <Text style={styles.cell}>{formattedInsertTime}</Text>
     </TouchableOpacity>
   );

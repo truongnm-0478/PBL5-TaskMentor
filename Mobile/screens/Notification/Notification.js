@@ -5,50 +5,35 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
 import { UIHeader } from '../../components'
 import NotificationItem from "./NotificationItem";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { _class } from "../../repositories";
  function Notification(props){
     const [Notification, setNotification]= useState([
-        {
-            url:'https://cdn-icons-png.freepik.com/256/1827/1827392.png?semt=ais_hybrid',
-            title: 'thông báo lịch hẹn',
-            detail: 'các em ngày 5/10 sẽ lên lớp và báo cáo tiến độ hoàn thành công việc của dự án',
-            datetime: 10-12-2003
-        },
-        {
-            url:'https://cdn-icons-png.freepik.com/256/1827/1827392.png?semt=ais_hybrid',
-            title: 'thông báo lịch hẹn',
-            detail: 'các em ngày 5/10 sẽ lên lớp và báo cáo tiến độ hoàn thành công việc của dự án',
-            datetime: 10-12-2003
-        },
-        {
-            url:'https://cdn-icons-png.freepik.com/256/1827/1827392.png?semt=ais_hybrid',
-            title: 'thông báo lịch hẹn',
-            detail: 'các em ngày 5/10 sẽ lên lớp và báo cáo tiến độ hoàn thành công việc của dự án',
-            datetime: 10-12-2003
-        },
-        {
-            url:'https://cdn-icons-png.freepik.com/256/1827/1827392.png?semt=ais_hybrid',
-            title: 'thông báo lịch hẹn',
-            detail: 'các em ngày 5/10 sẽ lên lớp và báo cáo tiến độ hoàn thành công việc của dự án',
-            datetime: 10-12-2003
-        },
-        {
-            url:'https://cdn-icons-png.freepik.com/256/1827/1827392.png?semt=ais_hybrid',
-            title: 'thông báo lịch hẹn',
-            detail: 'các em ngày 5/10 sẽ lên lớp và báo cáo tiến độ hoàn thành công việc của dự án',
-            datetime: 10-12-2003
-        },
-        {
-            url:'https://cdn-icons-png.freepik.com/256/1827/1827392.png?semt=ais_hybrid',
-            title: 'thông báo lịch hẹn',
-            detail: 'các em ngày 5/10 sẽ lên lớp và báo cáo tiến độ hoàn thành công việc của dự án',
-            datetime: 10-12-2003
-        },
+      {}
     ])
-
-    return <View style={{
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+              
+                const accessToken = await AsyncStorage.getItem('accessToken');
+                const data = await _class.getNotificationForUser(accessToken);
+               setNotification(data)
+               console.log(data)
+            } catch (error) {
+                console.error("Error fetching student data:", error);
+            }
+        };
+        fetchData();
+    }, []);
+    return( <View style={{
+        backgroundColor:color.BackGround,
+        flex:1,
+    }}>
+    <View style={{
         marginTop:40,
         flexDirection:'column',
-        marginBottom:100
+        marginBottom:100,
+        backgroundColor: color.BackGround
     }}>
           <UIHeader title={'Notifications'}
         // leftIconName={'arrow-left'}
@@ -71,4 +56,6 @@ import NotificationItem from "./NotificationItem";
     }
         />
     </View>
+    </View>
+    );
  } export default Notification

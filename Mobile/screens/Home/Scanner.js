@@ -3,14 +3,15 @@ import { Text, View, Image, ImageBackground, TouchableOpacity, TextInput, Keyboa
 import { image, icons, color, FontSize } from "../../constants";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UIHeader } from '../../components'
 import { BarCodeScanner } from 'expo-barcode-scanner'
-
+import { _class } from "../../repositories";
 function Scanner(props) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [text, setText] = useState('Not yet scanned')
-
+  const [studentId, setStudentId] = useState('')
   const askForCameraPermission = () => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -46,34 +47,91 @@ function Scanner(props) {
   // }
 
   // Return the View
-  const{navigation,route}=props
-    const{navigate,goBack}= navigation
+  const { navigation, route } = props
+  const { navigate, goBack } = navigation
+  const handleJoinclass = async () => {
+    try {
+       const accessToken = await AsyncStorage.getItem('accessToken');
+       const response = await _class.JoinClass(accessToken, studentId , text)
+
+        navigate('UITab')
+
+    } catch (error) {
+       console.log(error)
+    } 
+}
   return (
     <View style={styles.container}>
-            <UIHeader title={'Teams'}
-         leftIconName={'arrow-left'}
-       // rightIconName={'qrcode'}
-         onPressLeftIcon= {()=>{
-            goBack()
-         }}
-        //  onPressRightIcon= {()=>{
-        //     navigate('Scanner')
-        //  }}
-        ></UIHeader>
+      <UIHeader title={'Teams'}
+        leftIconName={'arrow-left'}
+        // rightIconName={'qrcode'}
+        onPressLeftIcon={() => {
+          goBack()
+        }}
+      //  onPressRightIcon= {()=>{
+      //     navigate('Scanner')
+      //  }}
+      ></UIHeader>
 
-    <View style={styles.container}>
-      <View style={styles.barcodebox}>
-        <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={{
-            height: 400, width: 400,
-            borderRadius: 100
-          }} />
+      <View style={styles.container}>
+        <View style={styles.barcodebox}>
+          <BarCodeScanner
+            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+            style={{
+
+              height: 400, width: 400,
+              borderRadius: 100
+            }} />
+        </View>
+        <View style={{
+          marginTop: 5, 
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <Text>{text}</Text>
+        </View>
+
+      
+        <TextInput onChangeText={(Text) => {
+          setStudentId(Text)
+        }
+        } style={{
+          marginTop: 20,
+          borderWidth: 1,
+          borderColor: color.border, // Màu sắc của đường viền
+          borderRadius: 5, // Độ cong của góc (nếu cần) 
+          color: color.placeholder,
+          paddingHorizontal: 15,
+          height: 40,
+          color: color.placeholder,
+          width:200
+        }} placeholder="Enter your student id" />
+          {scanned && <TouchableOpacity onPress={() => setScanned(false)} style={{ backgroundColor: 'tomato', padding: 10, borderRadius: 5, marginTop: 20, height: 40, width:200, 
+            alignItems:"center",
+           }}>
+          <Text style={{ color: 'white' }}>Scan again?</Text>
+        </TouchableOpacity>
+        }
+      <TouchableOpacity 
+            
+            onPress={() => {handleJoinclass()}} style={{
+              marginTop:20,
+                backgroundColor: color.BGlogin,
+                justifyContent: "center",
+                alignItems: "center",
+                width: 200,
+                borderRadius: 10,
+                alignSelf: "center",
+                height:40
+            }}>
+                <Text style={{
+                    padding: 10,
+                    
+                    color: 'white'
+                }}>Join class</Text>
+            </TouchableOpacity>
       </View>
-      <Text style={styles.maintext}>{text}</Text>
 
-      {scanned && <Button title={'Scan again?'} onPress={() => setScanned(false)} color='tomato' />}
-    </View>
     </View>
 
   );
@@ -81,16 +139,17 @@ function Scanner(props) {
 export default Scanner;
 const styles = StyleSheet.create({
   container: {
-    marginTop:40,
+    marginTop: 40,
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+
+
   },
   maintext: {
 
     fontSize: 16,
-    margin: 20,
+    marginTop: 20,
   },
   barcodebox: {
 

@@ -13,4 +13,6 @@ export default {
     tabbar_chat: require('../assets/tabbar/chat.png'),    
     tabbar_notification: require('../assets/tabbar/notification.png'),
     tabbar_profile: require('../assets/tabbar/user-2.png'),
+    tabbar_myteams:require('../assets/tabbar/group.png'),
+    tabbar_appointment: require('../assets/tabbar/schedule.png'),
 }

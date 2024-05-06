@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, FlatList, Text, StyleSheet ,Switch} from 'react-native';
+import { View, TextInput, Button, FlatList, Text, StyleSheet ,Switch,TouchableOpacity} from 'react-native';
 import { teams } from '../../repositories';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { image,icons,color, FontSize } from "../../constants";
 const styles = StyleSheet.create({
   container: {
     marginTop:40,
@@ -10,19 +11,28 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: 'gray',
-    padding: 10,
-    marginBottom: 10,
+    borderColor: color.border, // Màu sắc của đường viền
+    borderRadius: 5, // Độ cong của góc (nếu cần)
+    color: color.placeholder,
+    height: 60,
+    paddingHorizontal: 15,
+    marginBottom:20,
   },
   memberInputContainer: {
     flexDirection: 'row',
     marginBottom: 10,
+    alignItems:'center',
+  
   },
   memberInput: {
-    flex: 1,
     borderWidth: 1,
-    borderColor: 'gray',
-    padding: 10,
+    borderColor: color.border, // Màu sắc của đường viền
+    borderRadius: 5, // Độ cong của góc (nếu cần)
+    color: color.placeholder,
+    height: 60,
+    paddingHorizontal: 15,
+   
+    width:250,
   },
   listContainer: {
     flex: 1,
@@ -81,7 +91,6 @@ const AddTeams = ({route}) => {
        console.log(error)
     } 
 }
-
   return (
     <View style={styles.container}>
       <TextInput
@@ -97,12 +106,28 @@ const AddTeams = ({route}) => {
           value={memberInput}
           onChangeText={setMemberInput}
         />
+        <Text style={{
+          paddingLeft:10,
+          flex:1,
+        }}>
+          Leader
+        </Text>
         <Switch
           value={memberRole}
           onValueChange={() => setMemberRole(previousState => !previousState)}
         />
-        <Button title="Add Member" onPress={addMemberHandler} />
+        
       </View>
+      <TouchableOpacity style={{ justifyContent:'center',
+          alignItems:'center',
+          backgroundColor:color.BGlogin,
+          paddingHorizontal:20,
+          borderRadius:5,
+          height:60,
+          
+        }} onPress={addMemberHandler}>
+          <Text style={{}}>Add Member</Text>
+        </TouchableOpacity>
       <FlatList
         style={styles.listContainer}
         data={members}
@@ -117,9 +142,17 @@ const AddTeams = ({route}) => {
           </View>
         )}
       />
-      <Button title="Add Team" onPress={addTeamHandler} disabled={!teamName || members.length === 0} />
+   
+      <TouchableOpacity style={{justifyContent:'center',
+          alignItems:'center',
+          backgroundColor:color.BGlogin,
+          paddingHorizontal:20,
+          borderRadius:5,
+          height:60,
+          }} onPress={addTeamHandler} disabled={!teamName || members.length === 0}>
+  <Text style={styles.addButtonText}>Add Team</Text>
+</TouchableOpacity>
     </View>
   );
 };
-
 export default AddTeams;

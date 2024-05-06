@@ -37,11 +37,44 @@ const getTeamsByUser = async(accessToken)=>{
         throw error; // Ném lỗi nếu có lỗi xảy ra
     }
 }
+const getRequirement = async(id,accessToken)=>{
+    try {
+       console.log(id)
+        const response = await axios.get(
+            `${baseURL}/TaskMentor/api/requirement?id=${id.id}`, // Đường dẫn API để lấy thông tin người dùng
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}` // Thêm token vào header
+                }
+            }
+        );
+        
+        return response.data.data; // Trả về dữ liệu của người dùng từ API
+    } catch (error) {
+        throw error; // Ném lỗi nếu có lỗi xảy ra
+    }
+}
+const getComment = async(id,accessToken)=>{
+    try {
+       console.log(id)
+        const response = await axios.get(
+            `${baseURL}/TaskMentor/api/comment?id=${id.id}`, // Đường dẫn API để lấy thông tin người dùng
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}` // Thêm token vào header
+                }
+            }
+        );
+        
+        return response.data.data; // Trả về dữ liệu của người dùng từ API
+    } catch (error) {
+        throw error; // Ném lỗi nếu có lỗi xảy ra
+    }
+}
 const createTeam = async (group, code, members, accessToken) => {
     try {
-        console.log(group)
-        console.log(code)
-        console.log(members)
         const response = await axios.post(
             `${baseURL}/TaskMentor/api/team`, // Đường dẫn API để lấy thông tin người dùng
             {
@@ -67,4 +100,6 @@ export default {
     getMembersByTeam,
     getTeamsByUser,
     createTeam,
+    getRequirement,
+    getComment,
 }

@@ -12,34 +12,6 @@ import { UIHeader } from "../../components";
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-// function Profile(props){
-//     const [user, setUser] = useState({})
-//     const{ email ,userid,address,gender,username,url,phone,registeredDate } = user
-//     useEffect(() => {
-//         UserReponsitory.getUserDetail()
-//         .then(responseUser => setUser(responseUser))
-//     }, [])  
-
-//     return <SafeAreaView style={{
-//         flex: 1,
-//         marginTop: 40,
-
-//     }}> 
-//     {/* <Image source={{uri:url}}></Image> */}
-
-//         <Text> Email: {email},
-//         {userid},{address} </Text>
-//         <Image style={{
-//         width:40,
-//         height:40
-//     }} source={{
-//         uri: url
-//     }}>
-
-//     </Image>
-//     </SafeAreaView>
-// } export default Profile
-
 const SettingItem = ({ imageSource, title, onPress }) => (
     
     <TouchableOpacity onPress={onPress}>
@@ -128,7 +100,11 @@ function Profile(props) {
             console.log(error)
         }
     };
-    return <View style={{
+    return( <View style={{
+        backgroundColor: color.BackGround,
+        flex:1,
+    }}>
+         <View style={{
         flex: 1,
         marginTop: 40,
     }}>
@@ -160,28 +136,27 @@ function Profile(props) {
                 uri: url
             }}></Image>
             <View style={{
-                flexDirection: 'column',
-                // backgroundColor:'red',
-                justifyContent: "center",
-                //alignItems:"center",
-                marginEnd: 60,
-                paddingRight: 20
-            }}>
-                <View>
-                    <Text style={{
-                        fontWeight: 'bold',
-                        fontSize: FontSize.h3
-                    }}>{userInfo.name}</Text>
-                </View>
-                <View>
-                    <Text style={{
-                        paddingRight: 20
-                    }}>
-                        {userInfo.email}
-                        {/* Tôi muốn thay đổi thế giới. Nhưng tôi phát hiện ra điều duy nhất bạn có thể chắc chắn làm thay đổi là chính bản thân mình. */}
-                    </Text>
-                </View>
-            </View>
+    flexDirection: 'column',
+    // backgroundColor:'red',
+    justifyContent: "center",
+    //alignItems:"center",
+    marginEnd: 60,
+    paddingRight: 20
+}}>
+    <View>
+        <Text style={{
+            fontWeight: 'bold',
+            fontSize: FontSize.h3
+        }}>{userInfo.name}</Text>
+    </View>
+    <View>
+        <Text style={{
+            paddingRight: 20
+        }}>
+            {userInfo.email}
+        </Text>
+    </View>
+</View>
         </View>
         <View style={{
             marginTop: 20,
@@ -237,21 +212,12 @@ function Profile(props) {
                         } else if (setting.title === 'About'){
                                 navigate('About')
                         } else if(setting.title === 'Signout'){
-                            // AsyncStorage.getItem('accessToken')
-                            // .then((accessToken) => {
-                            //     alert(accessToken);
-                            //     // Thực hiện các thao tác khác ở đây nếu cần
-                            // })
-                            // .catch((error) => {
-                            //     console.log('Error retrieving access token:', error);
-                            // });
                            {handleLogout()}
-
                         }
                     }} // Đổi hành động tương ứng
                 />
             ))}
         </View>
     </View>
-   
+    </View> )
 } export default Profile

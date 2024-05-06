@@ -117,6 +117,7 @@ const logout = async (accessToken) => {
     }
 }
 
+
 export default{
     getUserDetail,
     login,

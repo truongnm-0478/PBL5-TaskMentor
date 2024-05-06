@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Welcome, Login_1, Register, Home, S, Scanner,JoinTeam ,Members, AddTeams} from "../screens";
+import { Welcome, Login_1, Register, Home, S, Scanner,JoinTeam ,Members, AddTeams, MyteamDetail} from "../screens";
 import ChangePassword from "../screens/Menu/ChangePassword";
 import UpdateProfile from "../screens/Menu/UpdateProfile";
 import About from '../screens/Menu/About'
@@ -28,6 +28,7 @@ function App_1(props) {
                 <Stack.Screen name="JoinTeam" component={JoinTeam} />
                 <Stack.Screen name="Members" component={Members} />
                 <Stack.Screen name="AddTeams" component={AddTeams} />
+                <Stack.Screen name="MyteamDetail" component={MyteamDetail} />
             </Stack.Navigator>
         </NavigationContainer>
     );

@@ -10,7 +10,7 @@ import MyTeamsItem from "./MyTeamsItem";
 function MyTeams(props){
     const { navigation } = props;
     const { navigate, goBack } = navigation;
-    const [myteams, setMyteams]= useState([{}])
+    const [Teams, setMyteams]= useState([{}])
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -25,7 +25,11 @@ function MyTeams(props){
         };
         fetchData();
     }, []);
-    return <View style={{
+    return( <View style={{
+        flex:1,
+        backgroundColor:color.BackGround
+    }}>
+    <View style={{
         marginTop:40,
     }}>
          <UIHeader title={'MyTeams'}
@@ -44,13 +48,15 @@ function MyTeams(props){
         ></UIHeader>
           <FlatList style={{
            
-        }} data={myteams} 
+        }} data={Teams} 
         renderItem={({item}) => <MyTeamsItem onPress={()=>{
-            navigate('Members', {myteams :item})
+            navigate('MyteamDetail', {Teams :item})
         }} 
-        myteams={item} key ={item.id}
+        Teams={item} key ={item.id}
         />
     }
         />
     </View>
+    </View>
+    );
 } export default MyTeams

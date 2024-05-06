@@ -16,7 +16,7 @@ function HomeItem(props) {
     paddingStart: 10,
     flexDirection: 'row',
     alignItems: "center",
-
+    backgroundColor:color.BackGround,
     marginEnd: 10,
   }}>
     <View>
