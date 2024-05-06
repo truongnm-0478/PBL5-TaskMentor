@@ -1,6 +1,7 @@
 package service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import dto.request.ChangePasswordRequest;
 import dto.request.UserUpdateRequest;
 import dto.response.UserInfoResponse;
 import dto.response.UserResponse;
@@ -62,8 +63,13 @@ public class UserService {
 
     public Boolean deleteUser(int id, int userId) {
         User user = userRepository.getUserById(id);
-        user.setDeleteBy(userId);
-        user.setDeleteTime(new java.sql.Timestamp(new Date().getTime()));
+        if (user.getDeleteTime() == null) {
+            user.setDeleteBy(userId);
+            user.setDeleteTime(new java.sql.Timestamp(new Date().getTime()));
+        } else {
+            user.setDeleteBy(null);
+            user.setDeleteTime(null);
+        }
 
         User userResult = userRepository.update(user);
         return true;
@@ -93,13 +99,16 @@ public class UserService {
 
     public User authenticateUser(String username, String password) {
         User user = userRepository.getUserByUsername(username);
+        if (user.getDeleteTime() != null) {
+            return null;
+        }
         if (user != null && PasswordHashingUtil.verifyPassword(password, user.getPassword())) {
             return user;
         }
         return null;
     }
 
-    public User getUserByUsername (String username) {
+    public User getUserByUsername(String username) {
         return userRepository.getUserByUsername(username);
     }
 
@@ -148,7 +157,7 @@ public class UserService {
     }
 
 
-    public User createTeacherAccount (String email, String username, String name, String phone, int userId) throws JsonProcessingException {
+    public User createTeacherAccount(String email, String username, String name, String phone, int userId) throws JsonProcessingException {
         // Validate information
         if (!UserValidationUtil.isValidTeacherAccountData(email, username, name)) {
             throw new IllegalArgumentException("Missing required fields for user registration.");
@@ -198,5 +207,18 @@ public class UserService {
         }
 
         return newUser;
+    }
+
+    public User changePassword(ChangePasswordRequest changePasswordRequest, int userId) {
+        User user = userRepository.getUserById(userId);
+        if (user != null && PasswordHashingUtil.verifyPassword(changePasswordRequest.getCurrent(), user.getPassword())) {
+            String hashedPassword = PasswordHashingUtil.hashPassword(changePasswordRequest.getPass());
+            System.out.println("password = " + hashedPassword);
+            System.out.println("hashedPassword = " + hashedPassword);
+            user.setPassword(hashedPassword);
+            userRepository.update(user);
+            return user;
+        }
+        return null;
     }
 }

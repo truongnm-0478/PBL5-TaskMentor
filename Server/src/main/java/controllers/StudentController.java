@@ -28,7 +28,8 @@ public class StudentController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         requestProcessor.processRequest(() -> {
-            try{
+
+            try {
                 int userId = AuthorizationUtil.getUserId(request);
 
                 String code = request.getParameter("code");
@@ -38,25 +39,46 @@ public class StudentController extends HttpServlet {
                     return;
                 }
 
-                List<StudentResponse> studentResponses = studentService.getListStudent(code);
+                if (code == null) {
+                    // Retrieve the student by ID
+                    StudentResponse studentResponse = studentService.getStudentByUserId(userId);
 
-                ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "List student", studentResponses);
+                    // Check if the student exists
+                    if (studentResponse == null) {
+                        // If the student does not exist, return a not found response
+                        ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_NOT_FOUND, "Student not found.");
+                        return;
+                    }
 
-            }  catch (IllegalArgumentException e) {
+                    // If the student exists, return the student response
+                    ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "Student retrieved successfully.", studentResponse);
+                } else {
+                    // If the ID parameter is not provided, return the list of students
+                    List<StudentResponse> studentResponses = studentService.getListStudent(code);
+                    ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "List of students", studentResponses);
+                }
+            } catch (NumberFormatException e) {
+                // If the student ID parameter cannot be parsed to an integer, return a bad request response
+                try {
+                    ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Invalid student ID format.");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } catch (IllegalArgumentException e) {
+                // Handle other exceptions
                 try {
                     ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
             } catch (Exception e) {
+                // Handle other exceptions
                 try {
-                    System.out.println("e = " + e);
                     ResponseUtil.sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request");
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
             }
-
         });
     }
 

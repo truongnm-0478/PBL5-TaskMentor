@@ -8,6 +8,8 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import util.HibernateUtil;
 
+import java.util.List;
+
 public class TeacherRepository {
     private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
@@ -32,5 +34,12 @@ public class TeacherRepository {
             e.printStackTrace();
         }
         return teacher;
+    }
+
+    public List<Teacher> getAllTeachers() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Teacher> query = session.createQuery("FROM Teacher WHERE deleteTime IS NULL", Teacher.class);
+            return query.list();
+        }
     }
 }

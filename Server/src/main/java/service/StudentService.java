@@ -43,4 +43,17 @@ public class StudentService {
         }
     }
 
+    public StudentResponse getStudentByUserId(int userId) {
+        Student student = studentRepository.getStudentByUserId(userId);
+        return StudentResponse.builder()
+                .userId(student.getUser().getId())
+                .id(student.getId())
+                .studentId(student.getCode())
+                .email(student.getUser().getEmail())
+                .name(student.getUser().getName())
+                .phone(student.getUser().getPhone())
+                .username(student.getUser().getUsername())
+                .build();
+    }
+
 }
