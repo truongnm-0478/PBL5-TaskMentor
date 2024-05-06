@@ -24,7 +24,7 @@ function MyTeams(props){
             }
         };
         fetchData();
-    }, []);
+    }, [Teams]);
     return( <View style={{
         flex:1,
         backgroundColor:color.BackGround

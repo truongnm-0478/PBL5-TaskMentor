@@ -18,4 +18,9 @@ export default {
     scanner: require('../assets/Settings/scan.png'),
     joinclass: require('../assets/Settings/add.png'),
     back: require('../assets/Settings/left-arrow.png'),
+    tabbar_home_1:  require('../assets/tabbar/home.png'),
+    tabbar_myteams_1:require('../assets/tabbar/group (1).png'),
+    tabbar_appointment_1: require('../assets/tabbar/calendar.png'),
+    tabbar_notification_1: require('../assets/tabbar/notification-1.png'),
+    tabbar_profile_1: require('../assets/tabbar/user.png'),
 }

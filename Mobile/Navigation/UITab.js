@@ -10,34 +10,36 @@ import { Login_1,Register } from '../screens'
 import Icon from 'react-native-vector-icons/FontAwesome';
 const screenOptions = ({route})=>({
     headerShown :false,
-    tabBarActiveTintColor: color.pimary,
+    tabBarActiveTintColor: color.Text_tabbar,
     tabBarInavtiveTintColor: color.inactive,
     tabBarIcon: ({focused , color, size}) =>{
         let screensName = route.name
         let iconName = ""
         if(screensName=="Home"){
             iconName= image.tabbar_home
+            iconName = focused ? image.tabbar_home_1:image.tabbar_home ;
         }
         else if(screensName=="Notification"){
-            iconName=image.tabbar_notification
+            iconName=focused ?image.tabbar_notification_1 : image.tabbar_notification
         }
         else if(screensName=="Chat"){
             iconName=image.tabbar_chat
         }
         else if(screensName=="Profile"){
-            iconName=image.tabbar_profile
+            iconName=focused ?image.tabbar_profile_1:image.tabbar_profile
         }
         else if(screensName=="MyTeams"){
-            iconName=image.tabbar_myteams
+            iconName=focused ?image.tabbar_myteams_1:image.tabbar_myteams
         }
         else if(screensName=="Apppointment"){
-            iconName=image.tabbar_appointment
+            iconName=focused ?image.tabbar_appointment_1:image.tabbar_appointment
         }
         return <Image size={20} source={iconName}  style={
             { 
                 width:size,
                 height:size,
-                tintColor: focused? color.pimary: color.inactive 
+                //tintColor: focused? color.pimary: color.inactive 
+                tintColor: focused ?'#1677ff': '#4F4F4F'
             }
         }> 
             </Image>

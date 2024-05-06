@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Image, ImageBackground, TouchableOpacity, TextInput, KeyboardAvoidingView, Keyboard } from "react-native";
-import { image, icons, color, FontSize } from "../../constants";
+import { image, icons, color, FontSize,background } from "../../constants";
+import {getLastLetter} from '../../utilies/index'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
 function NotificationsList(props) {
@@ -23,7 +24,7 @@ function NotificationsList(props) {
   }
   
   // Sử dụng hàm getInitials để lấy hai chữ cái đầu của tên
-  const firstInitials = getInitials(name);
+  const firstInitials = getLastLetter(name)
   return (<TouchableOpacity onPress={onPress} style={{
     marginBottom: 5,
     paddingTop: 20,
@@ -49,7 +50,7 @@ function NotificationsList(props) {
         width: 50,
         height: 50,
          borderRadius: 5, // Đặt borderRadius là 1 nửa của width/height để tạo hình tròn
-        backgroundColor: 'lightgrey', // Màu nền mặc định hoặc có thể thay đổi theo yêu cầu
+        backgroundColor: background(name), // Màu nền mặc định hoặc có thể thay đổi theo yêu cầu
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 15,
@@ -64,7 +65,7 @@ function NotificationsList(props) {
       <Text style={{
         color: 'black',
         fontSize: FontSize.h5,
-        fontWeight: 'bold'
+        fontWeight: 500,
       }}>{name}</Text>
       <View style={{
         marginRight: 60

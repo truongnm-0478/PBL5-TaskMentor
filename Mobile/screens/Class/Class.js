@@ -74,7 +74,7 @@ function Class(props) {
             }
         };
         fetchData();
-    }, []);
+    }, [Teams]);
     useEffect(() => {
         const fetchData = async () => {
             try {

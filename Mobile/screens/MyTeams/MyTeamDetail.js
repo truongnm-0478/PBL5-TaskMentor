@@ -120,7 +120,7 @@ function MyteamDetail(props) {
                         //backgroundColor: button.status ? color.primary : color.inactive,
                         padding: 10,
                         borderRadius: 5,
-                        marginTop: 10,
+                        //marginTop: 10,
                         alignItems: 'center',
                         marginRight: 10
                     }}
