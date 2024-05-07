@@ -165,9 +165,6 @@ public class AccountController extends HttpServlet {
     protected void doPut(HttpServletRequest request, HttpServletResponse response)  {
         requestProcessor.processRequest(() -> {
             try {
-                if(!AuthorizationUtil.checkUserRole(request, response, 3)) {
-                    return;
-                }
                 int userId = AuthorizationUtil.getUserId(request);
                 // read data from JSON
                 BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
