@@ -48,7 +48,7 @@ const validatePass = async (_rule, value) => {
     if (value === '') {
         return Promise.reject('Please input the password');
     } else {
-        if (formRef.value) { // Kiểm tra xem formRef đã được gán giá trị chưa
+        if (formRef.value) {
             await formRef.value.validateFields('checkPass')
         }
         return Promise.resolve();
@@ -123,12 +123,11 @@ const changePassword = () => {
     height: calc(100vh - 100px);
     border-radius: 5px;
     overflow: auto;
-    padding: 20px;
 }
 
 .header {
     border-bottom: 1px solid rgb(235, 237, 240);
-    padding: 10px;
+    padding: 13px;
 }
 
 .body {

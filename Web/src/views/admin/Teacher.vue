@@ -180,10 +180,10 @@ const handleCreate = () => {
 
 const handleActive = (record) => {
     Modal.confirm({
-        title: 'Do you want to enable user?',
+        title: 'Do you want to enable teacher?',
         icon: createVNode(ExclamationCircleOutlined),
         onOk() {
-            userApi.disableUser(record.id)
+            userApi.disableUser(record.userId)
                 .then(() => {
                     useMessageStore().addMessage('success', 'Successfully!')
                     getListUser();

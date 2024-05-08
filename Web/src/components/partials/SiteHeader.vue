@@ -15,6 +15,9 @@
                         <a-menu-item @click="handleChangePassword">
                             <a>Setting password</a>
                         </a-menu-item>
+                        <a-menu-item @click="handleUpdateProfile">
+                            <a>Update profile</a>
+                        </a-menu-item>
                         <a-menu-item @click="handleLogout">
                             <a>Log out</a>
                         </a-menu-item>
@@ -55,6 +58,10 @@ const handleLogout = () => {
 
 const handleChangePassword = () => {
     router.push("/change-password")
+}
+
+const handleUpdateProfile = () => {
+    router.push("/update-profile")
 }
 
 

@@ -13,7 +13,7 @@
             class="menu"
             style="border-right: none"
         >
-            <div class="logo">
+            <div class="logo" @click="handleChangeHome">
                 <img src="@/assets/img/logo.png" alt="Logo"/>
                 <div v-show="!isCollapsed" class="brand">
                     <h1 class="brand">Task </h1>
@@ -142,6 +142,10 @@ onUnmounted(() => {
     window.removeEventListener('resize', handleResize)
 })
 
+const handleChangeHome = () => {
+    router.push('/')
+}
+
 </script>
 
 <style>
@@ -161,6 +165,7 @@ onUnmounted(() => {
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .logo img {
