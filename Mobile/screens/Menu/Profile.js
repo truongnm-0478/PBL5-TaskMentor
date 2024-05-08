@@ -80,7 +80,7 @@ function Profile(props) {
         { imageSource: image.image_updateprofile, title: 'Update Profile' },
         { imageSource: image.image_changePass, title: 'Change Password' },
         { imageSource: image.image_About, title: 'About' },
-        { imageSource: image.image_signOut, title: 'Signout' }
+        { imageSource: image.image_signOut, title: 'Sign out' }
     ];
     const handleLogout = async () => {
         try {
@@ -211,7 +211,7 @@ function Profile(props) {
                            
                         } else if (setting.title === 'About'){
                                 navigate('About')
-                        } else if(setting.title === 'Signout'){
+                        } else if(setting.title === 'Sign out'){
                            {handleLogout()}
                         }
                     }} // Đổi hành động tương ứng

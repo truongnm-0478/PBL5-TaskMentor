@@ -47,7 +47,7 @@ function MyTeams(props){
     //    }}
         ></UIHeader>
           <FlatList style={{
-           
+           marginBottom:70,
         }} data={Teams} 
         renderItem={({item}) => <MyTeamsItem onPress={()=>{
             navigate('MyteamDetail', {Teams :item})

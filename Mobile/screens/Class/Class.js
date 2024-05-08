@@ -48,7 +48,7 @@ function Class(props) {
             }
         };
         fetchData();
-    }, []);
+    }, [students]);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -129,7 +129,7 @@ function Class(props) {
                 ))}
             </View>
             {isliststudentActive == true && <FlatList style={{
-
+                marginBottom:70,
             }} data={students}
                 renderItem={({ item }) => <StudentList onPress={() => {
                 }}
@@ -138,7 +138,7 @@ function Class(props) {
                 }
             />}
             {isNotificationActive == true && <FlatList style={{
-
+                marginBottom:70,
             }} data={Notification}
                 renderItem={({ item }) => <NotificationsList onPress={() => {
                 }}
@@ -146,9 +146,13 @@ function Class(props) {
                 />
                 }
             />}
-            {isliststeamActive == true && <View>
+            {isliststeamActive == true && <View style={{
+              
+               //backgroundColor:'red',
+               marginBottom:360,
+            }}>
                 <FlatList style={{
-
+                   
                 }} data={Teams}
                     renderItem={({ item }) => <ListTeams onPress={() => {
                         navigate('MyteamDetail', { Teams: item })
@@ -157,17 +161,17 @@ function Class(props) {
                     />
                     }
                     keyExtractor={(item) => item.id}
-                    ListHeaderComponent={() => (
-                        <View style={{ flexDirection: 'row', padding: 0, backgroundColor: '#f2f2f2' }}>
-                            <Text style={{ flex: 1, textAlign: 'center' }}>ID</Text>
-                            <Text style={{ flex: 1, textAlign: 'center' }}>Name</Text>
-                            <Text style={{ flex: 1, textAlign: 'center' }}>Creat Time</Text>
-                        </View>
-                    )}
+                    // ListHeaderComponent={() => (
+                    //     <View style={{ flexDirection: 'row', padding: 0, backgroundColor: '#f2f2f2' }}>
+                    //         <Text style={{ flex: 1, textAlign: 'center' }}>ID</Text>
+                    //         <Text style={{ flex: 1, textAlign: 'center' }}>Name</Text>
+                    //         <Text style={{ flex: 1, textAlign: 'center' }}>Creat Time</Text>
+                    //     </View>
+                    // )}
                 />
                 <TouchableOpacity 
           
-          onPress={() => {navigate('AddTeams',{code:code})}} style={{
+          onPress={() => {navigate('AddTeams',{code:code, students:students})}} style={{
               backgroundColor: color.BGlogin,
               //justifyContent: "center",
               //alignItems: "center",
@@ -179,7 +183,7 @@ function Class(props) {
               <Text style={{
                   padding: 10,
                 //   fontSize: FontSize.h5,
-                  color: 'white'
+                  color: 'white',
               }}>Create teams</Text>
           </TouchableOpacity> 
             </View>

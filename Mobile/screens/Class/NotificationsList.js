@@ -56,7 +56,7 @@ function NotificationsList(props) {
         marginRight: 15,
         marginStart: 10,
       }}>
-        <Text style={{ fontSize: FontSize.h3, color: 'black', fontWeight: 'bold' }}>{firstInitials}</Text>
+        <Text style={{ fontSize: FontSize.h3, color: 'white', fontWeight: '400' }}>{firstInitials}</Text>
       </View>
     </View>
     <View style={{

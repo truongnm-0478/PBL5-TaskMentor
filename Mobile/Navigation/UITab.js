@@ -28,7 +28,7 @@ const screenOptions = ({route})=>({
         else if(screensName=="Profile"){
             iconName=focused ?image.tabbar_profile_1:image.tabbar_profile
         }
-        else if(screensName=="MyTeams"){
+        else if(screensName=="My Teams"){
             iconName=focused ?image.tabbar_myteams_1:image.tabbar_myteams
         }
         else if(screensName=="Apppointment"){
@@ -49,7 +49,7 @@ function UITab(props){
 
     return <Tab.Navigator screenOptions={screenOptions}>
         <Tab.Screen name={'Home'} component={Home} />
-        <Tab.Screen name={'MyTeams'} component={MyTeams} />
+        <Tab.Screen name={'My Teams'} component={MyTeams} />
         <Tab.Screen name={'Apppointment'} component={Apppointment} />
         <Tab.Screen name={'Notification'} component={Notification} />
         {/* <Tab.Screen name={'Chat'} component={Chat} /> */}

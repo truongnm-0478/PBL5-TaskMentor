@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { View, TextInput, Button, FlatList, Text, StyleSheet ,Switch,TouchableOpacity} from 'react-native';
 import { teams } from '../../repositories';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Dropdown } from 'react-native-element-dropdown';
 import { image,icons,color, FontSize } from "../../constants";
+import { _class } from "../../repositories";
 const styles = StyleSheet.create({
   container: {
     marginTop:40,
@@ -48,15 +50,77 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  dropdown: {
+  
+    height: 50,
+    //backgroundColor: 'white',
+    borderRadius: 5,
+    padding: 12,
+    borderColor: color.border,
+    // shadowColor: '#000',
+    width:250,
+    borderWidth:1,
+    height: 60,
+    color: color.placeholder,
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 1,
+    // },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 1.41,
+    // width:250,
+    // elevation: 2,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  item: {
+    padding: 17,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  textItem: {
+    flex: 1,
+    fontSize: 16,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
 });
 
 const AddTeams = ({route}) => {
-   const { code } = route.params;
+   const { code, students} = route.params;
   const [teamName, setTeamName] = useState('');
   const [members, setMembers] = useState([]);
   const [memberInput, setMemberInput] = useState('');
   const [memberRole, setMemberRole] = useState(false); // State for member role
-
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [value, setValue] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
+  const studentOptions = students.map(student => ({
+    label: student.name,
+    value: student.studentId,
+}));
+const renderItem = item => {
+  return (
+    <View style={styles.item}>
+      <Text style={styles.textItem}>{item.label}</Text>
+     
+    </View>
+  );
+};
   const addMemberHandler = () => {
     const newMember = { studentId: memberInput, leader: memberRole }; // Include role in member object
     setMembers(currentMembers => [...currentMembers, newMember]);
@@ -75,18 +139,17 @@ const AddTeams = ({route}) => {
     // console.log({code})
     // console.log('Team Name:', teamName);
     // console.log('Members:', members);
+    console.log(students)
     // Reset the states
     setTeamName('');
     setMembers([]);
     create()
   };
+  
   const create = async () => {
     try {
       const accessToken = await AsyncStorage.getItem('accessToken');
        const response = await teams.createTeam(teamName , code, members,accessToken)
-
-        
-
     } catch (error) {
        console.log(error)
     } 
@@ -100,12 +163,34 @@ const AddTeams = ({route}) => {
         onChangeText={setTeamName}
       />
       <View style={styles.memberInputContainer}>
-        <TextInput
+        {/* <TextInput
           style={styles.memberInput}
           placeholder="Enter Member Name"
           value={memberInput}
           onChangeText={setMemberInput}
-        />
+        /> */}
+       
+       <Dropdown
+        style={styles.dropdown}
+        placeholderStyle={styles.placeholderStyle}
+        selectedTextStyle={styles.selectedTextStyle}
+        inputSearchStyle={styles.inputSearchStyle}
+        iconStyle={styles.iconStyle}
+        data={studentOptions}
+        search
+        maxHeight={300}
+        labelField="label"
+        valueField="value"
+        placeholder="Select student"
+        searchPlaceholder="Search..."
+        value={value}
+        onChange={item => {
+          setValue(item.value);
+          setMemberInput(item.value);
+        }}
+        
+        renderItem={renderItem}
+      />
         <Text style={{
           paddingLeft:10,
           flex:1,
