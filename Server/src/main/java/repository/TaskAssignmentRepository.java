@@ -66,4 +66,16 @@ public class TaskAssignmentRepository {
         }
         return sprintList;
     }
+
+    public List<TaskAssignment> findByAssignedTo(int assignedToId) {
+        List<TaskAssignment> taskAssignments = null;
+        try (Session session = sessionFactory.openSession()) {
+            Query<TaskAssignment> query = session.createQuery("FROM TaskAssignment WHERE assignedTo.id = :assignedToId AND deleteTime IS NULL", TaskAssignment.class);
+            query.setParameter("assignedToId", assignedToId);
+            taskAssignments = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return taskAssignments;
+    }
 }

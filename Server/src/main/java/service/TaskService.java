@@ -3,16 +3,20 @@ package service;
 import dto.request.StatusRequest;
 import dto.request.TaskAssignmentRequest;
 import dto.request.TaskRequest;
-import dto.response.TaskAssignmentResponse;
-import dto.response.TaskItemResponse;
-import dto.response.TaskResponse;
+import dto.response.*;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import java.util.*;
-import java.util.function.Function;
-import model.*;
-import repository.*;
 
-import java.sql.Timestamp;
+import model.*;
+import org.json.JSONObject;
+import repository.*;
+import util.FormatUtil;
+
 import java.util.stream.Collectors;
 
 public class TaskService {
@@ -21,6 +25,10 @@ public class TaskService {
     private final SprintRepository sprintRepository = new SprintRepository();
     private final TeamMemberRepository teamMemberRepository = new TeamMemberRepository();
     private final UserRepository userRepository = new UserRepository();
+    private final StudentRepository studentRepository = new StudentRepository();
+
+    private final FormatUtil formatUtil = new FormatUtil();
+
 
     public Task saveTask(TaskRequest taskRequest, int userId) {
         Sprint sprint = sprintRepository.getById(taskRequest.getSprint());
@@ -44,16 +52,6 @@ public class TaskService {
         }
         return taskResult;
     }
-
-//    public List<TaskResponse> getListTask(int teamId) {
-//        List<Task> tasks = taskRepository.findByTeamId(teamId);
-//        List<TaskAssignment> taskAssignmentList = taskAssignmentRepository.findByTeamId(teamId);
-//        return tasks.stream()
-//                .map(this::mapTaskToTaskResponse)
-//                .collect(Collectors.toList());
-//
-//    }
-//
 
     public List<TaskResponse> getListTask(int teamId) {
         List<Task> tasks = taskRepository.findByTeamId(teamId);
@@ -177,4 +175,66 @@ public class TaskService {
         }
         return false;
     }
+
+    // AI
+
+    public List<TaskDifficultyResponse> evaluateTaskDifficulty(int teamId) {
+        List<TaskAssignment> taskAssignments = taskAssignmentRepository.findByTeamId(teamId);
+        List<TaskDifficultyResponse> taskDifficultyResponses = new ArrayList<>();
+
+        for (TaskAssignment taskAssignment : taskAssignments) {
+            String taskDescription = taskAssignment.getTask().getDescription();
+            float predictedDifficulty = callAIServer(taskDescription);
+            int userId = taskAssignment.getAssignedTo().getId();
+
+            TaskDifficultyResponse task = TaskDifficultyResponse.builder()
+                    .difficulty(predictedDifficulty)
+                    .userName(taskAssignment.getAssignedTo().getName())
+                    .status(taskAssignment.getTask().getStatus())
+                    .studentId(studentRepository.getStudentByUserId(userId).getCode())
+                    .build();
+            taskDifficultyResponses.add(task);
+        }
+
+        return taskDifficultyResponses;
+    }
+
+    private float callAIServer(String taskDescription) {
+        try {
+            String apiUrl = "http://127.0.0.1:5000/predict_task_difficulty";
+            URL url = new URL(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setDoOutput(true);
+
+            // Convert taskDescription to lowercase for case-insensitive matching
+            String lowercaseDescription = taskDescription.toLowerCase();
+
+            String requestBody = "{\"task_name\": \"" + lowercaseDescription + "\"}";
+            connection.getOutputStream().write(requestBody.getBytes());
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            JSONObject jsonResponse = new JSONObject(response.toString());
+            double predictedDifficulty = jsonResponse.getDouble("predicted_difficulty");
+
+            // Adjust difficulty based on keywords
+            predictedDifficulty = formatUtil.format(predictedDifficulty, lowercaseDescription);
+
+            return (float) predictedDifficulty;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 1;
+        }
+    }
+
+
 }

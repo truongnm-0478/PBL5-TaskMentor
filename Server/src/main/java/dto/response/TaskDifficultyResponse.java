@@ -6,21 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskResponse {
-    private int id;
-    private int sprintId;
-    private String sprintName;
-    private String taskName;
-    private int stage;
-    private String description;
+public class TaskDifficultyResponse {
+    private String studentId;
     private int status;
-    private Timestamp insertTime;
     private String userName;
     private float difficulty;
 }
