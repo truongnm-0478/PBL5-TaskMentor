@@ -20,6 +20,9 @@
             <a-tab-pane key="4" tab="Task">
                 <Task />
             </a-tab-pane>
+            <a-tab-pane key="5" tab="Evaluation">
+                <TeamEvaluation />
+            </a-tab-pane>
         </a-tabs>
     </div>
 </template>
@@ -33,6 +36,7 @@ import { useUserStore } from '@/stores/userStore.js'
 import Comment from '@/views/user/Comment.vue'
 import Timeline from '@/views/user/Plan.vue'
 import Task from '@/views/user/Task.vue'
+import TeamEvaluation from "@/views/user/TeamEvaluation.vue";
 
 const role = ref(useUserStore().getUserRole)
 const activeKey = ref('1')

@@ -25,6 +25,7 @@ import Teacher from '@/views/admin/Teacher.vue'
 import CreateTeacher from '@/views/admin/CreateTeacher.vue'
 import ChangePassword from '@/views/ChangePassword.vue'
 import UpdateProfile from '@/views/user/UpdateProfile.vue'
+import TeamEvaluation from '@/views/user/TeamEvaluation.vue'
 
 
 import DashboardView from '../views/admin/DashboardView.vue'
@@ -56,6 +57,7 @@ const routes =  [
     { path: '/appointment/class', name: 'AppointmentClass', component: AppointmentClass },
     { path: '/change-password', name: 'ChangePassword', component: ChangePassword },
     { path: '/update-profile', name: 'UpdateProfile', component: UpdateProfile },
+    { path: '/team-evaluation', name: 'TeamEvaluation', component: TeamEvaluation },
 
     { path: '/admin/dashboard', name: 'Chart', component: Chart },
     { path: '/admin/user', name: 'User', component: User },

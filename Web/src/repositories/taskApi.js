@@ -20,6 +20,9 @@ const taskApi = {
     },
     updateAssign: async (data) => {
         return await instance.put(nameModel + '/assignment', data)
+    },
+    getListTaskEvaluationByTeamId: async (id) => {
+        return await instance.get(`${nameModel}/team-evaluation?id=${id}`)
     }
 }
 
