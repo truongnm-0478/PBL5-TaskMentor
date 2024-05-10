@@ -24,6 +24,7 @@ public class TaskAssignmentResponse {
     private Timestamp deadline;
     private int assignedTo;
     private List<AssignBy> listAssigned;
+    private String proof;
 
     @NoArgsConstructor
     @AllArgsConstructor

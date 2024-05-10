@@ -61,4 +61,7 @@ public class TaskAssignment {
 
     @Column(name = "delete_by")
     private Integer deleteBy;
+
+    @Column(name = "proof")
+    private String proof;
 }

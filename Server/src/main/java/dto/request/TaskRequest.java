@@ -17,4 +17,5 @@ public class TaskRequest {
     private String description;
     private String name;
     private String status;
+    private String proof;
 }

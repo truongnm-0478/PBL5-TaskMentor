@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class StatusRequest {
     private int id;
     private int status;
+    private String proof;
 }

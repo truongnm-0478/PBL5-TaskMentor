@@ -19,4 +19,5 @@ public class TaskAssignmentRequest {
     private Timestamp deadline;
     private int assignedTo;
     private int sprint;
+    private String proof;
 }

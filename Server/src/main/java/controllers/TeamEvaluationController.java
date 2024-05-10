@@ -35,6 +35,7 @@ public class TeamEvaluationController extends HttpServlet {
                 String teamId = request.getParameter("id");
 
                 List<TaskDifficultyResponse> listTask = taskService.evaluateTaskDifficulty(Integer.parseInt(teamId));
+                System.out.println("listTask = " + listTask);
 
                 ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "Get list task successfully.", listTask);
             } catch (IllegalArgumentException e) {

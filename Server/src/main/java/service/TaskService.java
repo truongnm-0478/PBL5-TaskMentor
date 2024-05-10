@@ -108,10 +108,15 @@ public class TaskService {
     }
 
     public Task updateStatus(StatusRequest statusRequest, int userId) {
+        System.out.println("statusRequest = " + statusRequest);
         Task task = taskRepository.findById(statusRequest.getId());
+        TaskAssignment assignment = taskAssignmentRepository.findByTaskId(statusRequest.getId());
+        assignment.setProof(statusRequest.getProof());
+
         task.setStatus(statusRequest.getStatus());
         task.setUpdateBy(userId);
         task.setUpdateTime(new java.sql.Timestamp(new Date().getTime()));
+        taskAssignmentRepository.update(assignment);
         return taskRepository.update(task);
     }
 
@@ -141,6 +146,7 @@ public class TaskService {
                 .deadline(assignment.getDeadline())
                 .listAssigned(assignByList)
                 .assignedTo(assignedToId)
+                .proof(assignment.getProof())
                 .build();
     }
 
@@ -160,6 +166,7 @@ public class TaskService {
         taskAssignment.setDeadline(taskAssignmentRequest.getDeadline());
         taskAssignment.setUpdateBy(userId);
         taskAssignment.setUpdateTime(new java.sql.Timestamp(new Date().getTime()));
+        taskAssignment.setProof(taskAssignmentRequest.getProof());
 
         taskAssignmentRepository.update(taskAssignment);
         return taskRepository.update(task);
@@ -177,7 +184,6 @@ public class TaskService {
     }
 
     // AI
-
     public List<TaskDifficultyResponse> evaluateTaskDifficulty(int teamId) {
         List<TaskAssignment> taskAssignments = taskAssignmentRepository.findByTeamId(teamId);
         List<TaskDifficultyResponse> taskDifficultyResponses = new ArrayList<>();
@@ -185,15 +191,17 @@ public class TaskService {
         for (TaskAssignment taskAssignment : taskAssignments) {
             String taskDescription = taskAssignment.getTask().getDescription();
             float predictedDifficulty = callAIServer(taskDescription);
-            int userId = taskAssignment.getAssignedTo().getId();
 
-            TaskDifficultyResponse task = TaskDifficultyResponse.builder()
-                    .difficulty(predictedDifficulty)
-                    .userName(taskAssignment.getAssignedTo().getName())
-                    .status(taskAssignment.getTask().getStatus())
-                    .studentId(studentRepository.getStudentByUserId(userId).getCode())
-                    .build();
-            taskDifficultyResponses.add(task);
+            if(taskAssignment.getAssignedTo() != null) {
+                int userId = taskAssignment.getAssignedTo().getId();
+                TaskDifficultyResponse task = TaskDifficultyResponse.builder()
+                        .difficulty(predictedDifficulty)
+                        .userName(taskAssignment.getAssignedTo().getName())
+                        .status(taskAssignment.getTask().getStatus())
+                        .studentId(studentRepository.getStudentByUserId(userId).getCode())
+                        .build();
+                taskDifficultyResponses.add(task);
+            }
         }
 
         return taskDifficultyResponses;
