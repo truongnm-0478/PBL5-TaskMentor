@@ -59,7 +59,7 @@
         </div>
     </div>
     <a-drawer
-        title="Create a new account"
+        title="Create a new task"
         :width="720"
         :open="open"
         :body-style="{ paddingBottom: '80px' }"
@@ -179,6 +179,26 @@
                     </a-form-item>
                 </a-col>
             </a-row>
+            <a-row :gutter="16">
+                <a-col :span="24">
+                    <a-input-group compact class="input-group">
+                        <span class="input-label">Proof:</span>
+                        <a-input
+                            v-model:value="formEdit.proof"
+                            placeholder="please enter url proof"
+                            ref="proofInputRef"
+                            class="input"
+                        />
+                        <a-tooltip title="Copy git URL">
+                            <template #default>
+                                <a-button type="default" @click="copyToClipboard" class="copy-button">
+                                    <template #icon><CopyOutlined /></template>
+                                </a-button>
+                            </template>
+                        </a-tooltip>
+                    </a-input-group>
+                </a-col>
+            </a-row>
         </a-form>
         <template #extra>
             <a-space>
@@ -188,11 +208,22 @@
             </a-space>
         </template>
     </a-drawer>
+    <a-modal v-model:visible="showProofModal" title="Enter Proof">
+        <a-form>
+            <a-form-item label="Proof" name="proof">
+                <a-input v-model:value="proof" placeholder="Enter proof"></a-input>
+            </a-form-item>
+        </a-form>
+        <template #footer>
+            <a-button @click="showProofModal = false">Cancel</a-button>
+            <a-button type="primary" @click="updateProof">Submit</a-button>
+        </template>
+    </a-modal>
 </template>
 
 <script setup>
 import {computed, onMounted, ref, watch} from 'vue'
-import {PlusOutlined, TagTwoTone, DeleteOutlined} from '@ant-design/icons-vue'
+import {PlusOutlined, TagTwoTone, DeleteOutlined, CopyOutlined} from '@ant-design/icons-vue'
 import taskApi from '@/repositories/taskApi.js'
 import {reactive} from 'vue'
 import projectApi from '@/repositories/projectApi.js'
@@ -201,15 +232,21 @@ import {useMessageStore} from '@/stores/messageStore.js'
 import dayjs from 'dayjs'
 import { getColorForLastLetter } from '@/utils/colorUtils.js'
 import { getLastLetter } from '@/utils/stringUtils.js'
+import {message} from "ant-design-vue";
+const proofInputRef = ref(null);
 
 const open = ref(false)
 const openEdit = ref(false)
+const showProofModal = ref(false)
+const proof = ref('')
+const dropItem = ref(null)
 const form = reactive({
     name: '',
     status: null,
     sprint: '',
     deadline: null,
     description: '',
+    proof: ''
 })
 const planning = ref([])
 const statusMapping = {
@@ -283,12 +320,25 @@ const handleSubmit = () => {
     formRef.value.validate().then(() => {
         taskApi.addTask(form)
             .then(res => {
+                const newTask = {
+                    id: res.data.id,
+                    sprintName: form.sprintName,
+                    sprint_id: form.sprint,
+                    task_name: form.name,
+                    stage: form.status,
+                    description: form.description,
+                    userName: null,
+                    proof: form.proof
+                };
+                lists.value[form.status].items.push(newTask)
+
                 useMessageStore().addMessage('success', 'Create successfully!')
                 form.name = ''
                 form.status = null
                 form.sprint = ''
                 form.deadline = null
                 form.description = ''
+                form.proof = ''
             })
             .catch(err => {
                 useMessageStore().addMessage('error', 'Create failure!')
@@ -326,7 +376,8 @@ const getListTasks = () => {
                         stage: task.stage,
                         description: task.description,
                         status: task.status,
-                        userName: task.userName
+                        userName: task.userName,
+                        proof: task.proof,
                     });
                 }
             });
@@ -335,7 +386,7 @@ const getListTasks = () => {
             console.error("Error fetching task list:", err)
         });
 }
-getListTasks()
+onMounted(() => { getListTasks() })
 
 const newItemTitle = ref('');
 const newTitle = ref('');
@@ -388,15 +439,29 @@ const updateItemStatus = (item, newStatus) => {
         case 'review':
             status = 2
             break
-        case 'completed':
-            status = 3
-            break
     }
     taskApi.updateTaskStatus({
         id: item.id,
-        status: status
+        status: status,
+        proof: proof.value
     })
         .then(res => {
+            useMessageStore().addMessage('success', 'Successfully!')
+            getListTasks()
+        })
+        .catch(err => {
+            useMessageStore().addMessage('error', 'Failure!')
+        })
+}
+
+const updateItemStatusComplete = (item) => {
+    taskApi.updateTaskStatus({
+        id: item.id,
+        status: 3,
+        proof: proof.value
+    })
+        .then(res => {
+            console.log("RES: ", res)
             useMessageStore().addMessage('success', 'Successfully!')
             getListTasks()
         })
@@ -419,9 +484,19 @@ const onDrop = (evt, toIndex) => {
         toList.items.splice(dropIndex, 0, item);
 
         if (fromIndex !== toIndex) {
-            updateItemStatus(item, toList.type);
+            if (toList.type === 'completed') {
+                showProofModal.value = true;
+                dropItem.value = item
+            } else {
+                updateItemStatus(item, toList.type);
+            }
         }
     }
+}
+
+const updateProof = () => {
+    updateItemStatusComplete(dropItem.value)
+    showProofModal.value = false
 }
 
 const saveListTitle = (index) => {
@@ -480,6 +555,7 @@ const editSelectedItem = (item) => {
             formEdit.assignedTo = res.data.assignedTo === 0 ? null : res.data.assignedTo
             formEdit.id = res.data.id
             formEdit.taskId = res.data.taskId
+            formEdit.proof = res.data.proof
 
 
             options.value = res.data.listAssigned.map(user => ({
@@ -539,6 +615,17 @@ const filteredItems = (index) => {
     }
     return list.items.filter(item => item.stage === selectedSprint.value);
 }
+
+const copyToClipboard = () => {
+    const inputElement = proofInputRef.value.$el;
+
+    if (inputElement) {
+        inputElement.select();
+        document.execCommand('copy');
+        message.success('Copied to clipboard');
+    }
+}
+
 </script>
 
 <style scoped>
@@ -671,6 +758,16 @@ const filteredItems = (index) => {
 .delete-list {
     cursor: pointer;
     color: #999;
+}
+
+.input {
+    width: calc(100% - 36px);
+    border-bottom-left-radius: 8px !important;
+    border-top-left-radius: 8px !important;
+}
+
+.copy-button {
+    width: 36px;
 }
 
 </style>
