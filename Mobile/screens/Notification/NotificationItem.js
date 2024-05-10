@@ -37,11 +37,23 @@ function NotificationItem(props){
       <View style={{
         flexDirection:'column',
       }}>
+      <View style={{
+        flexDirection:'row'
+      }}>
       <Text style={{
         color:'black',
         fontSize:FontSize.h5,
         fontWeight:'bold'
       }}>{teacherName}</Text>
+      <Text style={{
+        color:'green',
+        fontSize:FontSize.h5,
+        //fontWeight:'bold'
+        marginRight:10,
+        //backgroundColor:'red',
+        flex:1,
+      }}>  {className.length > 15 ? `${className.substring(0, 15)}...` : className}</Text>
+      </View>
       <View style={{
         marginRight:60
       }}>

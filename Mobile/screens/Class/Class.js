@@ -9,6 +9,7 @@ import StudentList from "./StudentList";
 import { _class } from "../../repositories";
 import NotificationsList from "./NotificationsList";
 import ListTeams from "./ListTeam";
+import QRCode from 'react-native-qrcode-svg';
 function Class(props) {
     const { name, code } = props.route.params.teams;
     const { navigation } = props;
@@ -104,8 +105,9 @@ function Class(props) {
     const isliststeamActive = activeButton[listteamIndex].status;
     const introIndex = activeButton.findIndex(button => button.name === 'Introduction');
     const isintroActive = activeButton[introIndex].status;
-    return ( <View style={{backgroundColor:color.BackGround,
-        flex:1,
+    return (<View style={{
+        backgroundColor: color.BackGround,
+        flex: 1,
     }}>
         <View style={{ marginTop: 40, flexDirection: 'column', }}>
             <UIHeader title={name} leftIconName={image.back} onPressLeftIcon={() => goBack()}></UIHeader>
@@ -118,7 +120,7 @@ function Class(props) {
                             padding: 10,
                             borderRadius: 5,
                             // marginTop: 10,
-                           // backgroundColor:'red',
+                            // backgroundColor:'red',
                             alignItems: 'center',
                             marginRight: 10
                         }}
@@ -129,7 +131,7 @@ function Class(props) {
                 ))}
             </View>
             {isliststudentActive == true && <FlatList style={{
-                marginBottom:70,
+                marginBottom: 70,
             }} data={students}
                 renderItem={({ item }) => <StudentList onPress={() => {
                 }}
@@ -138,7 +140,7 @@ function Class(props) {
                 }
             />}
             {isNotificationActive == true && <FlatList style={{
-                marginBottom:70,
+                marginBottom: 70,
             }} data={Notification}
                 renderItem={({ item }) => <NotificationsList onPress={() => {
                 }}
@@ -147,12 +149,12 @@ function Class(props) {
                 }
             />}
             {isliststeamActive == true && <View style={{
-              
-               //backgroundColor:'red',
-               marginBottom:360,
+
+                //backgroundColor:'red',
+                marginBottom: 360,
             }}>
                 <FlatList style={{
-                   
+
                 }} data={Teams}
                     renderItem={({ item }) => <ListTeams onPress={() => {
                         navigate('MyteamDetail', { Teams: item })
@@ -161,105 +163,135 @@ function Class(props) {
                     />
                     }
                     keyExtractor={(item) => item.id}
-                    // ListHeaderComponent={() => (
-                    //     <View style={{ flexDirection: 'row', padding: 0, backgroundColor: '#f2f2f2' }}>
-                    //         <Text style={{ flex: 1, textAlign: 'center' }}>ID</Text>
-                    //         <Text style={{ flex: 1, textAlign: 'center' }}>Name</Text>
-                    //         <Text style={{ flex: 1, textAlign: 'center' }}>Creat Time</Text>
-                    //     </View>
-                    // )}
+                // ListHeaderComponent={() => (
+                //     <View style={{ flexDirection: 'row', padding: 0, backgroundColor: '#f2f2f2' }}>
+                //         <Text style={{ flex: 1, textAlign: 'center' }}>ID</Text>
+                //         <Text style={{ flex: 1, textAlign: 'center' }}>Name</Text>
+                //         <Text style={{ flex: 1, textAlign: 'center' }}>Creat Time</Text>
+                //     </View>
+                // )}
                 />
-                <TouchableOpacity 
-          
-          onPress={() => {navigate('AddTeams',{code:code, students:students})}} style={{
-              backgroundColor: color.BGlogin,
-              //justifyContent: "center",
-              //alignItems: "center",
-             marginTop:20,
-              borderRadius: 10,
-              alignSelf: "center",
-            //   height:60
-          }}>
-              <Text style={{
-                  padding: 10,
-                //   fontSize: FontSize.h5,
-                  color: 'white',
-              }}>Create teams</Text>
-          </TouchableOpacity> 
+                <TouchableOpacity
+
+                    onPress={() => { navigate('AddTeams', { code: code, students: students }) }} style={{
+                        backgroundColor: color.BGlogin,
+                        //justifyContent: "center",
+                        //alignItems: "center",
+                        marginTop: 20,
+                        borderRadius: 10,
+                        alignSelf: "center",
+                        //   height:60
+                    }}>
+                    <Text style={{
+                        padding: 10,
+                        //   fontSize: FontSize.h5,
+                        color: 'white',
+                    }}>Create teams</Text>
+                </TouchableOpacity>
             </View>
 
             }
             {isintroActive == true && <ScrollView style={{
-                backgroundColor:'red',
+                //backgroundColor:'red',
                 flexDirection: 'column',
                 marginHorizontal: 20,
             }}>
                 <View style={{
-                    alignItems:'center',
-                    backgroundColor:'aqua',
-                    height:60,
+                    borderWidth:1,
+                    padding:20,
+                    borderRadius:5,
+                    borderColor:'#e8e8e8',
+                }}>
+                <View style={{
+                    alignItems: 'center',
+                    height: 60,
                     flexDirection: 'row',
                 }}>
-                    <Text>Name: </Text>
+                    <Text style={{ fontWeight:'bold',
+                        width:100,
+                    }}>Name: </Text>
                     <Text>{intro.name}</Text>
                 </View>
                 <View style={{
-                    alignItems:'center',
-                    backgroundColor:'aqua',
-                    height:60,
+                    alignItems: 'center',
+                    height: 60,
                     flexDirection: 'row',
                 }}>
-                    <Text>Teacher: </Text>
+                    <Text style={{ fontWeight:'bold',
+                         width:100,
+                    }}>Teacher: </Text>
                     <Text>{intro.teacher.user.name}</Text>
                 </View>
                 <View style={{
-                    alignItems:'center',
-                    backgroundColor:'aqua',
-                    height:60,
+                    alignItems: 'center',
+                    height: 60,
                     flexDirection: 'row',
                 }}>
-                    <Text>Phone: </Text>
+                    <Text style={{ fontWeight:'bold',
+                         width:100,
+                    }}>Phone: </Text>
                     <Text>{intro.teacher.user.phone}</Text>
                 </View>
                 <View style={{
-                    alignItems:'center',
-                    backgroundColor:'aqua',
-                    height:60,
+                    alignItems: 'center',
+                    height: 60,
                     flexDirection: 'row',
                 }}>
-                    <Text>Email: </Text>
+                    <Text style={{ fontWeight:'bold',
+                         width:100,
+                    }}>Email: </Text>
                     <Text>{intro.teacher.user.email}</Text>
                 </View>
                 <View style={{
-                    alignItems:'center',
-                    backgroundColor:'aqua',
-                    height:60,
+                    alignItems: 'center',
+                    height: 60,
                     flexDirection: 'row',
                 }}>
-                    <Text>Create Time: </Text>
+                    <Text style={{ fontWeight:'bold',
+                         width:100,
+                    }}>Create Time: </Text>
                     <Text>{intro.createDate}</Text>
                 </View>
                 <View style={{
-                    alignItems:'center',
-                    backgroundColor:'aqua',
-                    height:60,
+                    alignItems: 'center',
+                    height: 60,
                     flexDirection: 'row',
                 }}>
-                    <Text>Description: </Text>
+                    <Text style={{ fontWeight:'bold',
+                         width:100,
+                    }}>Description: </Text>
                     <Text>{intro.description}</Text>
                 </View>
                 <View style={{
-                    alignItems:'center',
-                    backgroundColor:'aqua',
-                    height:60,
+                    alignItems: 'center',
+                    height: 60,
                     flexDirection: 'row',
                 }}>
-                    <Text>Code: </Text>
+                    <Text style={{ fontWeight:'bold',
+                         width:100,
+                    }}>Code: </Text>
                     <Text>{intro.code}</Text>
+                </View>
+                <View style={{
+                    alignItems: 'center',
+                    //height: 60,
+                    flexDirection: 'row',
+                }}>
+                    <Text style={{ fontWeight:'bold',
+                         width:100,
+                         
+                    }}>QR: </Text>
+                    <QRCode
+                        value={intro.code}
+                        //backgroundColor="red"
+                        logoSize={40}
+
+                    />
+                </View>
                 </View>
             </ScrollView>}
         </View>
-        </View>
+    </View>
     );
 }
 

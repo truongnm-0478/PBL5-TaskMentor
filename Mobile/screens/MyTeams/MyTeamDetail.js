@@ -74,6 +74,31 @@ function MyteamDetail(props) {
             try {
                 const id_ = { id }
                 const accessToken = await AsyncStorage.getItem('accessToken');
+                const data = await teams.deleteTeams(accessToken, id_);
+            } catch (error) {
+                console.error("Error fetching student data:", error);
+            }
+        };
+        fetchData();
+    }, []);
+    const deleteTeam = async () => {
+        try {
+            const id_ = { id }
+            const accessToken = await AsyncStorage.getItem('accessToken');
+           const response = await teams.deleteTeams(accessToken, id_)
+
+            navigate('My Teams')
+
+        } catch (error) {
+           console.log(error)
+        } 
+    }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const id_ = { id }
+                const accessToken = await AsyncStorage.getItem('accessToken');
                 const data = await teams.getMembersByTeam(accessToken, id_);
                 setMember(data)// Cập nhật state students với dữ liệu từ API
 
@@ -103,15 +128,16 @@ function MyteamDetail(props) {
                     leftIconName={image.back}
                     // JoinIcon={'plus-square'}
                     // rightIconName={'qrcode'}
+                    JoinIcon={image.delete}
                     onPressLeftIcon={() => {
                         goBack()
                     }}
                 //      onPressRightIcon= {()=>{
                 //         navigate('Scanner')
                 //      }}
-                //      onPressJoinicon= {()=>{
-                //       navigate('JoinTeam')
-                //    }}
+                     onPressJoinicon= {()=>{
+                      deleteTeam()
+                   }}
                 ></UIHeader>
                 <View style={{ flexDirection: 'row' }}>
                     {activeButton.map((button, index) => (

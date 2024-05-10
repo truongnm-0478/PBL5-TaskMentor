@@ -101,7 +101,8 @@ function Scanner(props) {
         <View style={{
           marginTop: 5, 
           justifyContent: 'center',
-          alignItems: 'center'
+          alignItems: 'center',
+          height:30,
         }}>
           <Text>{text}</Text>
         </View>

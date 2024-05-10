@@ -5,7 +5,15 @@ import { image, icons, color, FontSize,background } from "../../constants";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
 function MyTeamsItem(props) {
-  let { id, name, classname, classcode } = props.Teams
+  let { id, name, className, classCode, insertTime  } = props.Teams
+  const inserttime = new Date(insertTime);
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
+  // Lấy các thành phần của ngày và giờ
+  const year = inserttime.getFullYear();
+  const month = monthNames[inserttime.getMonth()]; 
+  const date = inserttime.getDate();
+  const formattedInsertTime = `${month} ${date}, ${year}`;
   const { onPress } = props
   if (!name) {
     return null; // hoặc có thể hiển thị một placeholder khác thay vì null
@@ -74,7 +82,7 @@ function MyTeamsItem(props) {
           color: color.inactive,
           fontSize: FontSize.h5,
           marginRight: 10,
-        }}>{classname}</Text>
+        }}>{className}</Text>
       </View>
 
     </View>

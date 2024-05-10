@@ -23,4 +23,5 @@ export default {
     tabbar_appointment_1: require('../assets/tabbar/calendar.png'),
     tabbar_notification_1: require('../assets/tabbar/notification-1.png'),
     tabbar_profile_1: require('../assets/tabbar/user.png'),
+    delete:require('../assets/Settings/delete.png'),
 }

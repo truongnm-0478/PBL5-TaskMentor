@@ -18,13 +18,14 @@ import { _class } from "../../repositories";
                 const accessToken = await AsyncStorage.getItem('accessToken');
                 const data = await _class.getNotificationForUser(accessToken);
                setNotification(data)
-               console.log(data)
+               //console.log(data)
             } catch (error) {
                 console.error("Error fetching student data:", error);
             }
         };
         fetchData();
-    }, []);
+    }, [Notification]);
+    
     return( <View style={{
         backgroundColor:color.BackGround,
         flex:1,
