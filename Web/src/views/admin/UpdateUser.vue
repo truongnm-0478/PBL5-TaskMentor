@@ -84,6 +84,7 @@ const formState = reactive({
     phone: ''
 })
 
+// Validation
 const checkEmail = async (_rule, value) => {
     if (!value) {
         return Promise.reject('Please input the email')
@@ -165,7 +166,7 @@ const handleUpdateUser = () => {
         })
 }
 
-// Get API
+// Call API
 const router = useRouter()
 const goBack = () => { router.go(-1) }
 

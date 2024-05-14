@@ -33,7 +33,6 @@ public class UserService {
         return userRepository.getTotalUsers();
     }
 
-    // Update Infomation
     public User updateUser(UserUpdateRequest userUpdateRequest, int userId) {
         // Lấy thông tin người dùng hiện tại từ cơ sở dữ liệu
         User currentUser = userRepository.getUserById(userUpdateRequest.getId());
