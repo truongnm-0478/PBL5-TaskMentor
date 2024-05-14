@@ -215,6 +215,7 @@ function Profile(props) {
                                 navigate('About')
                         } else if(setting.title === 'Sign out'){
                         //    {handleLogout()}
+                        //dang xuat
                         try {
                             Alert.alert(
                                 "Confirm Logout",
