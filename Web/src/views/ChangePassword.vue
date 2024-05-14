@@ -32,10 +32,10 @@
 </template>
 
 <script setup>
-import {reactive, ref} from 'vue'
-import userApi from '@/repositories/userApi.js'
-import {useMessageStore} from '@/stores/messageStore.js'
-import {useSpinStore} from '@/stores/spinStore.js'
+import userApi from '@/repositories/userApi.js';
+import { useMessageStore } from '@/stores/messageStore.js';
+import { useSpinStore } from '@/stores/spinStore.js';
+import { reactive, ref } from 'vue';
 
 const formRef = ref(null);
 const formState = reactive({
@@ -44,9 +44,10 @@ const formState = reactive({
     current: '',
 })
 
+// Validate data
 const validatePass = async (_rule, value) => {
     if (value === '') {
-        return Promise.reject('Please input the password');
+        return Promise.reject('Please input the password')
     } else {
         if (formRef.value) {
             await formRef.value.validateFields('checkPass')
@@ -103,6 +104,7 @@ const handleValidate = (...args) => {
     console.log(args)
 }
 
+// Call API
 const changePassword = () => {
     useSpinStore().startLoading()
     userApi.changePassword(formState)

@@ -1,21 +1,20 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import dto.response.UserInfoResponse;
-import dto.response.UserResponse;
-import model.User;
-import service.UserService;
-import util.*;
+import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.List;
+
+import dto.response.UserInfoResponse;
+import dto.response.UserResponse;
+import service.UserService;
+import util.AuthorizationUtil;
+import util.RequestProcessor;
+import util.ResponseUtil;
 
 @WebServlet("/api/user-information/*")
 public class UserInformationController extends HttpServlet {
@@ -28,7 +27,6 @@ public class UserInformationController extends HttpServlet {
         requestProcessor.processRequest(() -> {
             String pathInfo = req.getPathInfo();
             if (pathInfo != null && pathInfo.equals("/all")) {
-                // Trường hợp gọi tất cả người dùng
                 try {
                     List<UserInfoResponse> users = userService.getAllUserInfo();
                     if (!users.isEmpty()) {
