@@ -37,7 +37,7 @@ public class UserService {
         // Lấy thông tin người dùng hiện tại từ cơ sở dữ liệu
         User currentUser = userRepository.getUserById(userUpdateRequest.getId());
 
-        // Kiểm tra email mới có trùng với người dùng khác trong hệ thống không
+        // Kiểm tra email mới có trùng với người dùng khác trong hệ thống hay không
         User userByEmail = userRepository.getUserByEmail(userUpdateRequest.getEmail());
         if (userByEmail != null && userByEmail.getId() != userUpdateRequest.getId()) {
             throw new IllegalArgumentException("Email already exists.");
