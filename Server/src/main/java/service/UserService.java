@@ -213,6 +213,7 @@ public class UserService {
         return newUser;
     }
 
+    // Change password
     public User changePassword(ChangePasswordRequest changePasswordRequest, int userId) {
         User user = userRepository.getUserById(userId);
         if (user != null && PasswordHashingUtil.verifyPassword(changePasswordRequest.getCurrent(), user.getPassword())) {
