@@ -145,6 +145,7 @@ function Profile(props) {
     marginEnd: 60,
     paddingRight: 20
 }}>
+    {/* hien thi ten va email */}
     <View>
         <Text style={{
             fontWeight: 'bold',
