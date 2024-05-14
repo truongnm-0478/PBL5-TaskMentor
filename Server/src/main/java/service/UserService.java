@@ -98,7 +98,7 @@ public class UserService {
 
     }
 
-    // Authentication User.
+    // đăng nhập.
     public User authenticateUser(String username, String password) {
         User user = userRepository.getUserByUsername(username);
         if (user.getDeleteTime() != null) {
@@ -113,7 +113,7 @@ public class UserService {
     public User getUserByUsername(String username) {
         return userRepository.getUserByUsername(username);
     }
-    // dang kí
+    
     public User registerUser(String email, String username, String password, int role, String name, String phone) throws JsonProcessingException {
         // Validate information
         if (!UserValidationUtil.isValidRegistrationData(email, username, password, name)) {
