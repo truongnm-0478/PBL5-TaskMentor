@@ -54,6 +54,7 @@ public class ClassService {
         return classRequests;
     }
 
+    // Get list student of class
     public List<ClassRequest> listClassForStudent(int userId) {
         Student student = studentRepository.getStudentByUserId(userId);
         List<StudentClass> studentClasses = joinClassRepository.getClassesByStudentId(student.getId());
