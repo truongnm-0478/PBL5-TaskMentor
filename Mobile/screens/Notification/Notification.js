@@ -7,6 +7,7 @@ import { UIHeader } from '../../components'
 import NotificationItem from "./NotificationItem";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { _class } from "../../repositories";
+// danh sách thông báo
  function Notification(props){
     const [Notification, setNotification]= useState([
       {}
