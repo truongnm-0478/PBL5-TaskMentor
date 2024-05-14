@@ -1,24 +1,19 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import dto.request.ClassRequest;
-import dto.response.StudentResponse;
-import model.ClassRoom;
-import service.ClassService;
-import service.StudentService;
-import util.AuthorizationUtil;
-import util.RequestProcessor;
-import util.ResponseUtil;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.List;
+
+import dto.response.StudentResponse;
+import service.StudentService;
+import util.AuthorizationUtil;
+import util.RequestProcessor;
+import util.ResponseUtil;
 
 @WebServlet("/api/student")
 public class StudentController extends HttpServlet {
@@ -95,7 +90,6 @@ public class StudentController extends HttpServlet {
 
                 Boolean isDelete = studentService.removeStudentToClass(id);
 
-                // Trả về thông báo thành công
                 ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_OK, "Class deleted successfully.", isDelete);
             } catch (IllegalArgumentException e) {
                 try {
