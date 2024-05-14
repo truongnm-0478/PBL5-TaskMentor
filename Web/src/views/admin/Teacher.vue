@@ -4,7 +4,7 @@
             <UserAddOutlined />
             Add teacher
         </a-button>
-
+        <!-- Table -->
         <div class="table">
             <a-table :columns="columns" :data-source="data" :scroll="{ x: 1500, y: 480 }">
                 <template #bodyCell="{ record, column, text }">
@@ -37,21 +37,22 @@
 </template>
 
 <script setup>
-import {
-    ExclamationCircleOutlined,
-    FormOutlined,
-    LockOutlined,
-    UnlockOutlined,
-    UserAddOutlined
-} from '@ant-design/icons-vue'
-import {createVNode, onMounted, ref} from "vue";
-import dayjs from "dayjs";
-import teacherApi from '@/repositories/teacherApi.js'
-import router from "@/router/index.js";
-import {Modal} from "ant-design-vue";
+import teacherApi from '@/repositories/teacherApi.js';
 import userApi from "@/repositories/userApi.js";
-import {useMessageStore} from "@/stores/messageStore.js";
+import router from "@/router/index.js";
+import { useMessageStore } from "@/stores/messageStore.js";
+import {
+ExclamationCircleOutlined,
+FormOutlined,
+LockOutlined,
+UnlockOutlined,
+UserAddOutlined
+} from '@ant-design/icons-vue';
+import { Modal } from 'ant-design-vue';
+import dayjs from 'dayjs';
+import { createVNode, onMounted, ref } from 'vue';
 
+// Column
 const columns = [
     {
         title: 'ID',
