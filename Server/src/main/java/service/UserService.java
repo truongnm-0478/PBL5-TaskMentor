@@ -98,7 +98,7 @@ public class UserService {
 
     }
 
-    // đăng nhập
+    // đăng nhập.
     public User authenticateUser(String username, String password) {
         User user = userRepository.getUserByUsername(username);
         if (user.getDeleteTime() != null) {
