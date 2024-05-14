@@ -45,7 +45,7 @@ public class ChangePasswordController extends HttpServlet {
                 ObjectMapper mapper = new ObjectMapper();
                 ChangePasswordRequest changePasswordRequest = mapper.readValue(jsonRequest.toString(), ChangePasswordRequest.class);
 
-                // teacher account
+              
                 User user = userService.changePassword(changePasswordRequest, userId);
 
                 ResponseUtil.sendJsonResponse(response, HttpServletResponse.SC_CREATED, "Change password successfully.", user);
