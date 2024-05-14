@@ -51,9 +51,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { Rule } from 'ant-design-vue/es/form';
-import type { FormInstance } from 'ant-design-vue';
-import { defineComponent, reactive, ref} from 'vue';
+import type { Rule } from 'ant-design-vue/es/form'
+import type { FormInstance } from 'ant-design-vue'
+import { defineComponent, reactive, ref} from 'vue'
 import { useMessageStore } from '@/stores/messageStore'
 import authApi from '../repositories/authApi'
 import router from '../router'
@@ -164,11 +164,7 @@ const rules: Record<string, Rule[]> = {
 const layout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 14 },
-};
-
-// const handleFinish = (values: FormState) => {
-//     console.log("Logging in with:", values.username, values.pass, values.name, values.email, values.phone);
-// };
+}
 
 const handleFinish = async (values: FormState) => {
     spinStore.startLoading()
