@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <!-- form login -->
         <a-form
             layout="vertical"
             :model="formState"
@@ -41,25 +42,24 @@
 </template>
 
 <script setup>
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
-import { reactive } from 'vue'
-import authApi from '../repositories/authApi'
-import { useMessageStore } from '../stores/messageStore'
-import router from '../router'
+import { useSocketStore } from '@/stores/socketStore.js'
 import { useSpinStore } from '@/stores/spinStore.js'
 import { useUserStore } from '@/stores/userStore.js'
-import { useSocketStore } from '@/stores/socketStore.js'
-
+import { LockOutlined, UserOutlined } from '@ant-design/icons-vue'
+import { reactive } from 'vue'
+import authApi from '../repositories/authApi'
+import router from '../router'
+import { useMessageStore } from '../stores/messageStore'
 
 const formState = reactive({
     user: '',
     password: '',
 })
-
 const messageStore = useMessageStore()
 const spinStore = useSpinStore()
 const userStore = useUserStore()
 
+// Call API Login
 const handleFinish = async () => {
     spinStore.startLoading()
     try {
@@ -96,9 +96,10 @@ const handleFinish = async () => {
     }
 }
 
+// Handle exception
 const handleFinishFailed = (errors) => {
     console.log('Form errors:', errors)
-};
+}
 </script>
 
 <style scoped>
