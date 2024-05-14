@@ -5,9 +5,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Dropdown } from 'react-native-element-dropdown';
 import { image,icons,color, FontSize } from "../../constants";
 import { _class } from "../../repositories";
+import { UIHeader } from '../../components'
 const styles = StyleSheet.create({
   container: {
-    marginTop:40,
+    //marginTop:40,
     flex: 1,
     padding: 20,
   },
@@ -154,8 +155,19 @@ const renderItem = item => {
        console.log(error)
     } 
 }
+
   return (
+    
     <View style={styles.container}>
+   <UIHeader title={'Create Team'}
+            
+            leftIconName={image.back}
+            onPressLeftIcon={() => {
+                goBack()
+            }}
+            
+           
+        ></UIHeader>
       <TextInput
         style={styles.input}
         placeholder="Enter Team Name"

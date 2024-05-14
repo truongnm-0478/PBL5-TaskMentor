@@ -1,5 +1,4 @@
 import Welcome from "./Welcome";
-import Login from "./Login";
 import Login_1 from "./Login_1";
 import Register from "./Register";
 import Chat from './Chat/Chat'
@@ -16,7 +15,6 @@ import MyteamDetail from "./MyTeams/MyTeamDetail";
 import Apppointment from "./Appointment/Appointment";
 export{
     Welcome,
-    Login,
     Login_1,
     Register,
     Chat,

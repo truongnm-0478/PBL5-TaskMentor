@@ -39,7 +39,7 @@ const getTeamsByUser = async(accessToken)=>{
 }
 const getRequirement = async(id,accessToken)=>{
     try {
-       console.log(id)
+       //console.log(id)
         const response = await axios.get(
             `${baseURL}/TaskMentor/api/requirement?id=${id.id}`, // Đường dẫn API để lấy thông tin người dùng
             {

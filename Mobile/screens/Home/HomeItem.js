@@ -63,7 +63,7 @@ function HomeItem(props) {
           fontWeight: '400',
           alignItems: "center",
           justifyContent: "center",
-        }}>{name}</Text>
+        }}>{name.length > 25 ? `${name.substring(0, 25)}...` : name}</Text>
         <View style={{
           width:40,
           marginTop:10,
