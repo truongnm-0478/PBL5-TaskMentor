@@ -180,7 +180,7 @@ const areaChartOptions = {
 
 @media (max-width: 1200px) {
     .donut {
-        //padding: 20px;
+        padding: 20px;
         margin-left: 0;
     }
 }
