@@ -26,6 +26,7 @@ public class ClassService {
 
     private final UserRepository userRepository = new UserRepository();
 
+    // Create class
     public ClassRoom saveClass(ClassRequest classRequest, int userId) {
         ClassRoom classRoom = ClassRoom.builder()
                 .className(classRequest.getName())
