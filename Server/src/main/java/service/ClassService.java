@@ -1,14 +1,22 @@
 package service;
 
-import dto.request.ClassRequest;
-import dto.request.JoinClassRequest;
-import dto.response.ClassIntroductionResponse;
-import model.*;
-import repository.*;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import dto.request.ClassRequest;
+import dto.request.JoinClassRequest;
+import dto.response.ClassIntroductionResponse;
+import model.ClassRoom;
+import model.Student;
+import model.StudentClass;
+import model.Teacher;
+import model.User;
+import repository.ClassRepository;
+import repository.JoinClassRepository;
+import repository.StudentRepository;
+import repository.TeacherRepository;
+import repository.UserRepository;
 
 public class ClassService {
     private final ClassRepository classRepository = new ClassRepository();
@@ -130,6 +138,7 @@ public class ClassService {
         }
     }
 
+    // Get introduction of class
     public ClassIntroductionResponse getIntroduction(String code) {
         ClassRoom classRoom = classRepository.findByCode(code);
         return ClassIntroductionResponse.builder()
