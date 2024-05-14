@@ -81,6 +81,7 @@ public class ClassService {
         return classRepository.update(classRoom);
     }
 
+    // Delete class
     public void deleteClass(String code, int userId) {
         ClassRoom classRoom = classRepository.findByCode(code);
         classRoom.setDeleteBy(userId);
