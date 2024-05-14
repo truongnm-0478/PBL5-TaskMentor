@@ -4,6 +4,8 @@ import { image, icons, color, FontSize } from "../../constants";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
 import {user} from '../../repositories'
+import { Alert } from "react-native";
+
 import {
     user as UserReponsitory,
     population as PopulationReponsitory
@@ -52,10 +54,10 @@ function Profile(props) {
                 // Lấy accessToken từ AsyncStorage hoặc từ đâu đó
                 const accessToken = await AsyncStorage.getItem('accessToken');
                 // Gọi hàm getUserInfo để lấy thông tin người dùng với accessToken
-                console.log("UserInfo:",accessToken );
+                //console.log("UserInfo:",accessToken );
                 const userData = await user.getUserInfo(accessToken);
                 // Cập nhật state với thông tin người dùng
-                console.log("UserInfo:", userData);
+                //console.log("UserInfo:", userData);
                 setUserInfo(userData);
                 setLoading(false)
             } catch (error) {
@@ -143,6 +145,7 @@ function Profile(props) {
     marginEnd: 60,
     paddingRight: 20
 }}>
+    {/* hien thi ten va email */}
     <View>
         <Text style={{
             fontWeight: 'bold',
@@ -205,14 +208,38 @@ function Profile(props) {
                     title={setting.title}
                     onPress={() => {
                         if(setting.title === 'Update Profile'){
-                               navigate('UpdateProfile')
+                               navigate('UpdateProfile', {userInfo: userInfo})
                         } else if(setting.title === 'Change Password'){
                             navigate('ChangePassword')
                            
                         } else if (setting.title === 'About'){
                                 navigate('About')
                         } else if(setting.title === 'Sign out'){
-                           {handleLogout()}
+                        //    {handleLogout()}
+                        //dang xuat
+                        try {
+                            Alert.alert(
+                                "Confirm Logout",
+                                "Are you sure you want to sign out?",
+                                [
+                                    {
+                                        text: "Cancel",
+                                        onPress: () => console.log("Cancel Pressed"),
+                                        style: "cancel"
+                                    },
+                                    {
+                                        text: "OK",
+                                        onPress: async () => {
+                                            handleLogout()
+                                        }
+                                    }
+                                ]
+                            );
+                        } catch (error) {
+                            // Xử lý lỗi nếu có
+                            console.log(error);
+                        }
+
                         }
                     }} // Đổi hành động tương ứng
                 />

@@ -49,6 +49,7 @@ function Scanner(props) {
   // Return the View
   const { navigation, route } = props
   const { navigate, goBack } = navigation
+  //ma qr
   const handleJoinclass = async () => {
     try {
        const accessToken = await AsyncStorage.getItem('accessToken');

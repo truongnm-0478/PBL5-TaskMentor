@@ -17,11 +17,14 @@
     "@react-navigation/native-stack": "^6.9.26",
     "@react-navigation/stack": "^6.3.29",
     "axios": "^1.6.8",
+    "base-64": "^1.0.0",
     "expo": "~50.0.3",
     "expo-barcode-scanner": "~12.9.3",
     "expo-status-bar": "~1.11.1",
+    "pako": "^1.0.11",
     "react": "18.2.0",
     "react-native": "0.73.2",
+    "react-native-base64": "^0.2.1",
     "react-native-big-calendar": "^4.12.0",
     "react-native-calendars": "^1.1304.1",
     "react-native-element-dropdown": "^2.12.0",
@@ -31,7 +34,9 @@
     "react-native-screens": "~3.29.0",
     "react-native-svg": "^15.2.0",
     "react-native-vector-icons": "^10.0.3",
-    "socket.io-client": "^4.7.5"
+    "react-native-websocket": "^1.0.2",
+    "socket.io-client": "^4.7.5",
+    "websocket": "^1.0.34"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

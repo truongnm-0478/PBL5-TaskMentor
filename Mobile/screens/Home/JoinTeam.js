@@ -11,6 +11,7 @@ function JoinTeam(props){
     const{navigate,goBack}= navigation
     const [studentId, setStudentId] = useState('')
     const[classCode, setClassCode] = useState('')
+    // ham tham gia class
     const handleJoinclass = async () => {
         try {
            const accessToken = await AsyncStorage.getItem('accessToken');

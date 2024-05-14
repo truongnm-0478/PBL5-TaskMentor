@@ -110,23 +110,26 @@ function Class(props) {
         flex: 1,
     }}>
         <View style={{ marginTop: 40, flexDirection: 'column', }}>
-            <UIHeader title={name} leftIconName={image.back} onPressLeftIcon={() => goBack()}></UIHeader>
-            <View style={{ flexDirection: 'row' }}>
+            <UIHeader title={name.length > 23 ? `${name.substring(0, 23)}...` : name} leftIconName={image.back} onPressLeftIcon={() => goBack()}></UIHeader>
+            <View style={{ flexDirection: 'row' , marginHorizontal:5}}>
                 {activeButton.map((button, index) => (
                     <TouchableOpacity
                         key={index}
                         style={{
-                            //backgroundColor: button.status ? color.primary : color.inactive,
+                            //backgroundColor: button.status ? 'red' : color.inactive,
                             padding: 10,
                             borderRadius: 5,
                             // marginTop: 10,
                             // backgroundColor:'red',
                             alignItems: 'center',
-                            marginRight: 10
+                            marginLeft: 5
                         }}
                         onPress={() => handleButtonPress(index)}
                     >
-                        <Text style={{ color: button.status ? color.BGlogin : 'black' }}>{button.name}</Text>
+                        <Text style={{ color: button.status ? color.BGlogin : 'black' , 
+                            // borderBottomWidth:1,
+                            // borderColor:color.BGlogin,
+                        }}>{button.name}</Text>
                     </TouchableOpacity>
                 ))}
             </View>
@@ -191,6 +194,7 @@ function Class(props) {
             </View>
 
             }
+            {/* thong tin lop */}
             {isintroActive == true && <ScrollView style={{
                 //backgroundColor:'red',
                 flexDirection: 'column',

@@ -57,6 +57,34 @@ const login = async ({ username, password }) => {
         throw error
     }
 }
+const change_pass = async (pass, checkPass, current, accessToken) => {
+    try {
+        console.log(pass);
+        console.log(checkPass);
+        console.log(current);
+        console.log(accessToken);
+        
+        const response = await axios.put(
+            `${baseURL}/TaskMentor/api/change-password`,
+            {   
+                pass: pass,
+                checkPass: checkPass,
+                current: current
+                
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}` // Thêm token vào header
+                }
+            }
+        );
+        
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
 
 const register = async (newAccount) => {
     try {
@@ -124,4 +152,5 @@ export default{
     register,
     logout,
     getUserInfo,
+    change_pass,
 }

@@ -18,9 +18,12 @@ function NotificationItem(props){
         flexDirection:'row',
        // alignItems:"center"
       // alignItems:"center",
-       marginEnd:10,
+      
+      // marginEnd:10,
     }}>
-       <View>
+       <View style={{
+         marginEnd:10,
+       }}>
        <View style={{
         width: 50,
         height: 50,
@@ -36,23 +39,28 @@ function NotificationItem(props){
        </View>
       <View style={{
         flexDirection:'column',
+         marginEnd:10,
       }}>
       <View style={{
-        flexDirection:'row'
+        //flexDirection:'row',
+        marginRight:100,
+       // backgroundColor:'red',
       }}>
       <Text style={{
+      }}><Text style={{
         color:'black',
         fontSize:FontSize.h5,
         fontWeight:'bold'
-      }}>{teacherName}</Text>
+      }}>{teacherName} </Text>
       <Text style={{
-        color:'green',
+        color:"#1a5db6",
         fontSize:FontSize.h5,
         //fontWeight:'bold'
         marginRight:10,
         //backgroundColor:'red',
         flex:1,
-      }}>  {className.length > 15 ? `${className.substring(0, 15)}...` : className}</Text>
+      }}> from {className}  </Text></Text>
+      {/* {className.length > 15 ? `${className.substring(0, 15)}...` : className} */}
       </View>
       <View style={{
         marginRight:60

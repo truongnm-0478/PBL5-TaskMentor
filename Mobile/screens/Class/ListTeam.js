@@ -50,11 +50,6 @@ const ListTeams = ({ Teams , onPress}) => {
   
   return (
     
-    // <TouchableOpacity onPress={onPress} style={styles.row}>
-    //   <Text style={styles.Id}>{Teams.id}</Text>
-    //   <Text style={styles.cell}>{Teams.name}</Text>
-    //   <Text style={styles.cell}>{formattedInsertTime}</Text>
-    // </TouchableOpacity>
     <TouchableOpacity onPress={onPress} style={{
       backgroundColor: color.BackGround,
         marginBottom: 5,

@@ -1,110 +1,146 @@
-import React ,{useState,useEffect} from "react";
-import { Text, View , Image, ImageBackground, TouchableOpacity, TextInput, KeyboardAvoidingView,Keyboard} from "react-native";
-import { image,icons,color, FontSize } from "../constants";
+import React, { useState, useEffect } from "react";
+import { Text, View, Image, ImageBackground, TouchableOpacity, TextInput, KeyboardAvoidingView, Keyboard, ScrollView, StyleSheet } from "react-native";
+import { image, icons, color, FontSize } from "../constants";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import{isValidEmail,isValidPassword} from "../utilies/Validations"
+import { isValidEmail, isValidPassword } from "../utilies/Validations"
+import { MaterialIcons } from '@expo/vector-icons'; // Import MaterialIcons từ thư viện expo
+import { user } from "../repositories";
+function Login_1(props) {
+    const{navigation,route}=props
+   const{navigate,goBack}= navigation
+    const [KeyboardDisshown, setKeyboardDisshown] = useState(false)
+    const [Email, setEmail] = useState('')
+    const [Password, setPassword] = useState('')
+    const [errorEmail, seterorrEmail] = useState('')
+    const [errorPassword, seterorrPassword] = useState('')
+    const [hidePassword, setHidePassword] = useState(true)
+    const [username, setUsername] = useState('')
 
-function Login(props){
-  const [KeyboardDisshown, setKeyboardDisshown]  = useState(false)
-  const [Email, setEmail] = useState('')
-  const [Password, setPassword]= useState('')
-  const[errorEmail, seterorrEmail]= useState('')
-  const[errorPassword, seterorrPassword]=useState('')
-  const isVlidateOK=()=>{
-    if(Email.length>0 && Password.length>0 && isValidEmail(Email)==true && isValidPassword(Password)==true) return true
-    else return false
-  }
-  useEffect(()=>{
-    Keyboard.addListener('keyboardDidShow',()=>{setKeyboardDisshown(true)})
-    Keyboard.addListener('keyboardDidHide',()=>{setKeyboardDisshown(false)})
-  })
-    return <KeyboardAvoidingView 
-    style={{marginTop: 40,
-    flex:100,
-    backgroundColor:'white'}}>
-      <View style={{
-        height:200,
-        flexDirection:'row',
-        flex: 30,
-        alignItems:'center',
-        justifyContent:'space-around'
-      }}>
-      <Text style={{
-        color: 'black',
-        fontSize: FontSize.h2,
-        fontWeight:'bold',
-        width:'50%'
-      }}> Already have an account</Text>
-      <Image style={{
-        width:100,
-        height:100,
-        alignSelf:"center"
-      }} source={
-        image.telegram
-      } />
-      </View>
+    // hàm đăng nhập 
+    const handleLogin = async () => {
+        try {
+           console.log(Password)
+           console.log(username)
+           const response = await user.login({username : username ,  password : Password})
+
+            navigate('UITab', {user: response.user})
+
+        } catch (error) {
+            if(error.response.status === 404)
+                {
+                    alert('Account not found')
+                }
+                if(error.response.status === 401)
+                {
+                    alert('Incorrect password')
+                }
+        } 
+    }
+
+
+    const isVlidateOK = () => {
+        if ( Password.length > 0 && isValidPassword(Password) == true) return true
+        else return false
+    }
+    useEffect(() => {
+        Keyboard.addListener('keyboardDidShow', () => { setKeyboardDisshown(true) })
+        Keyboard.addListener('keyboardDidHide', () => { setKeyboardDisshown(false) })
+    })
+    return <ScrollView style={{
+        backgroundColor: color.BackGround,
+    }}>
         <View style={{
-            flex:30
+            marginTop: 40,
+            backgroundColor: color.BackGround,
+            marginBottom:40,
         }}>
-        <View style={{
-                 marginHorizontal: 15,
-        }}>
-            <Text style={{
-                fontSize: FontSize.h6
-            }}>Email</Text>
-            <TextInput onChangeText={(Text)=>{
-             seterorrEmail(isValidEmail(Text)==true?"":"Email not in correct format")
-              setEmail(Text)}} style={{
-                 marginBottom:10,
-                color: color.placeholder,
-            }} placeholder="example@email.com" />
-             <View style={{
-                height:1,
-                backgroundColor:'black'
-            }}></View>
-            <Text style={{color: 'red',
-          fontSize: FontSize.h6
-          }}>{errorEmail}</Text>
-        </View>
-        <View style={{
-                 marginHorizontal: 15,
-        }}>
-            <Text style={{
-                marginTop:5,
-                fontSize: FontSize.h6
-            }}>Password</Text>
-            <TextInput onChangeText={(Text)=>{
-              seterorrPassword(isValidPassword(Text)==true?"":"Password not in correct format")
-              setPassword(Text)
-            }
-            } style={{
-                
-               marginBottom:10,
-                color: color.placeholder,
-            }} secureTextEntry={true} placeholder="Enter your password" />
             <View style={{
-               
-                height:1,
-                backgroundColor:'black'
-            }}></View>
-            <Text style={{
-              color:'red',
-              fontSize: FontSize.h6
-            }}>{errorPassword}</Text>
-        </View>
-        </View>
-        { KeyboardDisshown == false && <View style={{
-            flex: 15
-        }}>
+                //backgroundColor:'red',
+                justifyContent: 'center',
+                alignItems: "center"
+            }}>
+                <Image style={{
+                    marginBottom: 40,
+                }} source={image.image_login}>
+
+                </Image>
+            </View>
+            <View>
+                <View style={{
+                    marginHorizontal: 15,
+                }}>
+                    <TextInput onChangeText={(Text) => {
+                       
+                        setUsername(Text)
+                    }} style={{
+                        borderWidth: 1,
+                        borderColor: color.border, // Màu sắc của đường viền
+                        borderRadius: 5, // Độ cong của góc (nếu cần)
+                        color: color.placeholder,
+                        height: 60,
+                        paddingHorizontal: 15
+                    }} placeholder="Username" />
+                    {/* Chèn biểu tượng mắt */}
+
+                    <Text style={{
+                        color: 'red',
+                        fontSize: FontSize.h6
+                    }}></Text>
+                </View>
+                <View style={{
+                    marginHorizontal: 15,
+                }}>
+                    <TextInput onChangeText={(Text) => {
+                        seterorrPassword(isValidPassword(Text) == true ? "" : "Password not in correct format")
+                        setPassword(Text)
+                    }
+                    } style={{
+                        borderWidth: 1,
+                        borderColor: color.border, // Màu sắc của đường viền
+                        borderRadius: 5, // Độ cong của góc (nếu cần)
+                        color: color.placeholder,
+                        paddingHorizontal: 15,
+                        height: 60,
+                        color: color.placeholder,
+                    }} secureTextEntry={hidePassword} placeholder="Enter your password" />
+                    <TouchableOpacity onPress={() => setHidePassword(!hidePassword)} style={{ position: 'absolute', top: 20, right: 20 }}>
+                        <MaterialIcons
+                            name={hidePassword ? 'visibility-off' : 'visibility'} // Hiện hoặc ẩn biểu tượng mắt
+                            size={24}
+                            color="black"
+                        />
+                    </TouchableOpacity>
+                    <Text style={{
+                        color: 'red',
+                        fontSize: FontSize.h6
+                    }}>{errorPassword}</Text>
+                </View>
+                <View style={{
+                    height:30,
+                    marginHorizontal:10
+                }}>
+                    <Text style={{
+                        fontSize:FontSize.h6,
+                        color:'black',
+                        position: 'absolute',
+                         top: 0, right: 10
+                    }}> Forgot password? </Text>
+                </View>
+            </View>
+            <View style={{
+                marginHorizontal:15,
+                marginTop:15,
+            }}>
             <TouchableOpacity 
             disabled = {isVlidateOK()==false}
-            onPress={() => { alert('Email=' + Email + 'Password=' + Password) }} style={{
-                backgroundColor: isVlidateOK()==true?'#0099CC':color.inactive,
+            onPress={() => {handleLogin()}} style={{
+                backgroundColor: isVlidateOK()==true?color.BGlogin:color.inactive,
                 justifyContent: "center",
                 alignItems: "center",
-                width: '60%',
-                borderRadius: 20,
-                alignSelf: "center"
+                width: '100%',
+                borderRadius: 10,
+                alignSelf: "center",
+                height:60
             }}>
                 <Text style={{
                     padding: 10,
@@ -112,24 +148,9 @@ function Login(props){
                     color: 'white'
                 }}>Login</Text>
             </TouchableOpacity> 
-            <TouchableOpacity onPress={() => { alert('new account?') }} style={{
-                alignSelf: "center",
-                padding: 5
-            }}>
-                <Text style={{
-
-                    padding: 10,
-                    fontSize: FontSize.h5,
-                    color: 'aqua'
-                }}>New user? Register now</Text>
-            </TouchableOpacity>
-        </View>}
-        <View style={{
-            flex:25,
-           
-        }}>
-             
-          <View style={{
+            </View>
+            <View style={{
+                marginVertical:20,
             flexDirection:'row',
             height:40,
             alignItems:"center",
@@ -138,14 +159,15 @@ function Login(props){
              <View style={{
                 backgroundColor:'black',
                 height:1,
-                flex:1
+                flex:1,
+              
              }}></View>
                
                     <Text style={{
                         marginHorizontal:10,
-                        padding: 10,
+                        padding: 5,
                         fontSize: FontSize.h5,
-                        color: 'aqua'
+                        color: 'black'
                     }}>User orther method?</Text>
               
                 <View style={{
@@ -154,18 +176,90 @@ function Login(props){
                 flex:1
              }}></View>
             </View> 
-          <View style={{
-            flexDirection:'row',
-           alignItems:"center",
-           justifyContent:"center"
-          }}>
-          <Icon name="facebook" size={35} color={color.facebook}></Icon>
-          <View style={{
-            width:25
-          }}></View>
-        <Icon name='google' size={35} color={color.google}></Icon>
-          </View>
+            <View style={{}}>
+                <View style={{
+                    flexDirection: 'row',
+                    marginHorizontal: 15,
+                    marginTop: 15,
+                    justifyContent: "center",
+                    alignItems: 'center',
+                    backgroundColor: color.BackGround,
+                    borderWidth: 1,
+                    borderColor: color.google,
+                    borderRadius: 10,
+                    textAlign: 'center'
+                }}>
+                    <Image style={{
+                        position:'absolute',
+                        zIndex:1,
+                        left:"5%",
+                }} source={image.icon_google}></Image>
+                    <TouchableOpacity
+                        style={{
+                            flex: 1,    
+                            justifyContent: "center",
+                            alignItems: 'center',
+                            alignSelf: "center",
+                            textAlign: 'center',
+                            height: 60,
+                        }}>
+                        <Text style={{
+                            textAlign: 'center',
+                            padding: 10,
+                            fontSize: FontSize.h5,
+                            fontWeight: 'bold',
+                            color: color.google,
+
+                        }}>Login</Text>
+                    </TouchableOpacity>
+                </View>
+            <View style={{
+                marginHorizontal:15,
+                marginTop:15,
+                justifyContent: "center",
+                alignItems: 'center',
+                
+            }}>
+                  <Image style={{
+                        position:'absolute',
+                        zIndex:1,
+                        left:"5%",
+                }} source={image.icon_facebook}></Image>
+            <TouchableOpacity 
+            style={{
+                backgroundColor:color.BackGround ,
+                borderWidth:1,
+                borderColor:color.facebook,
+                justifyContent: "center",
+                alignItems: "center",
+                width: '100%',
+                borderRadius: 10,
+                alignSelf: "center",
+                height:60
+            }}>
+                <Text style={{
+                    padding: 10,
+                    fontWeight:'bold',
+                    fontSize: FontSize.h5,
+                    color: color.facebook
+                }}>Login</Text>
+            </TouchableOpacity> 
+            </View>
+            </View>
+            <View>
+            <TouchableOpacity onPress={() => { navigate('Register')}} style={{
+                alignSelf: "center",
+                padding: 5
+            }}>
+                <Text style={{
+
+                    padding: 10,
+                    fontSize: FontSize.h5,
+                    color: 'black'
+                }}>Dont have a account yet? Register now</Text>
+            </TouchableOpacity>
+            </View>
         </View>
-    </KeyboardAvoidingView>
+    </ScrollView>
 }
-export default Login
+export default Login_1

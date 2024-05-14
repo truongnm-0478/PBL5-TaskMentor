@@ -11,6 +11,7 @@ function MyTeams(props){
     const { navigation } = props;
     const { navigate, goBack } = navigation;
     const [Teams, setMyteams]= useState([{}])
+    // ham lay thong tin lop da tham gia.
     useEffect(() => {
         const fetchData = async () => {
             try {

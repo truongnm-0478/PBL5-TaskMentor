@@ -8,6 +8,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { _class, teams } from "../../repositories";
 import MyTeamMembers from "./MyTeamMembers";
 import CommentList from "./CommentList";
+import RequirementList from "./RequirmentList";
+import { Alert } from "react-native";
 function MyteamDetail(props) {
     const { id, name } = props.route.params.Teams;
     const { navigation } = props;
@@ -38,6 +40,7 @@ function MyteamDetail(props) {
         }));
         setActiveButton(updatedButtons);
     };
+    // ham lay thong tin team
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -45,15 +48,15 @@ function MyteamDetail(props) {
                 const accessToken = await AsyncStorage.getItem('accessToken');
                 const data = await teams.getRequirement(id_, accessToken);
                 setRequirement(data)// Cập nhật state students với dữ liệu từ API
-                console.log(data)
-                console.log(requirement)
+             
+                //console.log(requirement)
 
             } catch (error) {
                 console.error("Error fetching student data:", error);
             }
         };
         fetchData();
-    }, []);
+    }, [requirement]);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -69,29 +72,18 @@ function MyteamDetail(props) {
         };
         fetchData();
     }, []);
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const id_ = { id }
-                const accessToken = await AsyncStorage.getItem('accessToken');
-                const data = await teams.deleteTeams(accessToken, id_);
-            } catch (error) {
-                console.error("Error fetching student data:", error);
-            }
-        };
-        fetchData();
-    }, []);
+    // xoa team .
     const deleteTeam = async () => {
         try {
             const id_ = { id }
             const accessToken = await AsyncStorage.getItem('accessToken');
-           const response = await teams.deleteTeams(accessToken, id_)
+            const response = await teams.deleteTeams(accessToken, id_)
 
             navigate('My Teams')
 
         } catch (error) {
-           console.log(error)
-        } 
+            console.log(error)
+        }
     }
 
     useEffect(() => {
@@ -132,12 +124,34 @@ function MyteamDetail(props) {
                     onPressLeftIcon={() => {
                         goBack()
                     }}
-                //      onPressRightIcon= {()=>{
-                //         navigate('Scanner')
-                //      }}
-                     onPressJoinicon= {()=>{
-                      deleteTeam()
-                   }}
+                    //      onPressRightIcon= {()=>{
+                    //         navigate('Scanner')
+                    //      }}
+                    onPressJoinicon={() => {
+                        // deleteTeam()
+                        try {
+                            Alert.alert(
+                                "Confirm Logout",
+                                "Are you sure you want to delete team?",
+                                [
+                                    {
+                                        text: "Cancel",
+                                        onPress: () => console.log("Cancel Pressed"),
+                                        style: "cancel"
+                                    },
+                                    {
+                                        text: "OK",
+                                        onPress: async () => {
+                                            deleteTeam()
+                                        }
+                                    }
+                                ]
+                            );
+                        } catch (error) {
+                            // Xử lý lỗi nếu có
+                            console.log(error);
+                        }
+                    }}
                 ></UIHeader>
                 <View style={{ flexDirection: 'row' }}>
                     {activeButton.map((button, index) => (
@@ -173,6 +187,15 @@ function MyteamDetail(props) {
                         renderItem={({ item }) => <CommentList onPress={() => {
                         }}
                             comment={item} key={item.id}
+                        />
+                        }
+                    />}
+                    {isRequirementActive == true && <FlatList style={{
+
+                    }} data={requirement}
+                        renderItem={({ item }) => <RequirementList onPress={() => {
+                        }}
+                        requirement={item} key={item.id}
                         />
                         }
                     />}
