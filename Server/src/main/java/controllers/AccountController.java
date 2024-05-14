@@ -23,7 +23,7 @@ public class AccountController extends HttpServlet {
 
     private final UserService userService = new UserService();
     private final RequestProcessor requestProcessor = new RequestProcessor();
-    // Hien thi
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         requestProcessor.processRequest(() -> {
