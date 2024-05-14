@@ -20,6 +20,7 @@ public class UserService {
     private final UserRepository userRepository = new UserRepository();
     private final TeacherRepository teacherRepository = new TeacherRepository();
 
+    // Get list user for admin role
     public List<UserResponse> getAllUsers() {
         return userRepository.getAllUsersAdmin();
     }
