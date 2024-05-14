@@ -26,6 +26,7 @@ function Register(props) {
         Keyboard.addListener('keyboardDidShow', () => { setKeyboardDisshown(true) })
         Keyboard.addListener('keyboardDidHide', () => { setKeyboardDisshown(false) })
     })
+    //ham dang ki
     const handleRegister = () => {
         const callApi = async () => {
             try {
