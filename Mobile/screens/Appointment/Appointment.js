@@ -7,6 +7,7 @@ import{isValidEmail,isValidPassword} from "../../utilies/Validations"
 import { Calendar } from 'react-native-big-calendar'
 import { appointment } from "../../repositories";
 import {Agenda} from 'react-native-calendars';
+// danh sach cuoc hen
 function Apppointment(props){
   const [Appointment, setAppointment]= useState([{}])
   const [isDataReady, setIsDataReady] = useState(false);
