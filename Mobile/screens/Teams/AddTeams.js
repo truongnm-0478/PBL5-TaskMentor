@@ -146,7 +146,7 @@ const renderItem = item => {
     setMembers([]);
     create()
   };
-  
+  // create team
   const create = async () => {
     try {
       const accessToken = await AsyncStorage.getItem('accessToken');
