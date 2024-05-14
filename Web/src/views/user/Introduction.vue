@@ -35,11 +35,11 @@
 <script setup>
 import classApi from '@/repositories/classApi.js'
 import router from '@/router/index.js'
-import { onMounted, ref } from 'vue'
-import dayjs from 'dayjs'
 import { CopyOutlined } from '@ant-design/icons-vue'
-import { useRoute } from "vue-router";
 import { message } from 'ant-design-vue'
+import dayjs from 'dayjs'
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const generatedCode = ref(route.query.code)
