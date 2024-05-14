@@ -15,7 +15,7 @@ import service.UserService;
 import util.AuthorizationUtil;
 import util.RequestProcessor;
 import util.ResponseUtil;
-
+// thong tin user
 @WebServlet("/api/user-information/*")
 public class UserInformationController extends HttpServlet {
 
