@@ -1,6 +1,6 @@
 // SocketManager.js
 import { WebSocket } from "react-native-websocket";
-
+// socket notifications
 const SOCKET_URL = "ws://192.168.206.247:8080/TaskMentor/notification";
 
 export default class SocketManager {

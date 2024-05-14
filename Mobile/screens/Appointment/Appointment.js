@@ -7,6 +7,7 @@ import{isValidEmail,isValidPassword} from "../../utilies/Validations"
 import { Calendar } from 'react-native-big-calendar'
 import { appointment } from "../../repositories";
 import {Agenda} from 'react-native-calendars';
+// danh sach cuoc hen
 function Apppointment(props){
   const [Appointment, setAppointment]= useState([{}])
   const [isDataReady, setIsDataReady] = useState(false);
@@ -28,7 +29,7 @@ const convertAppointmentsToEvents = (appointments) => {
   const event = {};
   appointments.forEach((appointment) => {
       // Chuyển đổi định dạng ngày
-      // console.log(appointment.start)
+      
       const startDate = new Date(appointment.start);
       // console.log(startDate)
       const formattedDate = startDate.toISOString().split('T')[0];

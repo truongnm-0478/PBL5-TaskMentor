@@ -1,12 +1,13 @@
 import React from "react";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { color } from "../../constants";
-
+// danh sach sinh vien
 function StudentList(props) {
   const { name, phone, email, studentId } = props.students;
   const { onPress } = props;
 
   return (
+    //thong tin chi tiet
     <TouchableOpacity
       style={styles.touchableOpacity}
       onPress={onPress}

@@ -4,6 +4,7 @@ import { image, icons, color, FontSize,background } from "../../constants";
 import {getLastLetter} from '../../utilies/index'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
+// chi tiet thong bao
 function NotificationsList(props) {
   let { name, content } = props.Notification
   const { onPress } = props
