@@ -71,15 +71,16 @@ public class TeacherController extends HttpServlet {
 
     private void getTeacherById(HttpServletRequest req, HttpServletResponse resp, String id) throws ServletException, IOException {
         try {
-//            int userId = Integer.parseInt(id);
-//
-//            UserResponse user = teacherService.get(userId);
-//
-//            if (user != null) {
-//                ResponseUtil.sendJsonResponse(resp, HttpServletResponse.SC_OK, "User information retrieved successfully.", user);
-//            } else {
-//                throw new IllegalArgumentException("User with id " + userId + " not found.");
-//            }
+            
+        //    int userId = Integer.parseInt(id);
+
+        //    UserResponse user = teacherService.get(userId);
+
+        //    if (user != null) {
+        //        ResponseUtil.sendJsonResponse(resp, HttpServletResponse.SC_OK, "User information retrieved successfully.", user);
+        //    } else {
+        //        throw new IllegalArgumentException("User with id " + userId + " not found.");
+        //    }
         } catch (NumberFormatException e) {
             ResponseUtil.sendErrorResponse(resp, HttpServletResponse.SC_BAD_REQUEST, "Invalid user id format.");
         } catch (IllegalArgumentException e) {
