@@ -72,6 +72,7 @@ function MyteamDetail(props) {
         };
         fetchData();
     }, []);
+    // xoa team
     const deleteTeam = async () => {
         try {
             const id_ = { id }
