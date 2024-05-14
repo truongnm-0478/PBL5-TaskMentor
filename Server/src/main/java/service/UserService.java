@@ -20,7 +20,7 @@ public class UserService {
     private final UserRepository userRepository = new UserRepository();
     private final TeacherRepository teacherRepository = new TeacherRepository();
 
-    // Get list user for admin role
+    // Get list user for admin role.
     public List<UserResponse> getAllUsers() {
         return userRepository.getAllUsersAdmin();
     }
@@ -34,10 +34,10 @@ public class UserService {
     }
 
     public User updateUser(UserUpdateRequest userUpdateRequest, int userId) {
-        // Lấy thông tin người dùng hiện tại từ cơ sở dữ liệu
+        // Lấy thông tin người dùng hiện tại từ cơ sở dữ liệu.....
         User currentUser = userRepository.getUserById(userUpdateRequest.getId());
 
-        // Kiểm tra email mới có trùng với người dùng khác trong hệ thống không
+        // Kiểm tra email mới có trùng với người dùng khác trong hệ thống hay không
         User userByEmail = userRepository.getUserByEmail(userUpdateRequest.getEmail());
         if (userByEmail != null && userByEmail.getId() != userUpdateRequest.getId()) {
             throw new IllegalArgumentException("Email already exists.");
@@ -75,7 +75,7 @@ public class UserService {
         User userResult = userRepository.update(user);
         return true;
     }
-
+    //mơ khoa tai khoan.
     public UserResponse getUserById(int userId) throws Exception {
         User user = userRepository.getUserById(userId);
         if (user != null) {
