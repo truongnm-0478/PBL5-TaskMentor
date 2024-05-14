@@ -53,6 +53,7 @@
                 </a-card>
             </a-col>
         </a-row>
+        <!-- Chart -->
         <a-row>
             <a-col :span="24" :xl="{ span: 16 }" :lg="{ span: 16 }" >
                 <apexchart class="chart sha-down" type="area" :options="areaChartOptions" :series="areaChartSeries"></apexchart>
