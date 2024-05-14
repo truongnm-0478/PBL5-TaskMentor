@@ -63,7 +63,7 @@
     </div>
 </template>
 <script setup>
-import { TeamOutlined, ProjectOutlined, UserOutlined, SolutionOutlined } from '@ant-design/icons-vue'
+import { ProjectOutlined, SolutionOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons-vue';
 const series = [30, 20, 33]
 const chartOptions = {
     chart: {
@@ -95,6 +95,7 @@ const areaChartSeries = [
     }
 ]
 
+// Line chart
 const areaChartOptions = {
     chart: {
         type: 'area',
@@ -179,8 +180,8 @@ const areaChartOptions = {
 
 @media (max-width: 1200px) {
     .donut {
-        //padding: 20px;
-        margin-left: 0;
+        padding: 20px;
+        margin-left: 0
     }
 }
 

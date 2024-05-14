@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios'
-const baseURL = 'http://192.168.206.247:8080'
+import axios from 'axios';
+const baseURL = 'http://localhost:8080'
 const getUserDetail=async()=>{
     try {
     let respone= await axios.get('https://randomuser.me/api')
