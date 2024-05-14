@@ -4,16 +4,35 @@ import { image, icons, color, FontSize } from "../constants";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../utilies/Validations"
 import { MaterialIcons } from '@expo/vector-icons'; // Import MaterialIcons từ thư viện expo
-function Login_1() {
+import { user } from "../repositories";
+function Login_1(props) {
+    const{navigation,route}=props
+   const{navigate,goBack}= navigation
     const [KeyboardDisshown, setKeyboardDisshown] = useState(false)
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
     const [errorEmail, seterorrEmail] = useState('')
     const [errorPassword, seterorrPassword] = useState('')
     const [hidePassword, setHidePassword] = useState(true)
+    const [username, setUsername] = useState('')
+
+
+    const handleLogin = async () => {
+        try {
+           console.log(Password)
+           console.log(username)
+           const response = await user.login({username : username ,  password : Password})
+
+            navigate('UITab', {user: response.user})
+
+        } catch (error) {
+           console.log(error)
+        } 
+    }
+
 
     const isVlidateOK = () => {
-        if (Email.length > 0 && Password.length > 0 && isValidEmail(Email) == true && isValidPassword(Password) == true) return true
+        if ( Password.length > 0 && isValidPassword(Password) == true) return true
         else return false
     }
     useEffect(() => {
@@ -44,8 +63,8 @@ function Login_1() {
                     marginHorizontal: 15,
                 }}>
                     <TextInput onChangeText={(Text) => {
-                        seterorrEmail(isValidEmail(Text) == true ? "" : "Email not in correct format")
-                        setEmail(Text)
+                       
+                        setUsername(Text)
                     }} style={{
                         borderWidth: 1,
                         borderColor: color.border, // Màu sắc của đường viền
@@ -53,13 +72,13 @@ function Login_1() {
                         color: color.placeholder,
                         height: 60,
                         paddingHorizontal: 15
-                    }} placeholder="example@email.com" />
+                    }} placeholder="Username" />
                     {/* Chèn biểu tượng mắt */}
 
                     <Text style={{
                         color: 'red',
                         fontSize: FontSize.h6
-                    }}>{errorEmail}</Text>
+                    }}></Text>
                 </View>
                 <View style={{
                     marginHorizontal: 15,
@@ -107,7 +126,7 @@ function Login_1() {
             }}>
             <TouchableOpacity 
             disabled = {isVlidateOK()==false}
-            onPress={() => { alert('Email=' + Email + 'Password=' + Password) }} style={{
+            onPress={() => {handleLogin()}} style={{
                 backgroundColor: isVlidateOK()==true?color.BGlogin:color.inactive,
                 justifyContent: "center",
                 alignItems: "center",
@@ -220,7 +239,7 @@ function Login_1() {
             </View>
             </View>
             <View>
-            <TouchableOpacity onPress={() => { alert('new account?') }} style={{
+            <TouchableOpacity onPress={() => { navigate('Register')}} style={{
                 alignSelf: "center",
                 padding: 5
             }}>

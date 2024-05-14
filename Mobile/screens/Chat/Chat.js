@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import{isValidEmail,isValidPassword} from "../../utilies/Validations"
 import {UIHeader} from '../../components'
 import ChatItem from "./ChatItem";
+import Messenger from '../Messenger/Messenger'
 function Chat(props){
     const[users, setUsers] = useState([
         {

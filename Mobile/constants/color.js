@@ -6,5 +6,7 @@ export default{
     google:"#E74C3C",
     border:"#c0c0c0",
     BGlogin:"#3498DB",
-    BackGround:"white"
+    BackGround:"white",
+    Text_tabbar:'#1677ff'
+
 }

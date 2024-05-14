@@ -9,12 +9,16 @@ function ChangePassword(props){
     const [hidePassword, setHidePassword] = useState(true)
     const { navigation, route } = props
     const { navigate, goBack } = navigation
-    return <View style={{
+    return(<View style={{
+        flex:1,
+        backgroundColor:color.BackGround,
+    }}>
+         <View style={{
         marginTop:40,
     }}>
        <UIHeader title='Change Password'
             
-            leftIconName={'arrow-left'}
+            leftIconName={image.back}
           //  rightIconName={'ellipsis-v'}
             onPressLeftIcon={() => {
                 goBack()
@@ -126,4 +130,6 @@ function ChangePassword(props){
             </View>
            
     </View>
+    </View>
+    );
 }export default ChangePassword

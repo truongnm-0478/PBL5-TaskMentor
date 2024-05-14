@@ -5,7 +5,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
 import { UIHeader } from '../../components'
 import MessengerItem from "./MessengerItem";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function Messenger(props) {
+    
     const [messages, setmessages] = useState([
     ])
     const [typedText, setTypedText] = useState('')
@@ -114,13 +116,23 @@ function Messenger(props) {
                 paddingLeft: 10,
                 color: color.placeholder,
             }} />
-            <TouchableOpacity onPress={()=>{
-                // if(typedText.trim().length==0){
-                //     return
-                // }
-                // let newMessengerObject={
+            <TouchableOpacity onPress={async()=>{
+                if(typedText.trim().length==0){
+                    return
+                }
+                let newMessengerObject={
+                    url: 'https://tmdl.edu.vn/wp-content/uploads/2022/07/hinh-nen-facebook-dep-22-1.jpg',
+                   // showUrl: false,
+                    isSender: true,
+                    messengers: typedText,
+                    timestamp: (new Date()).getTime(),
+        
+                }
+                                // Cập nhật chatHistory bằng cách thêm newMessengerObject vào mảng hiện tại
+                    setChatHistory(prevChatHistory => [...prevChatHistory, newMessengerObject]);
 
-                // }
+                    // Xóa typedText sau khi gửi tin nhắn
+                    setTypedText('');
             }}>
                 <Icon style={{
                     padding: 10,

@@ -14,7 +14,7 @@ function About(props){
     }}>
        <UIHeader title='About'
             
-            leftIconName={'arrow-left'}
+            leftIconName={image.back}
            // rightIconName={'ellipsis-v'}
             onPressLeftIcon={() => {
                 goBack()

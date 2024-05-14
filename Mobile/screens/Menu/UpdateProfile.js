@@ -13,7 +13,7 @@ function UpdateProfile(props){
     }}>
        <UIHeader title='Update Profile'
             
-            leftIconName={'arrow-left'}
+            leftIconName={image.back}
             //rightIconName={'ellipsis-v'}
             onPressLeftIcon={() => {
                 goBack()
