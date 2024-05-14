@@ -113,7 +113,7 @@ public class UserService {
     public User getUserByUsername(String username) {
         return userRepository.getUserByUsername(username);
     }
-
+    // dang xuat
     public User registerUser(String email, String username, String password, int role, String name, String phone) throws JsonProcessingException {
         // Validate information
         if (!UserValidationUtil.isValidRegistrationData(email, username, password, name)) {
