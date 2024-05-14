@@ -72,6 +72,7 @@ public class ClassService {
         return classRequests;
     }
 
+    // Update class infomation
     public ClassRoom updateClass(ClassRequest classRequest, int userId) {
         ClassRoom classRoom = classRepository.findByCode(classRequest.getCode());
         classRoom.setDescription(classRequest.getDescription());
