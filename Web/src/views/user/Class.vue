@@ -20,17 +20,17 @@
     </div>
 </template>
 <script setup>
-import { ref } from 'vue'
 import router from '@/router/index.js'
+import Introduction from '@/views/user/Introduction.vue'
 import ListStudent from '@/views/user/ListStudent.vue'
 import NotificationToClass from '@/views/user/NotificationToClass.vue'
-import Introduction from '@/views/user/Introduction.vue'
 import Team from '@/views/user/Team.vue'
-import AppointmentClass from "@/views/user/teacher/AppointmentClass.vue";
+import AppointmentClass from "@/views/user/teacher/AppointmentClass.vue"
+import { ref } from 'vue'
 const activeKey = ref('1')
 
 const getCode = () => {
-    const code = router.currentRoute.value.query.code;
+    const code = router.currentRoute.value.query.code
 }
 getCode()
 </script>
