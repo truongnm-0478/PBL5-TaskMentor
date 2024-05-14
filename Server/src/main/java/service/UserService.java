@@ -160,6 +160,7 @@ public class UserService {
     }
 
 
+    // Add user account
     public User createTeacherAccount(String email, String username, String name, String phone, int userId) throws JsonProcessingException {
         // Validate information
         if (!UserValidationUtil.isValidTeacherAccountData(email, username, name)) {
