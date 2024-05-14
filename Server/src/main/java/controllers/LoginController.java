@@ -1,18 +1,20 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import model.LoginResponse;
-import model.User;
-import service.AuthService;
-import service.UserService;
-import util.ResponseUtil;
+import java.io.IOException;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import model.LoginResponse;
+import model.User;
+import service.AuthService;
+import service.UserService;
+import util.ResponseUtil;
 
 @WebServlet("/api/login")
 public class LoginController extends HttpServlet {
@@ -28,6 +30,7 @@ public class LoginController extends HttpServlet {
                 String accessToken = AuthService.generateAccessToken(user.getUsername());
                 String refreshToken = AuthService.generateRefreshToken(user.getUsername());
 
+                // Check access token
                 Cookie cookie = new Cookie("access_token", accessToken);
                 cookie.setHttpOnly(true);
                 cookie.setPath("/");

@@ -1,6 +1,10 @@
 package service;
 
+import java.util.Date;
+import java.util.List;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
+
 import dto.request.ChangePasswordRequest;
 import dto.request.UserUpdateRequest;
 import dto.response.UserInfoResponse;
@@ -9,10 +13,6 @@ import model.Teacher;
 import model.User;
 import repository.TeacherRepository;
 import repository.UserRepository;
-
-import java.util.Date;
-import java.util.List;
-
 import util.PasswordHashingUtil;
 import util.UserValidationUtil;
 
@@ -97,6 +97,7 @@ public class UserService {
 
     }
 
+    // Authentication User
     public User authenticateUser(String username, String password) {
         User user = userRepository.getUserByUsername(username);
         if (user.getDeleteTime() != null) {
