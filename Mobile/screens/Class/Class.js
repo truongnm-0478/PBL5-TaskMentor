@@ -194,6 +194,7 @@ function Class(props) {
             </View>
 
             }
+            {/* thong tin lop */}
             {isintroActive == true && <ScrollView style={{
                 //backgroundColor:'red',
                 flexDirection: 'column',
