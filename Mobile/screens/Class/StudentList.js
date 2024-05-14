@@ -7,6 +7,7 @@ function StudentList(props) {
   const { onPress } = props;
 
   return (
+    //thong tin chi tiet
     <TouchableOpacity
       style={styles.touchableOpacity}
       onPress={onPress}
