@@ -75,7 +75,7 @@ public class UserService {
         User userResult = userRepository.update(user);
         return true;
     }
-
+    //mơ khoa
     public UserResponse getUserById(int userId) throws Exception {
         User user = userRepository.getUserById(userId);
         if (user != null) {
