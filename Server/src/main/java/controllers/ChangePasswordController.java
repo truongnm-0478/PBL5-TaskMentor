@@ -41,7 +41,7 @@ public class ChangePasswordController extends HttpServlet {
                     jsonRequest.append(line);
                 }
 
-                // parse JSON to User object
+                
                 ObjectMapper mapper = new ObjectMapper();
                 ChangePasswordRequest changePasswordRequest = mapper.readValue(jsonRequest.toString(), ChangePasswordRequest.class);
 
