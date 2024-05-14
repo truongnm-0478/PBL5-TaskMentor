@@ -28,7 +28,7 @@ const convertAppointmentsToEvents = (appointments) => {
   const event = {};
   appointments.forEach((appointment) => {
       // Chuyển đổi định dạng ngày
-      // console.log(appointment.start)
+      
       const startDate = new Date(appointment.start);
       // console.log(startDate)
       const formattedDate = startDate.toISOString().split('T')[0];
