@@ -55,7 +55,7 @@ public class AccountController extends HttpServlet {
         });
 
     }
-
+//list user
     private void getAllUsers(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         if(!AuthorizationUtil.checkUserRole(req, resp, 3)) {
