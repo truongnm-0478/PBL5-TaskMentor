@@ -3,6 +3,7 @@ import { Text, View, Image, ImageBackground, TouchableOpacity, TextInput, Keyboa
 import { image, icons, color, FontSize } from "../../constants";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
+// xem thanh vien nhóm
 function MyTeamMembers(props) {
   let { studentID, phone, mail, isLeader ,name} = props.member
   const role = isLeader ? "Leader" : "Member";
