@@ -40,6 +40,7 @@ function MyteamDetail(props) {
         }));
         setActiveButton(updatedButtons);
     };
+    // ham lay thong tin team
     useEffect(() => {
         const fetchData = async () => {
             try {
