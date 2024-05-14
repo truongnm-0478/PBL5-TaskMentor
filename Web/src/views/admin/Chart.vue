@@ -1,5 +1,6 @@
 <template>
     <h3 style="font-weight: 600">Dashboard</h3>
+    <!-- Card number -->
     <div style="padding: 2px">
         <a-row :gutter="16">
             <a-col :span="24" :lg="{ span: 12 }" :xl="{ span: 6 }">
@@ -52,6 +53,7 @@
                 </a-card>
             </a-col>
         </a-row>
+        <!-- Chart -->
         <a-row>
             <a-col :span="24" :xl="{ span: 16 }" :lg="{ span: 16 }" >
                 <apexchart class="chart sha-down" type="area" :options="areaChartOptions" :series="areaChartSeries"></apexchart>
