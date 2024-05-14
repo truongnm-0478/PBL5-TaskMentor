@@ -1,6 +1,6 @@
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  email TEXT UNIQUE NOT NULL,
+  email TEXT UNIQUE NOT NULL, // UNIUE
   username TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
   role INT NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE users (
   update_by INT,
   delete_time TIMESTAMP,
   delete_by INT
-);
+)
 
 CREATE TABLE teachers (
   id SERIAL PRIMARY KEY,
@@ -24,7 +24,7 @@ CREATE TABLE teachers (
   delete_time TIMESTAMP,
   delete_by INT,
   FOREIGN KEY (user_id) REFERENCES users (id)
-);
+)
 
 CREATE TABLE students (
   id SERIAL PRIMARY KEY,
@@ -37,7 +37,7 @@ CREATE TABLE students (
   delete_time TIMESTAMP,
   delete_by INT,
   FOREIGN KEY (user_id) REFERENCES users (id)
-);
+)
 
 CREATE TABLE classes (
   id SERIAL PRIMARY KEY,
@@ -53,7 +53,7 @@ CREATE TABLE classes (
   delete_time TIMESTAMP,
   delete_by INT,
   FOREIGN KEY (teacher_id) REFERENCES teachers (id)
-);
+)
 
 CREATE TABLE student_class (
   id SERIAL PRIMARY KEY,
@@ -89,7 +89,7 @@ CREATE TABLE teamMembers (
   delete_by INT,
   FOREIGN KEY (team_id) REFERENCES teams (id),
   FOREIGN KEY (student_id) REFERENCES students (id)
-);
+)
 
 CREATE TABLE projects (
   id SERIAL PRIMARY KEY,
@@ -103,7 +103,7 @@ CREATE TABLE projects (
   delete_time TIMESTAMP,
   delete_by INT,
   FOREIGN KEY (team_id) REFERENCES teams (id)
-);
+)
 
 CREATE TABLE planning (
   id SERIAL PRIMARY KEY,
@@ -115,7 +115,7 @@ CREATE TABLE planning (
   update_time TIMESTAMP,
   update_by INT,
   FOREIGN KEY (team_id) REFERENCES teams (id)
-);
+)
 
 CREATE TABLE sprints (
   id SERIAL PRIMARY KEY,
@@ -179,7 +179,7 @@ CREATE TABLE task_assignments (
   FOREIGN KEY (task_id) REFERENCES tasks (id),
   FOREIGN KEY (assigned_to) REFERENCES users (id),
   FOREIGN KEY (assigned_by) REFERENCES users (id)
-);
+)
 
 CREATE TABLE team_evaluation (
   id SERIAL PRIMARY KEY,
@@ -193,7 +193,7 @@ CREATE TABLE team_evaluation (
   delete_time TIMESTAMP,
   delete_by INT,
   FOREIGN KEY (team_id) REFERENCES teams (id)
-);
+)
 
 CREATE TABLE team_member_feedback (
   id SERIAL PRIMARY KEY,
@@ -211,7 +211,7 @@ CREATE TABLE team_member_feedback (
   FOREIGN KEY (evaluator_id) REFERENCES users (id),
   FOREIGN KEY (evaluatee_id) REFERENCES users (id),
   FOREIGN KEY (team_id) REFERENCES teams (id)
-);
+)
 
 CREATE TABLE appointments (
   id SERIAL PRIMARY KEY,
@@ -227,7 +227,7 @@ CREATE TABLE appointments (
   delete_time TIMESTAMP,
   delete_by INT,
   FOREIGN KEY (user_id) REFERENCES users (id)
-);
+)
 
 CREATE TABLE reminders (
   id SERIAL PRIMARY KEY,
@@ -240,7 +240,7 @@ CREATE TABLE reminders (
   delete_time TIMESTAMP,
   delete_by INT,
   FOREIGN KEY (appointment_id) REFERENCES appointments (id)
-);
+)
 
 CREATE TABLE group_meeting (
   appointment_id INT,
@@ -248,7 +248,7 @@ CREATE TABLE group_meeting (
   FOREIGN KEY (appointment_id) REFERENCES appointments (id),
   FOREIGN KEY (user_id) REFERENCES users (id),
   PRIMARY KEY (appointment_id, user_id)
-);
+)
 
 CREATE TABLE notifications (
   id SERIAL PRIMARY KEY,
@@ -263,7 +263,7 @@ CREATE TABLE notifications (
   delete_time TIMESTAMP,
   delete_by INT,
   FOREIGN KEY (class_id) REFERENCES classes (id)
-);
+)
 
 
 CREATE TABLE messages (
@@ -281,7 +281,7 @@ CREATE TABLE messages (
   delete_by INT,
   FOREIGN KEY (sender_id) REFERENCES users (id),
   FOREIGN KEY (receiver_id) REFERENCES users (id)
-);
+)
 
 CREATE TABLE tokens (
   id SERIAL PRIMARY KEY,
