@@ -68,14 +68,12 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
 import userApi from '@/repositories/userApi.js'
-import {onMounted} from 'vue'
-import {getLastLetter} from '@/utils/stringUtils.js'
-import { getColorForLastLetter } from '@/utils/colorUtils.js'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
+import { useMessageStore } from '@/stores/messageStore.js'
 import { reactive, ref } from 'vue'
-import {useMessageStore} from "@/stores/messageStore.js";
 const formRef = ref()
 const formState = reactive({
     name: '',
