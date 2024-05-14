@@ -1,5 +1,9 @@
 package service;
 
+import java.security.Key;
+import java.util.Date;
+import java.util.List;
+
 import configuration.LoaderConfigurator;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -10,10 +14,6 @@ import model.Token;
 import model.User;
 import repository.TokenRepository;
 import repository.UserRepository;
-
-import java.security.Key;
-import java.util.Date;
-import java.util.List;
 
 public class AuthService {
     private static final String SECRET_KEY = LoaderConfigurator.getSecretKey();
@@ -61,7 +61,7 @@ public class AuthService {
         }
     }
 
-    // Remove refresh token from Database
+    // Remove refresh token to database when login
     public static void deleteRefreshToken(String username) {
         User user = userRepository.getUserByUsername(username);
         if (user != null) {

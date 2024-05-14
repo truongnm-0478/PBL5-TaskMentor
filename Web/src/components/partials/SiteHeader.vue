@@ -29,11 +29,11 @@
 </template>
 
 <script setup>
-import { UserOutlined } from "@ant-design/icons-vue"
-import { useUserStore } from "@/stores/userStore.js"
-import {ref} from "vue"
 import router from "@/router/index.js"
-import {useSocketStore} from "@/stores/socketStore.js"
+import { useSocketStore } from "@/stores/socketStore.js"
+import { useUserStore } from "@/stores/userStore.js"
+import { UserOutlined } from "@ant-design/icons-vue"
+import { ref } from "vue"
 
 const user = ref({
     username: '',
@@ -50,6 +50,7 @@ if(u) {
     user.value.username = u.username
 }
 
+// Call api login
 const handleLogout = () => {
     userStore.clearUser()
     useSocketStore().disconnectSocket()
