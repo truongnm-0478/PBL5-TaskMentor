@@ -59,7 +59,7 @@
         </div>
     </div>
     <a-drawer
-        title="Create a new account"
+        title="Create a new task"
         :width="720"
         :open="open"
         :body-style="{ paddingBottom: '80px' }"

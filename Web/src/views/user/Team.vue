@@ -6,7 +6,7 @@
         </a-button>
     </div>
     <a-drawer
-        title="Create a new account"
+        title="Create a new team"
         :width="720"
         :open="open"
         :body-style="{ paddingBottom: '80px' }"

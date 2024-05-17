@@ -1,0 +1,608 @@
+Task,Difficulty
+Xây dựng giao diện cho quản trị viên để quản lý và xác nhận đăng ký mới từ người dùng,  3
+Phát triển tính năng kiểm tra và xác thực thông tin đăng ký từ người dùng,  4
+Tích hợp chức năng gửi thông báo cho quản trị viên khi có đăng ký mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và duyệt đăng ký từ người dùng,  3
+Phát triển tính năng gửi email xác nhận và thông tin đăng ký cho người dùng sau khi được duyệt,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong quá trình đăng ký,  4
+Cập nhật tính năng xem lại lịch sử đăng ký và hoạt động của quản trị viên và người dùng,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các khóa học và chương trình đào tạo,  3
+Phát triển tính năng tạo và quản lý nội dung bài giảng và bài tập trong các khóa học và chương trình đào tạo,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có khóa học mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các khóa học và chương trình đào tạo đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ tài liệu và nội dung giảng dạy trong các khóa học và chương trình đào tạo,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các khóa học và chương trình đào tạo,  4
+Cập nhật tính năng xem lại lịch sử tham gia và nội dung đã chia sẻ trong các khóa học và chương trình đào tạo,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các bài kiểm tra và bài thi,  3
+Phát triển tính năng tạo và quản lý câu hỏi đáp án và bài thi trong hệ thống,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có bài kiểm tra mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các bài kiểm tra và bài thi đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ đề thi và kết quả kiểm tra với người dùng,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các bài kiểm tra và bài thi,  4
+Cập nhật tính năng xem lại lịch sử tham gia và kết quả của quản trị viên và người dùng trong các bài kiểm tra và bài thi,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các tài liệu và tài nguyên học liệu,  3
+Phát triển tính năng tạo và quản lý các tài liệu sách điện tử và tài nguyên học liệu trực tuyến,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có tài liệu mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các tài liệu và tài nguyên học liệu đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ tài liệu và tài nguyên học liệu với người dùng,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các tài liệu và tài nguyên học liệu,  4
+Cập nhật tính năng xem lại lịch sử tham gia và hoạt động của quản trị viên và người dùng trong các tài liệu và tài nguyên học liệu,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các khóa học trực tuyến và chương trình đào tạo,  3
+Phát triển tính năng tạo và quản lý nội dung bài giảng và bài tập trong các khóa học trực tuyến và chương trình đào tạo,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có khóa học mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các khóa học trực tuyến và chương trình đào tạo đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ tài liệu và nội dung giảng dạy trong các khóa học trực tuyến và chương trình đào tạo,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các khóa học trực tuyến và chương trình đào tạo,  4
+Cập nhật tính năng xem lại lịch sử tham gia và nội dung đã chia sẻ trong các khóa học trực tuyến và chương trình đào tạo,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các bài kiểm tra và bài thi trực tuyến,  3
+Phát triển tính năng tạo và quản lý câu hỏi đáp án và bài thi trong hệ thống,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có bài kiểm tra mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các bài kiểm tra và bài thi trực tuyến đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ đề thi và kết quả kiểm tra với người dùng,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các bài kiểm tra và bài thi trực tuyến,  4
+Cập nhật tính năng xem lại lịch sử tham gia và kết quả của quản trị viên và người dùng trong các bài kiểm tra và bài thi trực tuyến,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các tài liệu và tài nguyên học liệu trực tuyến,  3
+Phát triển tính năng tạo và quản lý các tài liệu sách điện tử và tài nguyên học liệu trực tuyến,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có tài liệu mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các tài liệu và tài nguyên học liệu trực tuyến đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ tài liệu và tài nguyên học liệu với người dùng,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các tài liệu và tài nguyên học liệu trực tuyến,  4
+Cập nhật tính năng xem lại lịch sử tham gia và hoạt động của quản trị viên và người dùng trong các tài liệu và tài nguyên học liệu trực tuyến,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các khóa học và chương trình đào tạo trực tuyến,  3
+Phát triển tính năng tạo và quản lý nội dung bài giảng và bài tập trong các khóa học và chương trình đào tạo trực tuyến,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có khóa học mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các khóa học và chương trình đào tạo trực tuyến đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ tài liệu và nội dung giảng dạy trong các khóa học và chương trình đào tạo trực tuyến,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các khóa học và chương trình đào tạo trực tuyến,  4
+Cập nhật tính năng xem lại lịch sử tham gia và nội dung đã chia sẻ trong các khóa học và chương trình đào tạo trực tuyến,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các bài kiểm tra và bài thi trực tuyến,  3
+Phát triển tính năng tạo và quản lý câu hỏi đáp án và bài thi trong hệ thống,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có bài kiểm tra mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các bài kiểm tra và bài thi trực tuyến đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ đề thi và kết quả kiểm tra với người dùng,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các bài kiểm tra và bài thi trực tuyến,  4
+Cập nhật tính năng xem lại lịch sử tham gia và kết quả của quản trị viên và người dùng trong các bài kiểm tra và bài thi trực tuyến,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các tài liệu và tài nguyên học liệu trực tuyến,  3
+Phát triển tính năng tạo và quản lý các tài liệu sách điện tử và tài nguyên học liệu trực tuyến,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có tài liệu mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các tài liệu và tài nguyên học liệu trực tuyến đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ tài liệu và tài nguyên học liệu với người dùng,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các tài liệu và tài nguyên học liệu trực tuyến,  4
+Cập nhật tính năng xem lại lịch sử tham gia và hoạt động của quản trị viên và người dùng trong các tài liệu và tài nguyên học liệu trực tuyến,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các khóa học và chương trình đào tạo trực tuyến,  3
+Phát triển tính năng tạo và quản lý nội dung bài giảng và bài tập trong các khóa học và chương trình đào tạo trực tuyến,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có khóa học mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các khóa học và chương trình đào tạo trực tuyến đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ tài liệu và nội dung giảng dạy trong các khóa học và chương trình đào tạo trực tuyến,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các khóa học và chương trình đào tạo trực tuyến,  4
+Cập nhật tính năng xem lại lịch sử tham gia và nội dung đã chia sẻ trong các khóa học và chương trình đào tạo trực tuyến,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các bài kiểm tra và bài thi trực tuyến,  3
+Phát triển tính năng tạo và quản lý câu hỏi đáp án và bài thi trong hệ thống,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có bài kiểm tra mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các bài kiểm tra và bài thi trực tuyến đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ đề thi và kết quả kiểm tra với người dùng,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các bài kiểm tra và bài thi trực tuyến,  4
+Cập nhật tính năng xem lại lịch sử tham gia và kết quả của quản trị viên và người dùng trong các bài kiểm tra và bài thi trực tuyến,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các tài liệu và tài nguyên học liệu trực tuyến,  3
+Phát triển tính năng tạo và quản lý các tài liệu sách điện tử và tài nguyên học liệu trực tuyến,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có tài liệu mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các tài liệu và tài nguyên học liệu trực tuyến đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ tài liệu và tài nguyên học liệu với người dùng,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các tài liệu và tài nguyên học liệu trực tuyến,  4
+Cập nhật tính năng xem lại lịch sử tham gia và hoạt động của quản trị viên và người dùng trong các tài liệu và tài nguyên học liệu trực tuyến,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các khóa học và chương trình đào tạo trực tuyến,  3
+Phát triển tính năng tạo và quản lý nội dung bài giảng và bài tập trong các khóa học và chương trình đào tạo trực tuyến,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có khóa học mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các khóa học và chương trình đào tạo trực tuyến đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ tài liệu và nội dung giảng dạy trong các khóa học và chương trình đào tạo trực tuyến,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các khóa học và chương trình đào tạo trực tuyến,  4
+Cập nhật tính năng xem lại lịch sử tham gia và nội dung đã chia sẻ trong các khóa học và chương trình đào tạo trực tuyến,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các bài kiểm tra và bài thi trực tuyến,  3
+Phát triển tính năng tạo và quản lý câu hỏi đáp án và bài thi trong hệ thống,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có bài kiểm tra mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các bài kiểm tra và bài thi trực tuyến đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ đề thi và kết quả kiểm tra với người dùng,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các bài kiểm tra và bài thi trực tuyến,  4
+Cập nhật tính năng xem lại lịch sử tham gia và kết quả của quản trị viên và người dùng trong các bài kiểm tra và bài thi trực tuyến,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các tài liệu và tài nguyên học liệu trực tuyến,  3
+Phát triển tính năng tạo và quản lý các tài liệu sách điện tử và tài nguyên học liệu trực tuyến,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có tài liệu mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các tài liệu và tài nguyên học liệu trực tuyến đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ tài liệu và tài nguyên học liệu với người dùng,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các tài liệu và tài nguyên học liệu trực tuyến,  4
+Cập nhật tính năng xem lại lịch sử tham gia và hoạt động của quản trị viên và người dùng trong các tài liệu và tài nguyên học liệu trực tuyến,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các khóa học và chương trình đào tạo trực tuyến,  3
+Phát triển tính năng tạo và quản lý nội dung bài giảng và bài tập trong các khóa học và chương trình đào tạo trực tuyến,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có khóa học mới hoặc cập nhật,  4
+Phát triển tính năng tạo và quản lý sự kiện và cuộc thi trong hệ thống,  4
+Tích hợp chức năng đăng ký và tham gia sự kiện và cuộc thi,  4
+Xây dựng giao diện cho người dùng để xem và quản lý thông tin về sự kiện và cuộc thi,  3
+Phát triển tính năng gửi thông báo nhắc nhở và xác nhận tham gia sự kiện và cuộc thi,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong sự kiện và cuộc thi,  4
+Cập nhật tính năng xem và đánh giá bài dự thi và hoạt động của người dùng trong sự kiện và cuộc thi,  3
+Xây dựng giao diện cho người dùng để tham gia và quản lý các hoạt động trong sự kiện và cuộc thi,  3
+Phát triển tính năng tạo và quản lý bài đăng và nội dung trên diễn đàn hoặc blog trong hệ thống,  4
+Tích hợp chức năng gửi thông báo cho người dùng khi có bài viết mới hoặc phản hồi trên diễn đàn hoặc blog,  4
+Xây dựng giao diện cho người dùng để xem và quản lý các bài đăng và thảo luận trên diễn đàn hoặc blog,  3
+Phát triển tính năng tạo và quản lý danh sách yêu thích hoặc theo dõi các nội dung trên diễn đàn hoặc blog,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong diễn đàn hoặc blog,  4
+Cập nhật tính năng đánh giá và phản hồi cho bài viết và thảo luận trên diễn đàn hoặc blog,  3
+Xây dựng giao diện cho người dùng để tham gia và quản lý các cuộc trò chuyện hoặc thảo luận nhóm,  3
+Phát triển tính năng gửi thông báo nhắc nhở và phản hồi cho các cuộc trò chuyện nhóm,  4
+Tích hợp chức năng tạo và quản lý các nhóm trò chuyện riêng tư hoặc công cộng,  4
+Xây dựng giao diện cho người dùng để xem và tham gia các cuộc trò chuyện nhóm,  3
+Phát triển tính năng chia sẻ tập tin và hình ảnh trong cuộc trò chuyện nhóm,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong cuộc trò chuyện nhóm,  4
+Cập nhật tính năng xem lại lịch sử cuộc trò chuyện nhóm và nội dung đã chia sẻ,  3
+Xây dựng giao diện cho người dùng để tham gia và quản lý các sự kiện và cuộc thi trực tuyến,  3
+Phát triển tính năng gửi thông báo nhắc nhở và xác nhận tham gia các sự kiện và cuộc thi trực tuyến,  4
+Tích hợp chức năng tạo và quản lý các kênh trò chuyện trực tuyến cho sự kiện và cuộc thi,  4
+Xây dựng giao diện cho người dùng để xem và tham gia các trò chuyện trực tuyến trong sự kiện và cuộc thi,  3
+Phát triển tính năng chia sẻ màn hình và tài liệu trong cuộc trò chuyện trực tuyến,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong cuộc trò chuyện trực tuyến,  4
+Cập nhật tính năng xem lại lịch sử cuộc trò chuyện trực tuyến và nội dung đã chia sẻ,  3
+Xây dựng giao diện cho người dùng để tạo và quản lý các khóa học và bài giảng trực tuyến,  4
+Phát triển tính năng đăng ký và tham gia các khóa học và bài giảng trực tuyến,  4
+Tích hợp chức năng gửi thông báo cho người dùng khi có khóa học mới hoặc cập nhật,  4
+Xây dựng giao diện cho người dùng để xem và tham gia các khóa học và bài giảng trực tuyến,  3
+Phát triển tính năng chia sẻ tài liệu và bài giảng trong các khóa học trực tuyến,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong khóa học và bài giảng,  4
+Cập nhật tính năng xem lại lịch sử tham gia và tiến độ học tập của người dùng,  3
+Xây dựng giao diện cho người dùng để tham gia và quản lý các phòng học và nhóm học trực tuyến,  3
+Phát triển tính năng gửi thông báo nhắc nhở và phản hồi cho các hoạt động trong phòng học trực tuyến,  4
+Tích hợp chức năng tạo và quản lý các bài tập và bài kiểm tra trực tuyến trong phòng học,  4
+Xây dựng giao diện cho người dùng để xem và làm bài tập và bài kiểm tra trực tuyến,  3
+Phát triển tính năng gửi kết quả và phản hồi tự động cho bài tập và bài kiểm tra,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong phòng học trực tuyến,  4
+Thêm học phần ,2
+Xóa lớp học phần,1
+Chỉnh sửa thông tin ,2
+Xây dựng giao diện cho quản trị viên để xem và quản lý các khóa học và chương trình đào tạo trực tuyến đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ tài liệu và nội dung giảng dạy trong các khóa học và chương trình đào tạo trực tuyến,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các khóa học và chương trình đào tạo trực tuyến,  4
+Cập nhật tính năng xem lại lịch sử tham gia và nội dung đã chia sẻ trong các khóa học và chương trình đào tạo trực tuyến,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các bài kiểm tra và bài thi trực tuyến,  3
+Phát triển tính năng tạo và quản lý câu hỏi đáp án và bài thi trong hệ thống,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có bài kiểm tra mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các bài kiểm tra và bài thi trực tuyến đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ đề thi và kết quả kiểm tra với người dùng,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các bài kiểm tra và bài thi trực tuyến,  4
+Cập nhật tính năng xem lại lịch sử tham gia và kết quả của quản trị viên và người dùng trong các bài kiểm tra và bài thi trực tuyến,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các tài liệu và tài nguyên học liệu trực tuyến,  3
+Phát triển tính năng tạo và quản lý các tài liệu sách điện tử và tài nguyên học liệu trực tuyến,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có tài liệu mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các tài liệu và tài nguyên học liệu trực tuyến đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ tài liệu và tài nguyên học liệu với người dùng,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các tài liệu và tài nguyên học liệu trực tuyến,  4
+Cập nhật tính năng xem lại lịch sử tham gia và hoạt động của quản trị viên và người dùng trong các tài liệu và tài nguyên học liệu trực tuyến,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các khóa học và chương trình đào tạo trực tuyến,  3
+Phát triển tính năng tạo và quản lý nội dung bài giảng và bài tập trong các khóa học và chương trình đào tạo trực tuyến,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho quản trị viên khi có khóa học mới hoặc cập nhật,  4
+Xây dựng giao diện cho quản trị viên để xem và quản lý các khóa học và chương trình đào tạo trực tuyến đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ tài liệu và nội dung giảng dạy trong các khóa học và chương trình đào tạo trực tuyến,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của quản trị viên và người dùng trong các khóa học và chương trình đào tạo trực tuyến,  4
+Cập nhật tính năng xem lại lịch sử tham gia và nội dung đã chia sẻ trong các khóa học và chương trình đào tạo trực tuyến,  3
+Tạo nhóm,3
+Đưa ra các danh sách tham khảo,1
+Duyệt đề tài,1
+Đánh giá mức độ hoàn thành của công việc của sinh viên,2
+xem đánh giá  của nhóm trưởng, 2
+Cập nhật tính năng xem lại lịch sử các hoạt động và tiến độ học tập của người dùng trong phòng học trực tuyến,  3
+Xây dựng giao diện cho giảng viên để tạo và quản lý các khóa học và phòng học trực tuyến,  4
+Phát triển tính năng tạo và quản lý tài liệu giảng dạy và nội dung bài giảng,  4
+Tích hợp chức năng gửi thông báo cho sinh viên khi có khóa học mới được tạo hoặc cập nhật,  4
+Xây dựng giao diện cho sinh viên để xem và tham gia các khóa học và phòng học trực tuyến,  3
+Phát triển tính năng chia sẻ tài liệu và tài nguyên giảng dạy trong các khóa học trực tuyến,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của sinh viên trong khóa học và phòng học,  4
+Cập nhật tính năng xem lại lịch sử tham gia và tiến độ học tập của sinh viên,  3
+Xây dựng giao diện cho giảng viên để tạo và quản lý các bài tập và bài kiểm tra trực tuyến,  4
+Phát triển tính năng gửi kết quả và phản hồi tự động cho bài tập và bài kiểm tra của sinh viên,  4
+Tích hợp chức năng tạo và quản lý bảng điểm và báo cáo học tập cho sinh viên,  4
+Xây dựng giao diện cho sinh viên để xem và tải về bảng điểm và báo cáo học tập của mình,  3
+Phát triển tính năng gửi thông báo nhắc nhở và thông tin về kết quả học tập cho sinh viên,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của sinh viên trong bảng điểm và báo cáo học tập,  4
+Cập nhật tính năng xem lại lịch sử các hoạt động và tiến độ học tập của sinh viên,  3
+Xây dựng giao diện cho giảng viên để tạo và quản lý các cuộc thi và bài thi trực tuyến,  4
+Phát triển tính năng gửi thông báo nhắc nhở và phản hồi tự động cho các cuộc thi và bài thi,  4
+Tích hợp chức năng tạo và quản lý câu hỏi và đề thi cho các cuộc thi trực tuyến,  4
+Xây dựng giao diện cho sinh viên để tham gia và làm các bài thi trực tuyến,  3
+Phát triển tính năng gửi kết quả và phản hồi tự động cho các bài thi của sinh viên,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và kết quả của sinh viên trong các cuộc thi và bài thi,  4
+Cập nhật tính năng xem lại lịch sử tham gia và kết quả của sinh viên trong các cuộc thi và bài thi,  3
+Xây dựng giao diện cho người dùng để đăng ký và tham gia các sự kiện và hoạt động ngoại khóa,  4
+Phát triển tính năng gửi thông báo nhắc nhở và xác nhận đăng ký cho các sự kiện và hoạt động,  4
+Tích hợp chức năng tạo và quản lý các nhóm tham gia và chiến dịch ngoại khóa,  4
+Xây dựng giao diện cho người dùng để xem và tham gia các nhóm tham gia và chiến dịch ngoại khóa,  3
+Phát triển tính năng chia sẻ thông tin và hình ảnh về các hoạt động ngoại khóa,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong hoạt động ngoại khóa,  4
+Cập nhật tính năng xem lại lịch sử tham gia và hoạt động của người dùng trong hoạt động ngoại khóa,  3
+Xây dựng giao diện cho người dùng để tạo và quản lý các dự án và nhiệm vụ cá nhân hoặc nhóm,  4
+Thêm cuộc hẹn,2
+Sửa cuộc hẹn,2
+Xóa cuộc hẹn,1
+Chức năng tạo thông báo,4
+Chức năng nhắn tin,6
+Phát triển tính năng gửi thông báo nhắc nhở và cập nhật tiến độ cho các dự án và nhiệm vụ,  4
+Tích hợp chức năng tạo và quản lý lịch trình làm việc và deadline cho các dự án và nhiệm vụ,  4
+Xây dựng giao diện cho người dùng để xem và quản lý tiến độ và thông tin chi tiết của dự án và nhiệm vụ,  3
+Phát triển tính năng phản hồi và báo cáo tiến độ cho các dự án và nhiệm vụ,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong các dự án và nhiệm vụ,  4
+Cập nhật tính năng xem lại lịch sử hoạt động và tiến độ của người dùng trong các dự án và nhiệm vụ,  3
+Xây dựng giao diện cho người dùng để tạo và quản lý các bản ghi và thông tin trong cơ sở dữ liệu,  4
+Phát triển tính năng tìm kiếm và lọc dữ liệu theo các tiêu chí và điều kiện,  4
+Tích hợp chức năng thêm,  4
+Xây dựng giao diện cho người dùng để xem và chỉnh sửa thông tin của mình trong cơ sở dữ liệu,  3
+Phát triển tính năng sao lưu và phục hồi dữ liệu để đảm bảo an toàn và tin cậy,  4
+Tối ưu hóa cơ sở dữ liệu để tăng hiệu suất và khả năng mở rộng của hệ thống,  4
+Cập nhật tính năng theo dõi và báo cáo về tình trạng và hiệu suất của cơ sở dữ liệu,  3
+Xây dựng giao diện cho người dùng để xem và tùy chỉnh cài đặt và tài khoản của mình,  3
+Phát triển tính năng đăng nhập bằng các phương tiện xác thực khác nhau như mạng xã hội,  4
+Tích hợp chức năng quản lý và phân quyền truy cập dữ liệu dựa trên vai trò và quyền hạn của người dùng,  4
+Xây dựng giao diện cho quản trị viên để quản lý người dùng,  4
+Phát triển tính năng theo dõi và báo cáo về hoạt động và hiệu suất của người dùng trong hệ thống,  4
+Tối ưu hóa cơ sở dữ liệu để đảm bảo bảo mật và tuân thủ các quy định về bảo vệ dữ liệu,  4
+Cập nhật tính năng ghi log và theo dõi các sự kiện và hoạt động của người dùng trong hệ thống,  4
+Xây dựng giao diện cho người dùng để tạo và quản lý các cuộc thăm dò ý kiến và khảo sát,  4
+Phát triển tính năng thiết kế biểu mẫu và câu hỏi linh hoạt cho các cuộc thăm dò ý kiến,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho người dùng tham gia các cuộc thăm dò ý kiến,  4
+Xây dựng giao diện cho người dùng để tham gia và gửi phản hồi trong các cuộc thăm dò ý kiến,  3
+Phát triển tính năng phân tích và báo cáo kết quả của các cuộc thăm dò ý kiến,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ và xử lý dữ liệu từ các cuộc thăm dò ý kiến,  4
+Cập nhật tính năng xem lại lịch sử tham gia và kết quả của người dùng trong các cuộc thăm dò ý kiến,  3
+Xây dựng giao diện cho người dùng để tạo và quản lý các biểu đồ và báo cáo dữ liệu,  4
+Phát triển tính năng tạo và tùy chỉnh các loại biểu đồ và báo cáo theo nhu cầu của người dùng,  4
+Tích hợp chức năng chia sẻ và lưu trữ biểu đồ và báo cáo để có thể truy cập từ xa,  4
+Chức năng tham gia nhóm,2
+Chức năng rời nhóm,1
+Chức năng đăng kí đề tài,4
+Chức năng đề xuất đề tài,4
+Chức năng  Xóa đề tài đăng kí,1
+Chức năng  Xem đề tài của nhóm khác,1
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong các cuộc họp và hội thảo trực tuyến,  4
+Cập nhật tính năng xem lại lịch sử tham gia và nội dung đã chia sẻ trong các cuộc họp và hội thảo trực tuyến,  3
+Xây dựng giao diện cho người dùng để tạo và quản lý các sự kiện và hẹn giờ,  3
+Phát triển tính năng tạo và quản lý lịch trình thông báo và nhắc nhở cho các sự kiện và hẹn giờ,  4
+Tích hợp chức năng gửi thông báo cho người dùng khi gần đến thời gian diễn ra các sự kiện và hẹn giờ,  4
+Xây dựng giao diện cho người dùng để xem và quản lý các sự kiện và hẹn giờ đã tạo và tham gia,  3
+Phát triển tính năng chia sẻ thông tin và mời tham gia vào các sự kiện và hẹn giờ,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong các sự kiện và hẹn giờ,  4
+Cập nhật tính năng xem lại lịch sử tham gia và hoạt động của người dùng trong các sự kiện và hẹn giờ,  3
+Xây dựng giao diện cho người dùng để tham gia và quản lý các nhóm và cộng đồng trực tuyến,  3
+Phát triển tính năng tạo và quản lý chủ đề hoạt động và thông báo cho các nhóm và cộng đồng,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho người dùng khi có hoạt động mới hoặc thông báo từ nhóm và cộng đồng,  4
+Xây dựng giao diện cho người dùng để xem và tham gia các nhóm và cộng đồng,  3
+Phát triển tính năng chia sẻ tài liệu hình ảnh và nội dung trong các nhóm và cộng đồng,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong các nhóm và cộng đồng,  4
+Cập nhật tính năng xem lại lịch sử tham gia và nội dung đã chia sẻ trong các nhóm và cộng đồng,  3
+Xây dựng giao diện cho người dùng để tạo và quản lý các danh sách và bộ sưu tập,  3
+Phát triển tính năng thêm sửa và xóa mục trong các danh sách và bộ sưu tập,  4
+Tích hợp chức năng chia sẻ và mời tham gia vào các danh sách và bộ sưu tập,  4
+Xây dựng giao diện cho người dùng để xem và quản lý các danh sách và bộ sưu tập đã tạo,  3
+Phát triển tính năng sao chép di chuyển và chia sẻ các mục từ các danh sách và bộ sưu tập,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong các danh sách và bộ sưu tập,  4
+Cập nhật tính năng xem lại lịch sử tham gia và hoạt động của người dùng trong các danh sách và bộ sưu tập,  3
+Xây dựng giao diện cho người dùng để tạo và quản lý các khóa học và bài giảng trực tuyến,  3
+Phát triển tính năng tạo và quản lý nội dung giảng dạy bài giảng và bài tập trong các khóa học,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho người dùng khi có khóa học mới hoặc cập nhật,  4
+Xây dựng giao diện cho người dùng để xem và tham gia các khóa học và bài giảng trực tuyến,  3
+Phát triển tính năng chia sẻ tài liệu và nội dung giảng dạy trong các khóa học và bài giảng,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong các khóa học và bài giảng,  4
+Cập nhật tính năng xem lại lịch sử tham gia và nội dung đã chia sẻ trong các khóa học và bài giảng,  3
+Xây dựng giao diện cho người dùng để tạo và quản lý các cuộc thi và sự kiện,  3
+Phát triển tính năng tạo và quản lý đăng ký tham gia và đánh giá cho các cuộc thi và sự kiện,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho người dùng khi có cuộc thi mới hoặc cập nhật,  4
+Xây dựng giao diện cho người dùng để xem và tham gia các cuộc thi và sự kiện,  3
+Phát triển tính năng chia sẻ thông tin và hình ảnh về các cuộc thi và sự kiện,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong các cuộc thi và sự kiện,  4
+Cập nhật tính năng xem lại lịch sử tham gia và hoạt động của người dùng trong các cuộc thi và sự kiện,  3
+Xây dựng giao diện cho người dùng để tạo và quản lý các bài viết và bài đăng trên trang web hoặc diễn đàn,  3
+Phát triển tính năng tạo và quản lý nội dung hình ảnh và tài liệu đính kèm trong các bài viết và bài đăng,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho người dùng khi có bài viết mới hoặc phản hồi trên trang web hoặc diễn đàn,  4
+Xây dựng giao diện cho người dùng để xem và tham gia các bài viết và bài đăng,  3
+Phát triển tính năng chia sẻ bài viết và bài đăng trên các mạng xã hội và nền tảng khác,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong các bài viết và bài đăng,  4
+Cập nhật tính năng xem lại lịch sử tham gia và nội dung đã chia sẻ trong các bài viết và bài đăng,  3
+Xây dựng giao diện cho người dùng để tạo và quản lý các cuộc thảo luận và bình luận trên các bài viết và bài đăng,  3
+Phát triển tính năng tạo và quản lý bình luận và ý kiến phản hồi từ người dùng,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho người dùng khi có bình luận mới hoặc phản hồi trên bài viết và bài đăng,  4
+Xây dựng giao diện cho người dùng để xem và tham gia các cuộc thảo luận và bình luận,  3
+Phát triển tính năng chia sẻ bình luận và ý kiến phản hồi trên các mạng xã hội và nền tảng khác,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong các cuộc thảo luận và bình luận,  4
+Cập nhật tính năng xem lại lịch sử tham gia và nội dung đã chia sẻ trong các cuộc thảo luận và bình luận,  3
+Xây dựng giao diện cho người dùng để tạo và quản lý các phản hồi và đánh giá từ khách hàng,  3
+Phát triển tính năng thu thập và tổng hợp phản hồi và đánh giá từ khách hàng,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho người dùng khi có phản hồi mới từ khách hàng,  4
+Xây dựng giao diện cho người dùng để xem và quản lý phản hồi và đánh giá từ khách hàng,  3
+Phát triển tính năng chia sẻ phản hồi và đánh giá trên các kênh và nền tảng khác,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và phản hồi từ khách hàng,  4
+Cập nhật tính năng xem lại lịch sử phản hồi và đánh giá từ khách hàng,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý nội dung và người dùng trên trang web hoặc ứng dụng,  3
+Phát triển tính năng quản lý và xử lý báo cáo vi phạm và yêu cầu hỗ trợ từ người dùng,  4
+Chức năng phân chia nhiệm vụ,2
+Chức năng đánh giá ,2
+Chức năng nhận nhiệm vụ và báo cáo,2
+Chức năng phản hồi đánh giá,2
+Chức năng thêm tài khoản giảng viên,3
+Chức năng khóa tài khoản,2
+Mở khóa tài khoản,2
+đăng ký vào hệ thống để có thể trở thành một thành viên của hệ thống,2 
+đăng nhập vào hệ thống để có thể sử dụng chức năng của hệ thống,10 
+xem bài viết từ những người tôi theo dõi quan tâm và bài viết của tôi để có thể cập nhật thông tin của mọi người,5 
+cập nhật bài viết của mình để chỉnh sửa những nội dung chưa vừa ý trong bài viết của mình,4 
+tạo bài viết mới để chia sẻ trạng thái hoặc hình ảnh của tôi,5 
+xoá bài viết tôi đã tạo để bài viết tôi tạo ra không xuất hiện trên trang cá nhân hay mạng xã hội,5 
+tìm kiếm bài viết để xem những bài viết có nội dung màtìm,8 
+thích bài viết để tương tác với người đăng bài viết cho họ biết tôi thích thú với nội dung mà họ đăng tải,3 
+bình luận bài viết để chia sẻ những cảm nhận của tôi về nội dung của bài viết đó,5 
+chia sẻ bài viết để chia sẻ cho những người theo dõi bạn bè của tôi được biết đến nội dung của bài viết,5 
+báo cáo bài viết để báo cho hệ thống là bài viết đã vi phạm một số quyền cộng đồng hay có những nội dung nhạy cảm trong bài viết,5 
+xoá bình luận mà tôi xoá bình luận để loại bỏ những bình luận không thích hợp trong bài viết của tôi hoặc những bình luận của tôi trong bài viết của người khác,3 
+báo cáo bình luận để hệ thống biết những bình luận vi phạm quyền cộng đồng hoặc có những nội dung nhạy cảm,5 
+gửi mời lời kết bạn để trở thành bạn bè của người dùng khác trong mạng xã hội,5 
+huỷ lời mời kết bạn tới những người tôi đã gửi lời mời kết bạn để huỷ đi lời mời đã gửi khi không muốn kết bạn nữa,3 
+xem danh sách lời mời kết bạn để xem được những người đã gửi lời mời kết bạn và có thể chấp nhận hoặc từ chối,3 
+chấp nhận lời mời kết bạn để trở thành bạn bè với người đã gửi lời mời kết bạn với tôi,3 
+từ chối lời mời kết bạn để không trở thành bạn bè với người đã gửi lời mời kết bạn với tôi,3 
+xoá bạn bè để xoá một người dùng ra khỏi danh sách bạn bè của tôi,3 
+xem danh sách bạn bè để xem số lượng bạn bè thông tin bạn bè mà tôi đã kết bạn,5 
+xem danh sách cá nhân của tôi để có thể xem những thông tin như ảnh đại diện bài viết tôi đã đăng,2 
+cập nhật trang cá nhân để cập nhật thông tin trang cá nhân một ,5 
+có khả năng tìm kiếm người dùng khác trên nền tảng để có thể kết bạn hoặc tương tác với họ hoặc tìm kiếm bài viết theo từ khóa,8 
+có thể cập nhật thông tin cá nhân như tên địa chỉ số điện thoại, 5 
+có khả năng xoá tài khoản của mình khỏi nền tảng để không sử dụng dịch vụ này nữa.,5 
+có khả năng xem tin nhắn đã nhận và đã gửi để có thể theo dõi và quản lí các cuộc trò chuyện.,5 
+có khả năng gửi tin nhắn cho người dùng khác trên nền tảng để trao đổi thông tin và tương tác với họ.,5 
+có khả năng tạo ra một nhóm chat để có thể gửi tin nhắn cho nhiều người cùng một lúc và thực hiện trao đổi nhóm.,3 
+có khả năng thêm thành viên mới vào nhóm chat mà tôi đã tạo để mở rộng cuộc trò chuyện và tương tác.,4 
+có khả năng xem thông báo để biết được các hoạt động mới như lời mời kết bạn,5 
+có khả năng báo cáo các bài viết vi phạm tiêu chuẩn công đồng.,4 
+có khả năng báo cáo các bình luận vi phạm tiêu chuẩn công đồng.,4 
+có khả năng quản lý những bài viết,6 
+Đăng nhập,3
+Đăng kí,4
+Đăng xuất, 1
+Xem thông tin tài khoản,2
+Thay đổi mật khẩu,2
+Xem thông báo,1
+Xem lịch sử nhắn tin,2
+Xem danh sách lịch sử nhắn tin,3
+Xây dựng giao diện cho người dùng để xem và tùy chỉnh cài đặt và thông báo nhận,  3
+Phát triển tính năng tạo và quản lý danh sách người dùng yêu thích hoặc theo dõi,  4
+Tích hợp chức năng gửi thông báo cho người dùng khi có nội dung mới từ danh sách yêu thích hoặc theo dõi,  4
+Xây dựng giao diện cho người dùng để xem và quản lý các danh sách yêu thích và theo dõi,  3
+Phát triển tính năng gửi thông báo và nhắc nhở cho người dùng dựa trên các hoạt động và sở thích cá nhân,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng liên quan đến danh sách yêu thích và theo dõi,  4
+Cập nhật tính năng xem lại lịch sử hoạt động và thay đổi trong danh sách yêu thích và theo dõi,  3
+Xây dựng giao diện cho người dùng để tham gia và quản lý các cuộc thảo luận và diễn đàn trực tuyến,  3
+Phát triển tính năng tạo và quản lý các chủ đề và bài viết trong cuộc thảo luận và diễn đàn,  4
+Tích hợp chức năng gửi thông báo cho người dùng khi có bài viết mới hoặc phản hồi trong cuộc thảo luận và diễn đàn,  4
+Xây dựng giao diện cho người dùng để xem và tham gia các cuộc thảo luận và diễn đàn,  3
+Phát triển tính năng chia sẻ tài liệu và hình ảnh trong cuộc thảo luận và diễn đàn,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong cuộc thảo luận và diễn đàn,  4
+Cập nhật tính năng xem lại lịch sử tham gia và nội dung đã chia sẻ trong cuộc thảo luận và diễn đàn,  3
+Xây dựng giao diện cho người dùng để tạo và quản lý các sự kiện và hoạt động ngoại khóa,  3
+Phát triển tính năng tạo và quản lý danh sách tham gia và đăng ký cho các sự kiện và hoạt động,  4
+Tích hợp chức năng gửi thông báo nhắc nhở và xác nhận đăng ký cho các sự kiện và hoạt động,  4
+Xây dựng giao diện cho người dùng để xem và quản lý thông tin về các sự kiện và hoạt động đã tham gia,  3
+Phát triển tính năng chia sẻ thông tin và hình ảnh về các sự kiện và hoạt động,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong các sự kiện và hoạt động,  4
+Cập nhật tính năng xem lại lịch sử tham gia và hoạt động của người dùng trong các sự kiện và hoạt động,  3
+Xây dựng giao diện cho người dùng để tham gia và quản lý các nhóm thảo luận và dự án,  3
+Phát triển tính năng tạo và quản lý chủ đề và bài viết trong các nhóm thảo luận và dự án,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho người dùng khi có bài viết mới hoặc phản hồi trong nhóm thảo luận và dự án,  4
+Xây dựng giao diện cho người dùng để xem và tham gia các cuộc thảo luận và dự án,  3
+Phát triển tính năng chia sẻ tài liệu và thông tin trong các nhóm thảo luận và dự án,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong các nhóm thảo luận và dự án,  4
+Cập nhật tính năng xem lại lịch sử tham gia và nội dung đã chia sẻ trong các nhóm thảo luận và dự án,  3
+Xây dựng giao diện cho người dùng để tạo và quản lý các cuộc trò chuyện cá nhân và nhóm,  3
+Phát triển tính năng gửi tin nhắn văn bản,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho người dùng khi có tin nhắn mới trong cuộc trò chuyện,  4
+Xây dựng giao diện cho người dùng để xem và quản lý các cuộc trò chuyện cá nhân và nhóm,  3
+Phát triển tính năng chia sẻ tệp và hình ảnh trong cuộc trò chuyện cá nhân và nhóm,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong cuộc trò chuyện cá nhân và nhóm,  4
+Cập nhật tính năng xem lại lịch sử cuộc trò chuyện và nội dung đã chia sẻ,  3
+Xây dựng giao diện cho người dùng để tham gia và quản lý các cuộc họp trực tuyến và hội thảo,  3
+Phát triển tính năng tạo và quản lý lịch trình,  4
+Tích hợp chức năng gửi thông báo và nhắc nhở cho người dùng khi có cuộc họp mới hoặc gần đến thời gian diễn ra,  4
+Xây dựng giao diện cho người dùng để tham gia và quản lý các phòng họp và hội thảo trực tuyến,  3
+Phát triển tính năng chia sẻ tài liệu,  4
+Xem cuộc hẹn,2
+Xem nhiệm vụ,2
+Xem nhóm đã tham gia,4
+đăng ký vào hệ thống để có thể trở thành một thành viên của hệ thống,2 
+đăng nhập vào hệ thống để có thể sử dụng chức năng của hệ thống,10 
+xem bài viết từ những người tôi theo dõi quan tâm và bài viết của tôi để có thể cập nhật thông tin của mọi người,5 
+cập nhật bài viết của mình để chỉnh sửa những nội dung chưa vừa ý trong bài viết của mình,4 
+tạo bài viết mới để chia sẻ trạng thái hoặc hình ảnh của tôi,5 
+xoá bài viết tôi đã tạo để bài viết tôi tạo ra không xuất hiện trên trang cá nhân hay mạng xã hội,5 
+tìm kiếm bài viết để xem những bài viết có nội dung màtìm,8 
+thích bài viết để tương tác với người đăng bài viết cho họ biết tôi thích thú với nội dung mà họ đăng tải,3 
+bình luận bài viết để chia sẻ những cảm nhận của tôi về nội dung của bài viết đó,5 
+chia sẻ bài viết để chia sẻ cho những người theo dõi bạn bè của tôi được biết đến nội dung của bài viết,5 
+báo cáo bài viết để báo cho hệ thống là bài viết đã vi phạm một số quyền cộng đồng hay có những nội dung nhạy cảm trong bài viết,5 
+xoá bình luận mà tôi xoá bình luận để loại bỏ những bình luận không thích hợp trong bài viết của tôi hoặc những bình luận của tôi trong bài viết của người khác,3 
+báo cáo bình luận để hệ thống biết những bình luận vi phạm quyền cộng đồng hoặc có những nội dung nhạy cảm,5 
+gửi mời lời kết bạn để trở thành bạn bè của người dùng khác trong mạng xã hội,5 
+huỷ lời mời kết bạn tới những người tôi đã gửi lời mời kết bạn để huỷ đi lời mời đã gửi khi không muốn kết bạn nữa,3 
+xem danh sách lời mời kết bạn để xem được những người đã gửi lời mời kết bạn và có thể chấp nhận hoặc từ chối,3 
+chấp nhận lời mời kết bạn để trở thành bạn bè với người đã gửi lời mời kết bạn với tôi,3 
+từ chối lời mời kết bạn để không trở thành bạn bè với người đã gửi lời mời kết bạn với tôi,3 
+xoá bạn bè để xoá một người dùng ra khỏi danh sách bạn bè của tôi,3 
+xem danh sách bạn bè để xem số lượng bạn bè thông tin bạn bè mà tôi đã kết bạn,5 
+xem danh sách cá nhân của tôi để có thể xem những thông tin như ảnh đại diện bài viết tôi đã đăng,2 
+cập nhật trang cá nhân để cập nhật thông tin trang cá nhân một ,5 
+có khả năng tìm kiếm người dùng khác trên nền tảng để có thể kết bạn hoặc tương tác với họ hoặc tìm kiếm bài viết theo từ khóa,8 
+có thể cập nhật thông tin cá nhân như tên địa chỉ số điện thoại, 5 
+có khả năng xoá tài khoản của mình khỏi nền tảng để không sử dụng dịch vụ này nữa.,5 
+có khả năng xem tin nhắn đã nhận và đã gửi để có thể theo dõi và quản lí các cuộc trò chuyện.,5 
+có khả năng gửi tin nhắn cho người dùng khác trên nền tảng để trao đổi thông tin và tương tác với họ.,5 
+có khả năng tạo ra một nhóm chat để có thể gửi tin nhắn cho nhiều người cùng một lúc và thực hiện trao đổi nhóm.,3 
+có khả năng thêm thành viên mới vào nhóm chat mà tôi đã tạo để mở rộng cuộc trò chuyện và tương tác.,4 
+có khả năng xem thông báo để biết được các hoạt động mới như lời mời kết bạn,5 
+có khả năng báo cáo các bài viết vi phạm tiêu chuẩn công đồng.,4 
+có khả năng báo cáo các bình luận vi phạm tiêu chuẩn công đồng.,4 
+có khả năng quản lý những bài viết,6 
+Chức năng kéo thả task, 4
+Xem tin nhắn, 2
+Gửi tin nhắn, 5
+Tạo thông báo, 2
+Xem thông báo, 3
+Thiết lập môi trường, 4
+Tối ưu hóa cơ sở dữ liệu cho việc lưu trữ thông tin học phần mới,  3
+Phát triển tính năng tự động xác nhận và xóa các lớp học phần không còn sinh viên đăng ký,  4
+Cập nhật giao diện người dùng để hiển thị thông tin chỉnh sửa của học phần,  2
+Phát triển chức năng tạo nhóm theo quy định mới,  3
+Xây dựng tính năng tự động tạo danh sách tham khảo từ nguồn dữ liệu đã cho,  4
+Tối ưu hóa quy trình duyệt đề tài để giảm thời gian chờ đợi của sinh viên,  3
+Phát triển giao diện cho nhóm trưởng để dễ dàng xem đánh giá của các thành viên trong nhóm,  3
+Thêm tính năng cập nhật và xử lý cuộc hẹn trên lịch biểu,  2
+Tích hợp tính năng nhắn tin trong ứng dụng để sinh viên và giảng viên có thể giao tiếp trực tiếp,  5
+Xây dựng chức năng tự động gửi thông báo nhắc nhở cho sinh viên về cuộc hẹn sắp tới,  4
+Phát triển tính năng gửi thông báo cho sinh viên khi có thay đổi trong học phần,  3
+Tích hợp chức năng xác nhận đề tài và gửi thông báo cho sinh viên,  3
+Xây dựng giao diện cho sinh viên để dễ dàng xem và đánh giá mức độ hoàn thành của công việc,  2
+Phát triển tính năng tự động nhắc nhở sinh viên hoàn thành đánh giá cuối kỳ,  3
+Tối ưu hóa cơ sở dữ liệu cho việc lưu trữ thông tin nhóm và quản lý thành viên,  4
+Cập nhật tính năng thêm và xóa thành viên khỏi nhóm một cách linh hoạt,  3
+Phát triển chức năng tạo cuộc họp trực tuyến trong nhóm,  4
+Xây dựng tính năng ghi chú và chia sẻ tài liệu trong nhóm,  3
+Tích hợp chức năng đăng ký đề tài trực tuyến cho sinh viên,  4
+Xây dựng giao diện cho sinh viên để đề xuất đề tài mới và gửi yêu cầu đến giảng viên,  3
+Phát triển tính năng xác nhận và xóa đề tài đăng ký,  2
+Tối ưu hóa giao diện để hiển thị thông tin đề tài của nhóm khác một cách rõ ràng,  2
+Phát triển tính năng phân chia nhiệm vụ tự động dựa trên thông tin đề tài,  3
+Cập nhật giao diện để sinh viên dễ dàng nhận nhiệm vụ và báo cáo tiến độ,  2
+Tích hợp tính năng phản hồi đánh giá cho sinh viên và giảng viên,  3
+Xây dựng giao diện cho giảng viên để đánh giá và gửi phản hồi về báo cáo tiến độ của sinh viên,  3
+Phát triển tính năng thêm tài khoản giảng viên từ giao diện quản trị,  3
+Cập nhật tính năng khóa và mở khóa tài khoản dựa trên yêu cầu của người quản trị,  3
+Xây dựng giao diện cho người dùng để đăng nhập và quản lý thông tin tài khoản,  2
+Phát triển tính năng đăng kí tài khoản mới và gửi xác nhận qua email,  3
+Xây dựng tính năng đăng xuất và xử lý thông tin phiên đăng nhập,  1
+Tích hợp chức năng xem và chỉnh sửa thông tin tài khoản,  2
+Cập nhật tính năng thay đổi mật khẩu và xác nhận qua email,  2
+Xây dựng giao diện cho người dùng để xem thông báo mới nhận,  1
+Phát triển tính năng xem lịch sử các tin nhắn đã gửi và nhận,  2
+Tích hợp chức năng xem danh sách các cuộc hẹn đã tạo và tham gia,  2
+Xây dựng giao diện cho người dùng để xem nhiệm vụ được giao,  2
+Phát triển tính năng xem danh sách các nhóm mà người dùng đã tham gia,  4
+Cập nhật tính năng kéo thả task để dễ dàng sắp xếp công việc,  4
+Xây dựng giao diện cho người dùng để xem tin nhắn trực tuyến,  2
+Phát triển tính năng gửi tin nhắn mới và xử lý việc giao tiếp trong ứng dụng,  5
+Tích hợp chức năng tạo thông báo mới và gửi cho người dùng,  2
+Xây dựng tính năng xem lại thông báo đã gửi và xác nhận đọc,  3
+Phát triển tính năng thiết lập môi trường phát triển và triển khai,  4
+Cập nhật tính năng kiểm tra và tối ưu hóa hiệu suất của môi trường,  4
+Xây dựng giao diện cho người quản trị để quản lý và kiểm soát môi trường,  4
+Phát triển tính năng đặt hẹn giữa người quản trị và người dùng,  3
+Tích hợp chức năng cập nhật thông báo và nhắc nhở đến người quản trị,  3
+Xây dựng tính năng xem lịch sử các thao tác và hoạt động trong môi trường,  4
+Cập nhật tính năng sao lưu và phục hồi dữ liệu cho môi trường,  4
+Phát triển tính năng đồng bộ hóa thông báo và lịch sử nhắn tin trên nhiều thiết bị,  4
+Tích hợp chức năng gửi thông báo đa kênh qua email, 5
+Xây dựng giao diện cho người dùng để tùy chỉnh cài đặt thông báo và ưu tiên,  3
+Phát triển tính năng tự động gửi nhắc nhở về các cuộc hẹn sắp đến qua tin nhắn và email,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ lịch sử thông báo và tin nhắn của người dùng,  4
+Cập nhật tính năng xem lại lịch sử các thông báo đã gửi và nhận,  3
+Xây dựng giao diện cho người dùng để xem các thông báo theo nhóm và mức độ ưu tiên,  3
+Phát triển tính năng tạo và quản lý nhóm chat để giao tiếp trong ứng dụng,  4
+Tích hợp chức năng gửi tin nhắn nhóm và chia sẻ tài liệu trong nhóm chat,  5
+Xây dựng giao diện cho người dùng để xem thông tin thành viên trong nhóm chat,  3
+Phát triển tính năng thêm và xóa thành viên khỏi nhóm chat và quản lý quyền hạn,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của nhóm chat,  4
+Cập nhật tính năng gửi thông báo cho người dùng khi có tin nhắn mới trong nhóm chat,  3
+Xây dựng giao diện cho người dùng để xem và quản lý các cuộc họp đã tạo,  3
+Phát triển tính năng thêm và chỉnh sửa thông tin cuộc họp và mời thành viên tham gia,  4
+Tích hợp chức năng gửi thông báo nhắc nhở trước cuộc họp và kết thúc cuộc họp,  4
+Xây dựng giao diện cho người dùng để tham gia và quản lý các cuộc họp trực tuyến,  3
+Phát triển tính năng ghi âm và lưu trữ các cuộc họp cho việc xem lại sau này,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ các tập tin và nội dung đã chia sẻ trong cuộc họp,  4
+Cập nhật tính năng đánh giá và phản hồi sau cuộc họp để cải thiện quy trình,  3
+Xây dựng giao diện cho người dùng để tạo và quản lý các nhiệm vụ trong ứng dụng,  3
+Phát triển tính năng gán nhiệm vụ cho thành viên trong nhóm và theo dõi tiến độ,  4
+Tích hợp chức năng xác nhận hoàn thành nhiệm vụ và tự động cập nhật tiến độ,  4
+Xây dựng giao diện cho người dùng để xem báo cáo và tiến độ công việc của mình,  3
+Phát triển tính năng gửi thông báo nhắc nhở và phản hồi đánh giá sau khi hoàn thành nhiệm vụ,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin về nhiệm vụ và tiến độ của người dùng,  4
+Cập nhật tính năng xem lại lịch sử nhiệm vụ đã hoàn thành và báo cáo kết quả,  3
+Xây dựng giao diện cho người dùng để xem và quản lý danh sách các tài khoản giảng viên,  3
+Phát triển tính năng chỉnh sửa thông tin tài khoản giảng viên và quản lý quyền hạn,  4
+Tích hợp chức năng gửi thông báo cho người dùng khi có tài khoản giảng viên mới được thêm,  3
+Xây dựng giao diện cho người dùng để khóa và mở khóa tài khoản giảng viên,  3
+Phát triển tính năng xem lịch sử đăng nhập và hoạt động của tài khoản giảng viên,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và quản lý tài khoản giảng viên,  4
+Cập nhật tính năng xem và quản lý thông tin đăng kí tài khoản của sinh viên,  3
+Xây dựng giao diện cho người dùng để quản lý yêu cầu đề xuất đề tài mới,  3
+Phát triển tính năng xem lại lịch sử đề xuất đề tài và trạng thái duyệt,  4
+Tích hợp chức năng gửi thông báo cho sinh viên khi đề xuất đề tài được duyệt hoặc từ chối,  4
+Xây dựng giao diện cho người dùng để xem và quản lý đề tài đã đăng kí,  3
+Phát triển tính năng xem thông tin và trạng thái của các đề tài đã đăng kí,  3
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và quản lý đề tài của sinh viên,  4
+Cập nhật tính năng xem và đánh giá đề tài của nhóm khác trong hệ thống,  3
+Xây dựng giao diện cho người dùng để tham gia và quản lý các nhóm khác trong hệ thống,  3
+Phát triển tính năng gửi thông báo cho người dùng khi có yêu cầu tham gia nhóm mới,  3
+Tích hợp chức năng xem lại lịch sử tham gia và hoạt động trong các nhóm khác,  4
+Xây dựng giao diện cho người dùng để tham gia và quản lý các cuộc họp của nhóm khác,  3
+Phát triển tính năng tạo và quản lý các tài liệu và tài nguyên chia sẻ trong nhóm khác,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong các nhóm khác,  4
+Cập nhật tính năng xem và quản lý thông báo của nhóm khác trong hệ thống,  3
+Xây dựng giao diện cho người dùng để tham gia và quản lý các nhiệm vụ trong nhóm khác,  3
+Phát triển tính năng gửi thông báo nhắc nhở và phản hồi cho hoạt động trong nhóm khác,  4
+Tích hợp chức năng xác thực hai yếu tố cho tài khoản quản trị viên để tăng cường bảo mật hệ thống,  4
+Xây dựng giao diện cho người dùng để xem và đánh giá các bài kiểm tra và bài thi trực tuyến đã tham gia,  3
+Phát triển tính năng tạo và quản lý danh sách câu hỏi yêu thích của người dùng,  3
+Cập nhật tính năng gửi thông báo và nhắc nhở cho người dùng khi có câu hỏi mới trong danh sách yêu thích,  4
+Xây dựng giao diện cho người dùng để tham gia các nhóm thảo luận và trao đổi kiến thức,  3
+Phát triển tính năng tạo và quản lý các bài viết và bình luận trong các nhóm thảo luận,  4
+Tối ưu hóa cơ sở dữ liệu để lưu trữ thông tin và hoạt động của người dùng trong các nhóm thảo luận,  4
+Cập nhật tính năng xem lại lịch sử tham gia và hoạt động của người dùng trong các nhóm thảo luận,  3
+Tích hợp chức năng tạo và quản lý sự kiện trực tuyến và buổi hội thảo cho người dùng,  4
+Xây dựng giao diện cho người dùng để đăng ký và tham gia các sự kiện và buổi hội thảo,  3
+Phát triển tính năng gửi thông báo cho người dùng khi có bài viết mới trong các nhóm thảo luận mà họ tham gia,  4
+Xây dựng giao diện cho người dùng để tạo và quản lý các sự kiện trực tuyến và buổi hội thảo cá nhân,  3
+Tích hợp chức năng tạo và quản lý lịch trình cá nhân cho người dùng bao gồm cả sự kiện trực tuyến và offline,  4
+Phát triển tính năng đặt lịch hẹn trực tuyến cho người dùng cho phép họ đặt lịch hẹn với giảng viên hoặc nhóm nghiên cứu,  4
+Cập nhật tính năng nhắc nhở cho người dùng khi gần đến thời gian sự kiện hoặc lịch hẹn đã đặt,  3
+Xây dựng giao diện cho quản trị viên để xem và quản lý các yêu cầu và thảo luận từ người dùng,  3
+Phát triển tính năng gửi thông báo cho quản trị viên khi có yêu cầu mới từ người dùng hoặc nhóm,  4
+Tích hợp chức năng phản hồi tự động cho các yêu cầu từ người dùng giúp giải đáp câu hỏi phổ biến một cách nhanh chóng,  4
+Cập nhật tính năng xem lại lịch sử các yêu cầu và thảo luận từ người dùng để cải thiện dịch vụ,  3
+Xây dựng giao diện cho quản trị viên để tạo và quản lý các khóa học và chương trình đào tạo trực tuyến,  3
+Xây dựng giao diện người dùng cho chức năng đăng nhập, 1
+Xây dựng giao diện người dùng cho chức năng đăng kí, 1
+ thêm khách hàng mới vào hệ thống để họ có thể đặt vé.,3
+ xem thông tin danh sách khách hàng để quản lý dữ liệu khách hàng trong hệ thống.,4
+ cập nhật thông tin khách hàng để đảm bảo dữ liệu khách hàng là mới nhất.,4
+ xóa khách hàng khỏi hệ thống để loại bỏ thông tin không cần thiết.,1
+ khóa tài khoản của khách hàng để ngăn họ truy cập vào hệ thống.,2
+ thêm nhà cung cấp mới vào hệ thống để họ có thể cung cấp các lịch trình tàu mới.,4
+ xem thông tin danh sách nhà cung cấp để quản lý dữ liệu nhà cung cấp trong hệ thống.,2
+ cập nhật thông tin nhà cung cấp để đảm bảo dữ liệu là mới nhất.,5
+ xóa nhà cung cấp khỏi hệ thống để loại bỏ thông tin không cần thiết.,2
+ thêm nhân viên mới vào hệ thống để họ có thể quản lý hệ thống thay cho tôi.,3
+ xem thông tin danh sách nhân viên để quản lý dữ liệu nhân viên trong hệ thống.,2
+ cập nhật thông tin nhân viên để đảm bảo dữ liệu là mới nhất.,2
+ xóa nhân viên khỏi hệ thống để loại bỏ tài khoản không cần thiết.,2
+ xác nhận lịch trình chuyến đi từ yêu cầu của nhà cung cấp để tạo ra các chuyến đi mới cho hệ thống.,1
+ thêm lịch trình mới vào hệ thống để cung cấp các lịch trình tàu mới.,1
+ xem thông tin danh sách lịch trình để quản lý dữ liệu lịch trình trong hệ thống.,1
+ cập nhật thông tin lịch trình để đảm bảo thông tin là mới nhất.,4
+ xóa lịch trình để hủy bỏ lịch trình đó khỏi hệ thống,2
+ gửi yêu cầu tạo lịch trình để được đăng ký kinh doanh lịch trình đó trong hệ thống,1
+ gửi yêu cầu hủy lịch trình để được hủy kinh doanh lịch trình mình không mong muốn,1
+ xem thông tin chi tiết lịch trình để tìm kiếm lịch trình chuyến đi mong muốn,4
+ xem thông tin danh sách lịch trình của cá nhân để quản lý dữ liệu lịch trình của cá nhân tạo ra có trong hệ thống,5
+ xem thông tin danh sách lịch trình để tìm kiếm lịch trình chuyến đi mong muốn,3
+ tìm kiếm lịch trình mong muốn theo điểm đi điểm đến ngày đi,3
+ tìm kiếm lịch trình của cá nhân để quản lý dữ liệu lịch trình của cá nhân tạo ra có trong hệ thống,1
+ tìm kiếm lịch trình mong muốn theo điểm đi,3
+ xem thông tin danh sách vé tàu đã đặt để quản lý lịch sử mua vé tàu.,1
+ cập nhật thông tin vé tàu để đảm bảo thông tin là mới nhất.,5
+ xóa vé tàu để hủy bỏ vé tàu đó khỏi hệ thống,5
+ đặt vé tàu để đặt vé tàu trong hệ thống theo chuyến đi mong muốn,2
+ đăng ký hủy vé tàu để hủy bỏ vé tàu không mong muốn,4
+ thanh toán trực tuyến để tiết kiệm thời gian,4
+ thống kê doanh thu bán vé của hệ thống theo ngày,3
+ thống kê doanh thu bán vé để kiểm soát được doanh thu bán vé của các lịch trình,5
+ đăng nhập vào hệ thống để sử dụng các chức năng được phân quyền.,1
+ đăng xuất khỏi hệ thống để thoát khỏi phiên làm việc của cá nhân,5
