@@ -5,10 +5,24 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
 import { UIHeader } from '../../components'
 import { MaterialIcons } from '@expo/vector-icons'; 
+import { user } from "../../repositories";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 function ChangePassword(props){
     const [hidePassword, setHidePassword] = useState(true)
     const { navigation, route } = props
     const { navigate, goBack } = navigation
+    const [pass, setPass]= useState('')
+    const [checkPass, setCheckPass]= useState('')
+    const [current, serCurrent] = useState('')
+    const changpass = async () => {
+        try {
+            const accessToken = await AsyncStorage.getItem('accessToken');
+           const response = await user.change_pass(pass, checkPass, current, accessToken )
+           navigate('UITab')
+        } catch (error) {
+          console.log(error)
+        } 
+    }
     return(<View style={{
         flex:1,
         backgroundColor:color.BackGround,
@@ -35,6 +49,9 @@ function ChangePassword(props){
                     marginHorizontal: 15,
                 }}>
                     <TextInput 
+                    onChangeText={(Text) => {
+                       serCurrent(Text)
+                    }}
                      style={{
                         borderWidth: 1,
                         borderColor: color.border, // Màu sắc của đường viền
@@ -60,6 +77,9 @@ function ChangePassword(props){
                     marginHorizontal: 15,
                 }}>
                     <TextInput 
+                     onChangeText={(Text) => {
+                        setPass(Text)
+                     }}
                      style={{
                         borderWidth: 1,
                         borderColor: color.border, // Màu sắc của đường viền
@@ -85,6 +105,9 @@ function ChangePassword(props){
                     marginHorizontal: 15,
                 }}>
                     <TextInput 
+                     onChangeText={(Text) => {
+                        setCheckPass(Text)
+                     }}
                      style={{
                         borderWidth: 1,
                         borderColor: color.border, // Màu sắc của đường viền
@@ -111,6 +134,7 @@ function ChangePassword(props){
                 marginTop:15,
             }}>
             <TouchableOpacity 
+            onPress={()=>{changpass()}}
           style={{
                 backgroundColor: color.BGlogin,
                 justifyContent: "center",

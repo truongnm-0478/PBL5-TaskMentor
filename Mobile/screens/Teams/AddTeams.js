@@ -101,8 +101,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const AddTeams = ({route}) => {
+const AddTeams = ({route,navigation}) => {
    const { code, students} = route.params;
+   const { navigate, goBack } = navigation
+
   const [teamName, setTeamName] = useState('');
   const [members, setMembers] = useState([]);
   const [memberInput, setMemberInput] = useState('');
@@ -135,7 +137,7 @@ const renderItem = item => {
     setMembers(updatedMembers);
   };
 
-  const addTeamHandler = () => {
+  const addTeamHandler =async  () => {
     // Logic to add the team
     // console.log({code})
     // console.log('Team Name:', teamName);
@@ -144,13 +146,19 @@ const renderItem = item => {
     // Reset the states
     setTeamName('');
     setMembers([]);
-    create()
+    try {
+      await create();
+      navigate('Class');
+    } catch (error) {
+      console.log(error);
+    }
   };
   
   const create = async () => {
     try {
       const accessToken = await AsyncStorage.getItem('accessToken');
        const response = await teams.createTeam(teamName , code, members,accessToken)
+       return response
     } catch (error) {
        console.log(error)
     } 
@@ -163,7 +171,7 @@ const renderItem = item => {
             
             leftIconName={image.back}
             onPressLeftIcon={() => {
-                goBack()
+              navigation.goBack();
             }}
             
            

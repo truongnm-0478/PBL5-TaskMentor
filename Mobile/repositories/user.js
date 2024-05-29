@@ -28,6 +28,7 @@ const getUserDetail=async()=>{
         throw error
     }
 }
+
 const login = async ({ username, password }) => {
     console.log(username)
     console.log(password)
@@ -70,7 +71,6 @@ const change_pass = async (pass, checkPass, current, accessToken) => {
                 pass: pass,
                 checkPass: checkPass,
                 current: current
-                
             },
             {
                 headers: {
@@ -85,12 +85,41 @@ const change_pass = async (pass, checkPass, current, accessToken) => {
         throw error;
     }
 };
-
+const update_profile = async (name, email, username, id, role, phone,accessToken ) => {
+    try {
+      console.log(name)
+      console.log(email)
+      console.log(username)
+      console.log(role)
+      console.log(id)
+        const response = await axios.put(
+            `${baseURL}/TaskMentor/api/user`,
+            {   
+                name: name,
+                email: email,
+                username: username,
+                id: id,
+                role:role,
+                phone:phone,
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}` // Thêm token vào header
+                }
+            }
+        );
+        
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
 const register = async (newAccount) => {
     try {
         console.log(newAccount)
         let response = await axios.post(
-        //    'http://192.168.206.247:8080/TaskMentor/api/register',
+      
         `${baseURL}/TaskMentor/api/register`,
             newAccount,
             {
@@ -153,4 +182,5 @@ export default{
     logout,
     getUserInfo,
     change_pass,
+    update_profile
 }

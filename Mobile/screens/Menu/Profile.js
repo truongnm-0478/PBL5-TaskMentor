@@ -67,7 +67,7 @@ function Profile(props) {
         };
 
         fetchUserInfo(); // Gọi hàm fetchUserInfo
-    }, []); 
+    }, [userInfo]); 
     const{navigation,route}=props
     const{navigate,goBack}= navigation
     const[isEnabled, setisEnabled]= useState(true)

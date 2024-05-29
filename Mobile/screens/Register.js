@@ -339,7 +339,7 @@ function Register(props) {
             </View>
             </View>
             <View>
-            <TouchableOpacity onPress={() => { alert('new account?') }} style={{
+            <TouchableOpacity onPress={() => { navigate('Login')}} style={{
                 alignSelf: "center",
                 padding: 5
             }}>
