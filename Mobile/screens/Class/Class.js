@@ -45,7 +45,7 @@ function Class(props) {
 
                 setStudents(stdata); // Cập nhật state students với dữ liệu từ API
             } catch (error) {
-                console.error("Error fetching student data:", error);
+               // console.error("Error fetching student data:", error);
             }
         };
         fetchData();
@@ -58,7 +58,7 @@ function Class(props) {
                 const data = await _class.getNotificationByClass(accessToken, code_r);
                 setNotification(data)// Cập nhật state students với dữ liệu từ API
             } catch (error) {
-                console.error("Error fetching student data:", error);
+               // console.error("Error fetching student data:", error);
             }
         };
         fetchData();
@@ -71,7 +71,7 @@ function Class(props) {
                 const data = await _class.getTeamByClass(accessToken, code_r);
                 setTeams(data)// Cập nhật state students với dữ liệu từ API
             } catch (error) {
-                console.error("Error fetching student data:", error);
+                //console.error("Error fetching student data:", error);
             }
         };
         fetchData();
@@ -85,7 +85,7 @@ function Class(props) {
 
                 setIntro(data)// Cập nhật state students với dữ liệu từ API
             } catch (error) {
-                console.error("Error fetching student data:", error);
+              //  console.error("Error fetching student data:", error);
             }
         };
         fetchData();

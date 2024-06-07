@@ -20,7 +20,7 @@ function MyTeams(props){
                 setMyteams(data)// Cập nhật state students với dữ liệu từ API
              
             } catch (error) {
-                console.error("Error fetching student data:", error);
+               // console.error("Error fetching student data:", error);
             }
         };
         fetchData();

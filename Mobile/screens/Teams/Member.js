@@ -22,7 +22,7 @@ function Members(props) {
                 setMember(data)// Cập nhật state students với dữ liệu từ API
                 console.log(member)
             } catch (error) {
-                console.error("Error fetching student data:", error);
+                //console.error("Error fetching student data:", error);
             }
         };
         fetchData();

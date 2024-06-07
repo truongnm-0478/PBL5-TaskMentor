@@ -51,7 +51,7 @@ function MyteamDetail(props) {
                 //console.log(requirement)
 
             } catch (error) {
-                console.error("Error fetching student data:", error);
+                //console.error("Error fetching student data:", error);
             }
         };
         fetchData();
@@ -66,7 +66,7 @@ function MyteamDetail(props) {
                 console.log(data)
                 console.log(comment)
             } catch (error) {
-                console.error("Error fetching student data:", error);
+               // console.error("Error fetching student data:", error);
             }
         };
         fetchData();
@@ -93,7 +93,7 @@ function MyteamDetail(props) {
                 setMember(data)// Cập nhật state students với dữ liệu từ API
 
             } catch (error) {
-                console.error("Error fetching student data:", error);
+                //console.error("Error fetching student data:", error);
             }
         };
         fetchData();

@@ -6,7 +6,8 @@ import ChangePassword from "../screens/Menu/ChangePassword";
 import UpdateProfile from "../screens/Menu/UpdateProfile";
 import About from '../screens/Menu/About'
 import Class from "../screens/Class/Class";
-import { Messenger } from '../screens'
+import { Messenger, Notification } from '../screens'
+
 import UITab from "./UITab"
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ function App_1(props) {
                 <Stack.Screen name="Members" component={Members} />
                 <Stack.Screen name="AddTeams" component={AddTeams} />
                 <Stack.Screen name="MyteamDetail" component={MyteamDetail} />
+                <Stack.Screen name="Notification" component={Notification} />
             </Stack.Navigator>
         </NavigationContainer>
     );

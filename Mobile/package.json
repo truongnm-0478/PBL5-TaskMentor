@@ -39,7 +39,8 @@
     "react-native-websocket": "^1.0.2",
     "react-native-webview": "^13.10.2",
     "socket.io-client": "^4.7.5",
-    "websocket": "^1.0.34"
+    "websocket": "^1.0.34",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

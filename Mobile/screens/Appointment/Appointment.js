@@ -19,7 +19,7 @@ function Apppointment(props){
             setAppointment(data)
             setIsDataReady(true);
         } catch (error) {
-            console.error("Error fetching student data:", error);
+          //  console.error("Error fetching student data:", error);
         }
     };
     fetchData();

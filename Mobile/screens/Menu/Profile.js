@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { isValidEmail, isValidPassword } from "../../utilies/Validations"
 import {user} from '../../repositories'
 import { Alert } from "react-native";
-
+import {getLastLetter} from '../../utilies/index'
 import {
     user as UserReponsitory,
     population as PopulationReponsitory
@@ -134,9 +134,9 @@ function Profile(props) {
                 marginRight: 15,
                 marginStart: 20,
                 
-            }} source={{
-                uri: url
-            }}></Image>
+            }} source={
+                image.avatar
+            }></Image>
             <View style={{
     flexDirection: 'column',
     // backgroundColor:'red',
@@ -164,10 +164,11 @@ function Profile(props) {
             marginTop: 20,
             height: 2,
             backgroundColor: "#EBEBEB",
+            marginBottom:20,
 
         }}>
         </View>
-        <View style={{
+        {/* <View style={{
         flexDirection: 'row',
         alignItems: 'center',
         height: 60,
@@ -197,8 +198,8 @@ function Profile(props) {
         }}
         value={isEnabled}
       />
-        {/* <Icon name="chevron-right" color='black' size={17} style={{ paddingEnd: 10 }}  /> */}
-    </View>
+         <Icon name="chevron-right" color='black' size={17} style={{ paddingEnd: 10 }}  /> 
+    </View> */}
         <View style={{ flex: 1,}}>
             {settings.map((setting, index) => (
                 <SettingItem

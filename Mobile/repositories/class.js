@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
 const baseURL = 'http://192.168.206.247:8080'
+// const baseURL = 'https://z7kfgwr0-8080.asse.devtunnels.ms/'
 const getClass = async(accessToken)=>{
     try {
         const response = await axios.get(
@@ -104,8 +105,8 @@ const getIntroByClass = async(accessToken,code)=>{
     }
 }
 const JoinClass = async(accessToken,studentId, classCode)=>{
-    console.log(studentId)
-    console.log(classCode)
+    //console.log(studentId)
+    //console.log(classCode)
     try {
         const response = await axios.post(
             `${baseURL}/TaskMentor/api/joinClass`, // Đường dẫn API để lấy thông tin người dùng

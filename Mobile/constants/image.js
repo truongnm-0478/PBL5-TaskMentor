@@ -24,4 +24,5 @@ export default {
     tabbar_notification_1: require('../assets/tabbar/notification-1.png'),
     tabbar_profile_1: require('../assets/tabbar/user.png'),
     delete:require('../assets/Settings/delete.png'),
+    avatar:require('../assets/Settings/user(1).png'),
 }

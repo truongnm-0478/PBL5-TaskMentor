@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     //marginTop:40,
     flex: 1,
     padding: 20,
+    backgroundColor:'white'
   },
   input: {
     borderWidth: 1,
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
   listItem: {
     padding: 10,
     marginTop: 10,
-    backgroundColor: '#f8f8f8',
+   // backgroundColor: '#f8f8f8',
     borderWidth: 1,
     borderColor: '#eee',
     flexDirection: 'row',
