@@ -1,11 +1,12 @@
 import React, { useState ,useEffect} from 'react';
-import { View, TextInput, Button, FlatList, Text, StyleSheet ,Switch,TouchableOpacity} from 'react-native';
-import { teams } from '../../repositories';
+import { View, TextInput, Button, FlatList, Text, StyleSheet ,Switch,TouchableOpacity,Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Dropdown } from 'react-native-element-dropdown';
 import { image,icons,color, FontSize } from "../../constants";
-import { _class } from "../../repositories";
+import { _class,teams } from "../../repositories";
 import { UIHeader } from '../../components'
+
+
 const styles = StyleSheet.create({
   container: {
     //marginTop:40,
@@ -148,20 +149,31 @@ const renderItem = item => {
     setTeamName('');
     setMembers([]);
     try {
-      await create();
-      navigate('Class');
+      const response = await create();
+      if (response) {
+        Alert.alert(
+          "Success",
+          "Team has been added successfully",
+          [
+            { text: "OK", onPress: () => console.log("OK Pressed") }
+          ],
+          { cancelable: false }
+        );
+      }
     } catch (error) {
       console.log(error);
+ 
     }
   };
   
   const create = async () => {
     try {
       const accessToken = await AsyncStorage.getItem('accessToken');
-       const response = await teams.createTeam(teamName , code, members,accessToken)
+    
+      const response = await teams.createTeam(teamName , code, members,accessToken)
        return response
     } catch (error) {
-       console.log(error)
+      console.error("Lỗi trong phương thức create:", error);
     } 
 }
 

@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
-const baseURL = 'http://192.168.206.247:8080'
+import { baseURL } from './url';
+// const baseURL = 'http://192.168.206.247:8080'
 // const baseURL = 'https://z7kfgwr0-8080.asse.devtunnels.ms/'
 const getClass = async(accessToken)=>{
     try {

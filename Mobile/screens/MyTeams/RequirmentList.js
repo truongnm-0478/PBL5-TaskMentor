@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, ImageBackground, TouchableOpacity, TextInput, KeyboardAvoidingView, Keyboard , useWindowDimensions } from "react-native";
+import { Text, View, Image, ImageBackground, TouchableOpacity, TextInput, KeyboardAvoidingView, Keyboard , useWindowDimensions , ScrollView} from "react-native";
 import { getLastLetter } from '../../utilies/index'
 import { image, icons, color, FontSize, background } from "../../constants";
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -49,7 +49,9 @@ const converter = new QuillDeltaToHtmlConverter(decodedContent, {});
 const html = converter.convert();
 const { width: contentWidth } = useWindowDimensions();
 
-    return (<View style={{
+    return (
+        <ScrollView style={{ flex: 1 }}>
+    <View style={{
         marginBottom: 5,
         paddingTop: 20,
         paddingStart: 10,
@@ -70,17 +72,20 @@ const { width: contentWidth } = useWindowDimensions();
                 marginRight: 60,
               
             }}>
+                 
                  <HTML style={{
                     paddingEnd: 10,
                     color: color.inactive,
                     fontSize: FontSize.h5,
                     marginRight: 10,
                 }} contentWidth={contentWidth} source={{ html: decodedContent }} />
-           
+          
             </View>}
 
         </View>
 
-    </View>);
+    </View>
+    </ScrollView>
+  );
 }
 export default RequirementList

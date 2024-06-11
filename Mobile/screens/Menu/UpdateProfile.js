@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TextInput, TouchableOpacity } from "react-native";
+import { Text, View, TextInput, TouchableOpacity,Alert } from "react-native";
 import { image, color, FontSize } from "../../constants";
 import { UIHeader } from '../../components';
 import { user } from "../../repositories";
@@ -13,7 +13,22 @@ function UpdateProfile(props) {
     const [upusername, setupusername] = useState(username);
     const { navigation } = props;
     const { navigate, goBack } = navigation;
-
+    const updateProfileConfirm = async () => {
+        Alert.alert(
+            "Confirm Update",
+            "Are you sure you want to update your profile?",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                {
+                    text: "Confirm",
+                    onPress: () => update()
+                }
+            ]
+        );
+    };
     const update = async () => {
         try {
             const accessToken = await AsyncStorage.getItem('accessToken');
@@ -94,7 +109,7 @@ function UpdateProfile(props) {
             </View>
             <View style={{ marginHorizontal: 15, marginTop: 15 }}>
                 <TouchableOpacity
-                    onPress={() => update()}
+                    onPress={() => updateProfileConfirm()}
                     style={{
                         backgroundColor: color.BGlogin,
                         justifyContent: "center",
